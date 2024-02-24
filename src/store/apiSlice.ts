@@ -13,7 +13,25 @@ export const baseQuery = fetchBaseQuery({
   },
 });
 
-interface Track {
+// https://github.com/reduxjs/redux-toolkit/blob/master/examples/query/react/kitchen-sink/src/app/services/posts.ts
+
+type IYouTubeVideoInfoRequest = string;
+
+export interface IYouTubeVideoInfoResponse {
+  title: string;
+  channel: string;
+  length: number;
+  thumbnailUrl: string;
+}
+
+interface IYouTubeVideoDownloadRequest {
+  url: string;
+  name: string;
+}
+
+type IYouTubeVideoDownloadResponse = string;
+
+interface ITrackResponse {
   resourceId: string;
   name: string;
 }
@@ -22,11 +40,42 @@ interface Track {
 export const apiSlice = createApi({
   reducerPath: "api",
   baseQuery: baseQuery,
+  tagTypes: ["Tracks"],
   endpoints: (builder) => ({
-    getAllTracks: builder.query<Track[], string>({
-      query: () => `tracks`,
+    getYouTubeVideoInfo: builder.query<
+      IYouTubeVideoInfoResponse,
+      IYouTubeVideoInfoRequest
+    >({
+      query: (videoUrl) => ({
+        url: `acquire-tracks/youtube/info/${encodeURIComponent(videoUrl)}`,
+      }),
+    }),
+    addYouTubeVideo: builder.mutation<
+      IYouTubeVideoDownloadResponse,
+      IYouTubeVideoDownloadRequest
+    >({
+      query: (body) => ({
+        url: "acquire-tracks/youtube/download",
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: ["Tracks"],
+    }),
+
+    getAllTracks: builder.query<ITrackResponse[], void>({
+      query: () => ({ url: "tracks" }),
+      providesTags: (result = []) => [
+        ...result.map(
+          ({ resourceId }) => ({ type: "Tracks", resourceId } as const)
+        ),
+        { type: "Tracks" as const, id: "LIST" },
+      ],
     }),
   }),
 });
 
-export const { useGetAllTracksQuery } = apiSlice;
+export const {
+  useGetAllTracksQuery,
+  useLazyGetYouTubeVideoInfoQuery,
+  useAddYouTubeVideoMutation,
+} = apiSlice;

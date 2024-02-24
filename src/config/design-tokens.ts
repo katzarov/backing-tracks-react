@@ -11,10 +11,10 @@ export const lightModeTokens: PaletteOptions = {
 };
 
 export const darkModeTokens: PaletteOptions = {
-//   primary: {
-//     main: "#556cd6",
-//   },
-//   secondary: {
-//     main: "#19857b",
-//   },
+  primary: {
+    main: "#556cd6",
+  },
+  secondary: {
+    main: "#19857b",
+  },
 };

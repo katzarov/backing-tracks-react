@@ -6,6 +6,7 @@ import Typography from "@mui/material/Typography";
 import { Player } from "./Player";
 import { TrackList } from "./TrackList";
 import { Outlet } from "react-router-dom";
+import { AddTrackMenu } from "../features/add-tracks/AddTrackMenu";
 
 const drawerWidth = 240;
 
@@ -17,9 +18,10 @@ export const Layout = () => {
         sx={{ width: `calc(100% - ${drawerWidth}px)`, ml: `${drawerWidth}px` }}
       >
         <Toolbar>
-          <Typography variant="h6" noWrap component="div">
-            Permanent drawer
+          <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
+            Backing Tracks
           </Typography>
+          <AddTrackMenu />
         </Toolbar>
       </AppBar>
       <Drawer drawerWidth={drawerWidth} />
