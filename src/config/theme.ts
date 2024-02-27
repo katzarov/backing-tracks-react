@@ -1,15 +1,30 @@
-import { PaletteMode } from "@mui/material";
-import {
-  createTheme,
-  responsiveFontSizes,
-  ThemeOptions,
-} from "@mui/material/styles";
-import { darkModeTokens, lightModeTokens } from "./design-tokens";
+import { experimental_extendTheme as extendTheme } from "@mui/material/styles";
 
-const getTheme = (mode: PaletteMode): ThemeOptions => ({
+// remaining issues until stable
+// https://github.com/mui/material-ui/issues/40225
+// https://github.com/mui/material-ui/issues/38137
+export const theme = extendTheme({
+  colorSchemes: {
+    light: {
+      palette: {
+        primary: {
+          main: "#556cd6",
+        },
+        secondary: {
+          main: "#19857b",
+        },
+      },
+    },
+    dark: {
   palette: {
-    mode,
-    ...(mode === "light" ? lightModeTokens : darkModeTokens),
+        primary: {
+          main: "#556cd6",
+        },
+        secondary: {
+          main: "#19857b",
+        },
+      },
+    },
   },
   components: {
     MuiPaper: {
@@ -63,7 +78,8 @@ const getTheme = (mode: PaletteMode): ThemeOptions => ({
   transitions: {
     create: () => "none",
   },
+  // apparently typography doestn't work
 });
 
-const initTheme = createTheme(getTheme("dark"));
-export const theme = responsiveFontSizes(initTheme);
+// https://github.com/mui/material-ui/issues/40516
+// TODO: responsiveFontSizes(); feat seems to still work, so it might be only that there is a type issue, but I can just wait for now.

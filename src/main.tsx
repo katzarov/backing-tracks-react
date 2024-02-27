@@ -1,7 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-// import { ThemeProvider } from "@emotion/react";
-import { ThemeProvider } from "@mui/material/styles";
+import { Experimental_CssVarsProvider as CssVarsProvider } from "@mui/material/styles";
 import { CssBaseline } from "@mui/material";
 import { authConfig } from "./config/auth-config.ts";
 import { Auth0Context, Auth0Provider } from "@auth0/auth0-react";
@@ -26,7 +25,7 @@ export const getAccessTokenSilently = async () => {
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <ThemeProvider theme={theme}>
+    <CssVarsProvider theme={theme} defaultMode={"system"}>
       <CssBaseline />
       <Auth0Provider {...authConfig}>
         <Auth0Context.Consumer>
@@ -40,7 +39,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
           }}
         </Auth0Context.Consumer>
       </Auth0Provider>
-    </ThemeProvider>
+    </CssVarsProvider>
   </React.StrictMode>
 );
 
@@ -59,7 +58,6 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
  *
  * save streamed/downoaded tracks to indexedDB ?
  *
- * just save theme preference to local storage... or probably in store and then persist slice in LS. But we will need the theme pref for as early as possible, first render ideally.
  *
  * precompute different track speeds/pitches on server cause higher quality probably.. TODO investigate.
  *
