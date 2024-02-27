@@ -79,7 +79,7 @@ export const AddYouTubeTrackStep1: FC<IAddYouTubeTrackStep1Props> = ({
   };
 
   return (
-    <Box sx={{ mt: 10 }}>
+    <Box sx={{ mt: 6 }}>
       <Box
         component="form"
         sx={{
@@ -93,6 +93,7 @@ export const AddYouTubeTrackStep1: FC<IAddYouTubeTrackStep1Props> = ({
           id={youtubeUrlKey}
           name={youtubeUrlKey}
           label="Link to YouTube video"
+          autoFocus // strict mode breaks it
           // type="text" TODO: investigate, prob don't need the type if we keep disabled the native form validation - noValidate
           disabled={isFetching}
           fullWidth

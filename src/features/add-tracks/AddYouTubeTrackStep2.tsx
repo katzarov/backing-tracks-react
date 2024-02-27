@@ -76,6 +76,7 @@ export const AddYouTubeTrackStep2: FC<IAddYouTubeTrackStep2Props> = ({
           id={trackNameKey}
           name={trackNameKey}
           label="Track name"
+          autoFocus
           disabled={isLoading}
           fullWidth
           value={formik.values[trackNameKey]}

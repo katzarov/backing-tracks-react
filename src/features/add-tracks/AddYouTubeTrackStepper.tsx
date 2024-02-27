@@ -2,8 +2,7 @@ import { FC, useState } from "react";
 import Box from "@mui/material/Box";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
-import StepButton from "@mui/material/StepButton";
-import { Modal } from "@mui/material";
+import { Modal, StepLabel } from "@mui/material";
 import { AddYouTubeTrackStep1 } from "./AddYouTubeTrackStep1";
 import { useStepper } from "./useStepper";
 import { IYouTubeVideoInfoResponse } from "../../store/apiSlice";
@@ -55,7 +54,7 @@ export const AddYouTubeTrack: FC<IAddYouTubeTrackProps> = ({
         <Stepper activeStep={activeStep}>
           {steps.map((label, index) => (
             <Step key={label} completed={completed[index]}>
-              <StepButton color="inherit">{label}</StepButton>
+              <StepLabel color="inherit">{label}</StepLabel>
             </Step>
           ))}
         </Stepper>

@@ -61,8 +61,6 @@ export const Player = () => {
     wavesurfer.playPause();
   }, [wavesurfer]);
 
-  const mainIconColor = "#fff";
-
   return (
     <>
       <Box ref={containerRef} />
@@ -75,23 +73,20 @@ export const Player = () => {
         }}
       >
         <IconButton aria-label="previous song">
-          <FastRewindRounded fontSize="large" htmlColor={mainIconColor} />
+          <FastRewindRounded fontSize="large" />
         </IconButton>
         <IconButton
           aria-label={isPlaying ? "pause" : "play"}
           onClick={onPlayPause}
         >
           {isPlaying ? (
-            <PauseRounded sx={{ fontSize: "3rem" }} htmlColor={mainIconColor} />
+            <PauseRounded sx={{ fontSize: "3rem" }} />
           ) : (
-            <PlayArrowRounded
-              sx={{ fontSize: "3rem" }}
-              htmlColor={mainIconColor}
-            />
+            <PlayArrowRounded sx={{ fontSize: "3rem" }} />
           )}
         </IconButton>
         <IconButton aria-label="next song">
-          <FastForwardRounded fontSize="large" htmlColor={mainIconColor} />
+          <FastForwardRounded fontSize="large" />
         </IconButton>
       </Box>
       <Typography>Current time: {formatTime(currentTime)}</Typography>
