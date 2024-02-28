@@ -1,13 +1,22 @@
-import { Box, Button, InputAdornment } from "@mui/material";
+import { FC } from "react";
+import { Box, Button, InputAdornment, Typography } from "@mui/material";
+import ToggleButton from "@mui/material/ToggleButton";
+import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import TextField from "@mui/material/TextField";
 import YouTubeIcon from "@mui/icons-material/YouTube";
-import { useLazyGetYouTubeVideoInfoQuery } from "../../store/apiSlice";
-import { FC } from "react";
-import { IAddYouTubeTrackStep1Result } from "./AddYouTubeTrackStepper";
+import {
+  useLazyGetYouTubeVideoInfoQuery,
+  useLazySearchForTrackInSpotifyQuery,
+} from "../../store/api/acquireTracks";
+import {
+  IAddYouTubeTrackStep1Result,
+  ITrackType,
+} from "./AddYouTubeTrackStepper";
 
 const youtubeUrlKey = "youtubeUrl";
+const trackTypeKey = "trackType";
 
 const validationSchema = yup.object({
   [youtubeUrlKey]: yup
@@ -45,33 +54,57 @@ export const AddYouTubeTrackStep1: FC<IAddYouTubeTrackStep1Props> = ({
   goNextStep,
   setResult,
 }) => {
-  const [fetchYouTubeVideoInfo, { isFetching }] =
-    useLazyGetYouTubeVideoInfoQuery();
-  const formik = useFormik({
+  const [
+    fetchYouTubeVideoInfo,
+    { isFetching: isFetchingYoutube, isSuccess: isSuccessYoutube },
+  ] = useLazyGetYouTubeVideoInfoQuery();
+
+  const [
+    fetchSearchForTrackInSpotify,
+    { isFetching: isFetchingSearch, isUninitialized: isUninitializedSearch },
+  ] = useLazySearchForTrackInSpotifyQuery();
+
+  // TODO:
+  const isFetching =
+    isFetchingYoutube ||
+    (isSuccessYoutube && isUninitializedSearch) ||
+    isFetchingSearch;
+
+  const formik = useFormik<{
+    [youtubeUrlKey]: string;
+    [trackTypeKey]: ITrackType;
+  }>({
     initialValues: {
       [youtubeUrlKey]: "",
+      [trackTypeKey]: "backing",
     },
     validationSchema: validationSchema,
     validateOnMount: true,
-    onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+    onSubmit: () => {
+      handleSubmit();
     },
   });
   // TODO: Trim whitespace
 
-  const handleOnSubmit = (e) => {
-    e.preventDefault();
-    if (formik.isValid) {
-      handleNext();
-    }
-  };
-
-  const handleNext = async () => {
+  const handleSubmit = async () => {
     try {
-      const videoUrl = formik.values[youtubeUrlKey];
-      const data = await fetchYouTubeVideoInfo(videoUrl).unwrap();
-      setResult({ ...data!, videoUrl });
-      goNextStep();
+      const { [youtubeUrlKey]: videoUrl, [trackTypeKey]: trackType } =
+        formik.values;
+      const youtubeResult = await fetchYouTubeVideoInfo(videoUrl).unwrap();
+      // TODO strip "backing track" from name, quality, high quality etc. see if name is in keywords and incl keyword. Do this on BE
+      const { title } = youtubeResult;
+      const searchResults = await fetchSearchForTrackInSpotify({
+        query: title,
+        limit: 5,
+      }).unwrap();
+
+      setResult({
+        ...youtubeResult,
+        videoUrl,
+        trackType,
+        searchResults,
+      });
+      goNextStep(); // TODO remove from props and do in parent on setResult
     } catch (e) {
       // TODO: (likely video ID not found) propagate the error msg from the youtube ms to here. and show some error alert.
       console.error("error", e);
@@ -87,14 +120,16 @@ export const AddYouTubeTrackStep1: FC<IAddYouTubeTrackStep1Props> = ({
         }}
         noValidate
         autoComplete="off"
-        onSubmit={handleOnSubmit}
+        onSubmit={formik.handleSubmit}
+        onBlur={formik.handleBlur}
+        onChange={formik.handleChange}
       >
         <TextField
+          type="text"
           id={youtubeUrlKey}
           name={youtubeUrlKey}
           label="Link to YouTube video"
           autoFocus // strict mode breaks it
-          // type="text" TODO: investigate, prob don't need the type if we keep disabled the native form validation - noValidate
           disabled={isFetching}
           fullWidth
           value={formik.values[youtubeUrlKey]}
@@ -112,23 +147,47 @@ export const AddYouTubeTrackStep1: FC<IAddYouTubeTrackStep1Props> = ({
               </InputAdornment>
             ),
           }}
-          onBlur={formik.handleBlur}
-          onChange={formik.handleChange}
-          // onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-          //   setName(event.target.value);
-          // }}
         />
-      </Box>
 
-      <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-        <Box sx={{ flex: "1 1 auto" }} />
-        <Button
-          disabled={!formik.isValid || isFetching}
-          onClick={handleNext}
-          sx={{ mr: 1 }}
+        <Typography variant="subtitle1">
+          Is this a backing track or a jam track ?
+        </Typography>
+
+        <ToggleButtonGroup
+          id={trackTypeKey}
+          color="primary"
+          value={formik.values[trackTypeKey]}
+          disabled={isFetching}
+          exclusive
+          aria-label="Track type"
         >
-          Next
-        </Button>
+          <ToggleButton
+            onClick={() => formik.setFieldValue(trackTypeKey, "backing")}
+            id="backing"
+            value="backing"
+          >
+            Backing Track
+          </ToggleButton>
+          <ToggleButton
+            onClick={() => formik.setFieldValue(trackTypeKey, "jam")}
+            id="jam"
+            value="jam"
+          >
+            Jam Track
+          </ToggleButton>
+        </ToggleButtonGroup>
+
+        <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+          <Box sx={{ flex: "1 1 auto" }} />
+          <Button
+            id="submit"
+            type="submit"
+            disabled={!formik.isValid || isFetching}
+            sx={{ mr: 1 }}
+          >
+            Next
+          </Button>
+        </Box>
       </Box>
     </Box>
   );

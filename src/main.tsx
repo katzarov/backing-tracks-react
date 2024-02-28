@@ -42,6 +42,10 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     </CssVarsProvider>
   </React.StrictMode>
 );
+/**
+ * Stuff that strict mode breaks, but that should be fine on prod:
+ * - breaks form field autofocus when modal is opened initally https://github.com/mui/material-ui/issues/33004
+ */
 
 /**
  *

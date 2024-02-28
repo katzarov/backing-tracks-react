@@ -5,7 +5,10 @@ import Step from "@mui/material/Step";
 import { Modal, StepLabel } from "@mui/material";
 import { AddYouTubeTrackStep1 } from "./AddYouTubeTrackStep1";
 import { useStepper } from "./useStepper";
-import { IYouTubeVideoInfoResponse } from "../../store/apiSlice";
+import {
+  ISearchForTrackInSpotifyResponse,
+  IYouTubeVideoInfoResponse,
+} from "../../store/api/acquireTracks";
 import { AddYouTubeTrackStep2 } from "./AddYouTubeTrackStep2";
 
 const steps = ["Enter YouTube link", "Edit track details"];
@@ -27,8 +30,12 @@ interface IAddYouTubeTrackProps {
   onClose: () => void;
 }
 
+export type ITrackType = "backing" | "jam";
+
 export interface IAddYouTubeTrackStep1Result extends IYouTubeVideoInfoResponse {
   videoUrl: string;
+  trackType: ITrackType;
+  searchResults: ISearchForTrackInSpotifyResponse[];
 }
 
 export const AddYouTubeTrack: FC<IAddYouTubeTrackProps> = ({
