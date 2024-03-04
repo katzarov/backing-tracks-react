@@ -7,7 +7,8 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 
-import { useGetAllTracksQuery } from "../store/apiSlice";
+import { useGetAllTracksQuery } from "../store/api/tracks";
+import { formatFromMilliSeconds } from "../utils/utils";
 
 export const TrackList = () => {
   const { data, isLoading, isError } = useGetAllTracksQuery();
@@ -23,7 +24,10 @@ export const TrackList = () => {
       </Box>
     );
 
-  const trackList = data!.map(({ resourceId, name }, index) => {
+  const trackList = data!.map(
+    ({ resourceId, trackType, trackInstrument, duration, meta }, index) => {
+      const { trackName, artist } = meta;
+      const { artistName } = artist;
     return (
       <ListItem
         key={resourceId}
@@ -34,16 +38,20 @@ export const TrackList = () => {
         <ListItemButton component={Link} to={`track/${resourceId}`}>
           <ListItemText primary={index + 1} sx={{ width: 50 }} />
           <ListItemText
-            primary={name}
-            secondary="Robben Ford"
+              primary={trackName}
+              secondary={artistName}
             sx={{ width: "100%" }}
           />
-          <ListItemText secondary="label" sx={{ width: 100 }} />
-          <ListItemText secondary="8:30" sx={{ width: 50 }} />
+            <ListItemText secondary={trackType} sx={{ width: 100 }} />
+            <ListItemText
+              secondary={formatFromMilliSeconds(duration)}
+              sx={{ width: 50 }}
+            />
         </ListItemButton>
       </ListItem>
     );
-  });
+    }
+  );
 
   return (
     <List dense sx={{ width: "100%", bgcolor: "background.paper" }}>

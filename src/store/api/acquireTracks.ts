@@ -1,3 +1,7 @@
+import {
+  TrackInstrument,
+  TrackType,
+} from "../../features/add-tracks/interface";
 import { api } from "./api";
 
 type IYouTubeVideoInfoRequest = string;
@@ -9,12 +13,18 @@ export interface IYouTubeVideoInfoResponse {
   thumbnailUrl: string;
 }
 
-interface IYouTubeVideoDownloadRequest {
+export interface IYouTubeVideoDownloadRequest {
   url: string;
-  name: string;
+  spotifyId: string;
+  trackType: TrackType;
+  trackInstrument: TrackInstrument;
 }
 
 type IYouTubeVideoDownloadResponse = string;
+
+type IAddTrackViaFileUploadRequest = FormData;
+
+type IAddTrackViaFileUploadResponse = string;
 
 interface ISearchForTrackInSpotifyRequest {
   query: string;
@@ -61,6 +71,18 @@ export const acquireTracksApi = api.injectEndpoints({
       }),
       invalidatesTags: ["Tracks"],
     }),
+    addTrackViaFileUpload: builder.mutation<
+      IAddTrackViaFileUploadResponse,
+      IAddTrackViaFileUploadRequest
+    >({
+      query: (body) => ({
+        url: "acquire-tracks/upload",
+        method: "POST",
+        body,
+        formData: true,
+      }),
+      invalidatesTags: ["Tracks"],
+    }),
     searchForTrackInSpotify: builder.query<
       ISearchForTrackInSpotifyResponse[],
       ISearchForTrackInSpotifyRequest
@@ -76,5 +98,6 @@ export const acquireTracksApi = api.injectEndpoints({
 export const {
   useLazyGetYouTubeVideoInfoQuery,
   useAddYouTubeVideoMutation,
+  useAddTrackViaFileUploadMutation,
   useLazySearchForTrackInSpotifyQuery,
 } = acquireTracksApi;

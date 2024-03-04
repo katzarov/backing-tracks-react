@@ -4,21 +4,22 @@ import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import { Modal, StepLabel } from "@mui/material";
 import { useStepper } from "../../hooks/useStepper";
-import { LinkToYouTubeTrack } from "./steps/LinkToYouTubeTrack";
 import {
   IFindTrackInSpotifyResult,
-  ILinkToYouTubeTrackResult,
+  IUploadTrackResult,
   TrackType,
 } from "./interface";
 import { FindTrackInSpotify } from "./steps/FindTrackInSpotify";
+import { UplaodTrack } from "./steps/UploadTrack";
 
-const steps = ["Enter YouTube link", "Edit track details"];
+const steps = ["Upload track", "Edit track details"];
 
 const modalBodyStyles = {
   position: "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
+  // width: '100%', maxWidth: 800
   width: 800,
   bgcolor: "background.paper",
   border: "2px solid #000",
@@ -26,24 +27,20 @@ const modalBodyStyles = {
   p: 4,
 };
 
-interface IAddYouTubeTrackProps {
+interface IAddTrackViaUploadStepperModalProps {
   showModal: boolean;
   onClose: () => void;
 }
 
-// TODO: rename to stepper
-export const AddYouTubeTrack: FC<IAddYouTubeTrackProps> = ({
-  showModal,
-  onClose,
-}) => {
+export const AddTrackViaUploadStepper: FC<
+  IAddTrackViaUploadStepperModalProps
+> = ({ showModal, onClose }) => {
   const { activeStep, completed, handleStep, handleReset } = useStepper(steps);
-  const [linkToYouTubeTrackResult, setLinkToYouTubeTrackResult] =
-    useState<ILinkToYouTubeTrackResult>();
+  const [uploadTrackResult, setUploadTrackResult] =
+    useState<IUploadTrackResult>();
 
-  const handleLinkToYouTubeTrackCompleted = (
-    result: ILinkToYouTubeTrackResult
-  ) => {
-    setLinkToYouTubeTrackResult(result);
+  const handleUploadTrackCompleted = (result: IUploadTrackResult) => {
+    setUploadTrackResult(result);
 
     const { trackType } = result;
     if (trackType === TrackType.BACKING) {
@@ -67,7 +64,7 @@ export const AddYouTubeTrack: FC<IAddYouTubeTrackProps> = ({
   };
 
   const handleResetSteps = () => {
-    setLinkToYouTubeTrackResult(undefined);
+    setUploadTrackResult(undefined);
     handleReset();
   };
 
@@ -79,8 +76,8 @@ export const AddYouTubeTrack: FC<IAddYouTubeTrackProps> = ({
   return (
     <Modal
       open={showModal}
-      keepMounted={false}
       onClose={handleOnClose} // TODO: need to refactor the logic. In order to be able to disable this while something in the steps loading, for example.
+      // disableRestoreFocus={true}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
@@ -94,19 +91,17 @@ export const AddYouTubeTrack: FC<IAddYouTubeTrackProps> = ({
         </Stepper>
         <Box>
           {activeStep === 0 && (
-            <LinkToYouTubeTrack
-              onStepComplete={handleLinkToYouTubeTrackCompleted}
-            />
+            <UplaodTrack onStepComplete={handleUploadTrackCompleted} />
           )}
           {activeStep === 1 && (
             <FindTrackInSpotify
-              trackUri={linkToYouTubeTrackResult!.youtubeUrl}
-              trackType={linkToYouTubeTrackResult!.trackType}
-              trackInstrument={linkToYouTubeTrackResult!.trackInstrument}
+              trackUri={uploadTrackResult!.file}
+              trackType={uploadTrackResult!.trackType}
+              trackInstrument={uploadTrackResult!.trackInstrument}
               preliminarySpotifySearchSuggestions={
-                linkToYouTubeTrackResult!.preliminarySpotifySearchSuggestions
+                uploadTrackResult!.preliminarySpotifySearchSuggestions
               }
-              preliminaryTrackName={linkToYouTubeTrackResult!.trackName}
+              preliminaryTrackName={uploadTrackResult!.trackName}
               onStepComplete={handleFindTrackInSpotifyCompleted}
               onResetAllSteps={handleResetSteps}
             />

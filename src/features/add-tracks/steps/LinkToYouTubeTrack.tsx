@@ -3,56 +3,26 @@ import { Box, Button, InputAdornment, Typography } from "@mui/material";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import { useFormik } from "formik";
-import * as yup from "yup";
 import TextField from "@mui/material/TextField";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import {
   useLazyGetYouTubeVideoInfoQuery,
   useLazySearchForTrackInSpotifyQuery,
-} from "../../store/api/acquireTracks";
+} from "../../../store/api/acquireTracks";
 import {
-  IAddYouTubeTrackStep1Result,
-  ITrackType,
-} from "./AddYouTubeTrackStepper";
+  ILinkToYouTubeTrackProps,
+  TrackInstrument,
+  TrackType,
+} from "../interface";
+import {
+  linkToYouTubeTrackValidationSchema,
+  trackTypeKey,
+  trackInstrumentKey,
+  youtubeUrlKey,
+} from "./validation";
 
-const youtubeUrlKey = "youtubeUrl";
-const trackTypeKey = "trackType";
-
-const validationSchema = yup.object({
-  [youtubeUrlKey]: yup
-    .string()
-    .url("Enter a valid YouTube link")
-    .required("YouTube link is required")
-    .test(
-      "is-youtube-url",
-      "This is not a link under the YouTube domain",
-      (value, context) => {
-        if (!URL.canParse(value)) {
-          return false;
-        }
-        const url = new URL(value);
-        if (
-          url.protocol !== "https:" ||
-          (url.hostname !== "www.youtube.com" &&
-            url.hostname !== "youtube.com" &&
-            url.hostname !== "youtu.be")
-        ) {
-          return false;
-        }
-
-        return true;
-      }
-    ),
-});
-
-interface IAddYouTubeTrackStep1Props {
-  goNextStep: () => void;
-  setResult: (videoInfo: IAddYouTubeTrackStep1Result) => void;
-}
-
-export const AddYouTubeTrackStep1: FC<IAddYouTubeTrackStep1Props> = ({
-  goNextStep,
-  setResult,
+export const LinkToYouTubeTrack: FC<ILinkToYouTubeTrackProps> = ({
+  onStepComplete,
 }) => {
   const [
     fetchYouTubeVideoInfo,
@@ -72,13 +42,15 @@ export const AddYouTubeTrackStep1: FC<IAddYouTubeTrackStep1Props> = ({
 
   const formik = useFormik<{
     [youtubeUrlKey]: string;
-    [trackTypeKey]: ITrackType;
+    [trackTypeKey]: TrackType;
+    [trackInstrumentKey]: TrackInstrument;
   }>({
     initialValues: {
       [youtubeUrlKey]: "",
-      [trackTypeKey]: "backing",
+      [trackTypeKey]: TrackType.BACKING,
+      [trackInstrumentKey]: TrackInstrument.GUITAR,
     },
-    validationSchema: validationSchema,
+    validationSchema: linkToYouTubeTrackValidationSchema,
     validateOnMount: true,
     onSubmit: () => {
       handleSubmit();
@@ -88,8 +60,11 @@ export const AddYouTubeTrackStep1: FC<IAddYouTubeTrackStep1Props> = ({
 
   const handleSubmit = async () => {
     try {
-      const { [youtubeUrlKey]: videoUrl, [trackTypeKey]: trackType } =
-        formik.values;
+      const {
+        [youtubeUrlKey]: videoUrl,
+        [trackTypeKey]: trackType,
+        [trackInstrumentKey]: trackInstrument,
+      } = formik.values;
       const youtubeResult = await fetchYouTubeVideoInfo(videoUrl).unwrap();
       // TODO strip "backing track" from name, quality, high quality etc. see if name is in keywords and incl keyword. Do this on BE
       const { title } = youtubeResult;
@@ -98,13 +73,13 @@ export const AddYouTubeTrackStep1: FC<IAddYouTubeTrackStep1Props> = ({
         limit: 5,
       }).unwrap();
 
-      setResult({
-        ...youtubeResult,
-        videoUrl,
+      onStepComplete({
         trackType,
-        searchResults,
+        trackName: title,
+        trackInstrument,
+        youtubeUrl: videoUrl,
+        preliminarySpotifySearchSuggestions: searchResults,
       });
-      goNextStep(); // TODO remove from props and do in parent on setResult
     } catch (e) {
       // TODO: (likely video ID not found) propagate the error msg from the youtube ms to here. and show some error alert.
       console.error("error", e);
@@ -162,18 +137,52 @@ export const AddYouTubeTrackStep1: FC<IAddYouTubeTrackStep1Props> = ({
           aria-label="Track type"
         >
           <ToggleButton
-            onClick={() => formik.setFieldValue(trackTypeKey, "backing")}
+            onClick={() =>
+              formik.setFieldValue(trackTypeKey, TrackType.BACKING)
+            }
             id="backing"
-            value="backing"
+            value={TrackType.BACKING}
           >
             Backing Track
           </ToggleButton>
           <ToggleButton
-            onClick={() => formik.setFieldValue(trackTypeKey, "jam")}
+            onClick={() => formik.setFieldValue(trackTypeKey, TrackType.JAM)}
             id="jam"
-            value="jam"
+            value={TrackType.JAM}
           >
             Jam Track
+          </ToggleButton>
+        </ToggleButtonGroup>
+
+        <Typography variant="subtitle1">
+          Is this track for guitar or bass ?
+        </Typography>
+
+        <ToggleButtonGroup
+          id={trackInstrumentKey}
+          color="primary"
+          value={formik.values[trackInstrumentKey]}
+          disabled={isFetching}
+          exclusive
+          aria-label="Track type"
+        >
+          <ToggleButton
+            onClick={() =>
+              formik.setFieldValue(trackInstrumentKey, TrackInstrument.GUITAR)
+            }
+            id="guitar"
+            value={TrackInstrument.GUITAR}
+          >
+            Guitar
+          </ToggleButton>
+          <ToggleButton
+            onClick={() =>
+              formik.setFieldValue(trackInstrumentKey, TrackInstrument.BASS)
+            }
+            id="bass"
+            value={TrackInstrument.BASS}
+          >
+            Bass
           </ToggleButton>
         </ToggleButtonGroup>
 

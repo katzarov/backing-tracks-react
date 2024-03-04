@@ -9,6 +9,8 @@ import DriveFolderUploadIcon from "@mui/icons-material/DriveFolderUpload";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { AddYouTubeTrack } from "./AddYouTubeTrackStepper";
+import { AddTrackViaUploadStepper } from "./AddTrackViaUploadStepper";
+import { useModal } from "../../hooks/useModal";
 
 const StyledMenu = styled((props: MenuProps) => (
   <Menu
@@ -55,17 +57,17 @@ export const AddTrackMenu = () => {
     setAnchorEl(null);
   };
 
-  // TODO: abstract these away in a hook, or keep modal state in store..
-  const [showYouTubeModal, setShowYouTubeModal] = useState(false);
+  const {
+    openModal: openAddYouTubeTrackStepperModal,
+    handleOpenModal: handleOpenAddYouTubeTrackStepperModal,
+    handleCloseModal: handleCloseAddYouTubeTrackStepperModal,
+  } = useModal({ cbBeforeOpen: handleCloseMenu });
 
-  const handleOpenYouTubeModal = () => {
-    handleCloseMenu();
-    setShowYouTubeModal(true);
-  };
-
-  const handleCloseYouTubeModal = () => {
-    setShowYouTubeModal(false);
-  };
+  const {
+    openModal: openUploadTrackStepperModal,
+    handleOpenModal: handleOpenUploadTrackStepperModal,
+    handleCloseModal: handleCloseUploadTrackStepperModal,
+  } = useModal({ cbBeforeOpen: handleCloseMenu });
 
   return (
     <>
@@ -89,23 +91,29 @@ export const AddTrackMenu = () => {
         open={open}
         onClose={handleCloseMenu}
       >
-        <MenuItem onClick={handleOpenYouTubeModal}>
+        <MenuItem onClick={handleOpenAddYouTubeTrackStepperModal}>
           <YouTubeIcon />
           From YouTube
         </MenuItem>
-        <MenuItem>
+        <MenuItem onClick={handleOpenUploadTrackStepperModal}>
           <DriveFolderUploadIcon />
           File Upload
         </MenuItem>
       </StyledMenu>
-      {showYouTubeModal &&
-        createPortal(
-          <AddYouTubeTrack
-            showModal={showYouTubeModal}
-            onClose={handleCloseYouTubeModal}
-          />,
-          document.body
-        )}
+      {createPortal(
+        <AddYouTubeTrack
+          showModal={openAddYouTubeTrackStepperModal}
+          onClose={handleCloseAddYouTubeTrackStepperModal}
+        />,
+        document.body
+      )}
+      {createPortal(
+        <AddTrackViaUploadStepper
+          showModal={openUploadTrackStepperModal}
+          onClose={handleCloseUploadTrackStepperModal}
+        />,
+        document.body
+      )}
     </>
   );
 };

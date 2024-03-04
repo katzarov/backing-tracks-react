@@ -1,7 +1,21 @@
+import {
+  TrackInstrument,
+  TrackType,
+} from "../../features/add-tracks/interface";
 import { api } from "./api";
 
 interface ITrackResponse {
   resourceId: string;
+  trackType: TrackType;
+  trackInstrument: TrackInstrument;
+  duration: number;
+  meta: {
+    trackName: string;
+    artist: {
+      artistName: string;
+    };
+  };
+
   name: string;
 }
 export const tracksApi = api.injectEndpoints({
