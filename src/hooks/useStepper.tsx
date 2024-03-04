@@ -27,7 +27,7 @@ export const useStepper = (steps: string[]) => {
       isLastStep() && !allStepsCompleted()
         ? // It's the last step, but not all steps have been completed,
           // find the first step that has been completed
-          steps.findIndex((step, i) => !(i in completed))
+          steps.findIndex((_step, i) => !(i in completed))
         : activeStep + 1;
     setActiveStep(newActiveStep);
   };
@@ -36,7 +36,7 @@ export const useStepper = (steps: string[]) => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-  const handleStep = (step: number) => () => {
+  const handleStep = (step: number) => {
     setActiveStep(step);
   };
 

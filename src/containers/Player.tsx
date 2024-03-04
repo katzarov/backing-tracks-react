@@ -13,11 +13,7 @@ import { useWavesurfer } from "@wavesurfer/react";
 import Timeline from "wavesurfer.js/dist/plugins/timeline.esm.js";
 import { WaveSurferOptions } from "wavesurfer.js/dist/types.js";
 import { useParams } from "react-router-dom";
-
-const formatTime = (seconds: number) =>
-  [seconds / 60, seconds % 60]
-    .map((v) => `0${Math.floor(v)}`.slice(-2))
-    .join(":");
+import { formatFromSeconds } from "../utils/utils";
 
 const streamApi = import.meta.env.VITE_FILE_STREAM_API;
 
@@ -89,7 +85,7 @@ export const Player = () => {
           <FastForwardRounded fontSize="large" />
         </IconButton>
       </Box>
-      <Typography>Current time: {formatTime(currentTime)}</Typography>
+      <Typography>Current time: {formatFromSeconds(currentTime)}</Typography>
     </>
   );
 };
