@@ -51,26 +51,31 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
  *
  * TODO:
  *
- * get rid of auth0 react wrapper,..actually, remove the auth0 sdk and move to cognito
  *
- * support spacebar play pause and other keyboard shortcuts
- * read all discussions
- * https://github.com/katspaugh/wavesurfer.js/discussions/3545
- *
- *
- * do file streaming but first need to precompute the waveform peaks and have the duration be known
- *
- * save streamed/downoaded tracks to indexedDB ?
+ * GENERAL:
+ * - do intl. (incl the form errors messages)
+ * - do keyboard autofocus
+ * - check focus and make sure adhere to a11y standards https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/
+ * - move all mui imports to named.
+ * - https://vitejs.dev/guide/features.html#transpile-only https://github.com/fi3ework/vite-plugin-checker ?
  *
  *
- * precompute different track speeds/pitches on server cause higher quality probably.. TODO investigate.
+ * ADD TRACKS:
+ * - paste clipboard url with button click
+ * - impl manually enter track details step
+ * - do better with forms https://formik.org/docs/api/useField
+ * - stepper => optimistic progress bar with hidden step names ?
+ * - after YT link is pasted show a preview of the YT clip to confirm its the correct link ?
+ * - debounce search input
+ * - at end show confirmation step ?
  *
  *
- * create waveform skeleton
+ * PLAYER:
+ * - support spacebar play pause and other DAW like keyboard shortcuts
+ * - save streamed/downloaded tracks to indexedDB ?
+ * - ability to change track speed/pitch. Or precompute/ondemand different track speeds/pitches on server cause higher quality probably... investigate.
+ * - create waveform skeleton
+ * - on app startup (unless a specific track route) preload the last played track - keep that in store - add redux persist
  *
- * apperently React.FC is a good choice now
- * https://www.totaltypescript.com/you-can-stop-hating-react-fc
- * 
- * do intl.
- * 
+ *
  */

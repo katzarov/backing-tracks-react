@@ -66,7 +66,6 @@ export const LinkToYouTubeTrack: FC<ILinkToYouTubeTrackProps> = ({
         [trackInstrumentKey]: trackInstrument,
       } = formik.values;
       const youtubeResult = await fetchYouTubeVideoInfo(videoUrl).unwrap();
-      // TODO strip "backing track" from name, quality, high quality etc. see if name is in keywords and incl keyword. Do this on BE
       const { title } = youtubeResult;
       const searchResults = await fetchSearchForTrackInSpotify({
         query: title,

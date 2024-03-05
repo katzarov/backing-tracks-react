@@ -11,7 +11,7 @@ import FastRewindRounded from "@mui/icons-material/FastRewindRounded";
 
 import { useWavesurfer } from "@wavesurfer/react";
 import Timeline from "wavesurfer.js/dist/plugins/timeline.esm.js";
-import { WaveSurferOptions } from "wavesurfer.js/dist/types.js";
+import type { WaveSurferOptions } from "wavesurfer.js/dist/types.js";
 import { useParams } from "react-router-dom";
 import { formatFromSeconds } from "../utils/utils";
 
