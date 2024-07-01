@@ -11,6 +11,10 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
+  "engines": {
+    "npm": ">=10.2.3 <11.0.0",
+    "node": ">=20.11.1 <21.0.0"
+  },
   "dependencies": {
     "@auth0/auth0-react": "^2.2.4",
     "@emotion/react": "^11.11.3",
