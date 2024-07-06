@@ -1,6 +1,4 @@
-import { useAuth0 } from "@auth0/auth0-react";
 import { useMemo, useCallback, useRef, useEffect } from "react";
-
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
@@ -8,17 +6,13 @@ import PauseRounded from "@mui/icons-material/PauseRounded";
 import PlayArrowRounded from "@mui/icons-material/PlayArrowRounded";
 import FastForwardRounded from "@mui/icons-material/FastForwardRounded";
 import FastRewindRounded from "@mui/icons-material/FastRewindRounded";
-
 import { useWavesurfer } from "@wavesurfer/react";
 import Timeline from "wavesurfer.js/dist/plugins/timeline.esm.js";
-import type { WaveSurferOptions } from "wavesurfer.js/dist/types.js";
 import { useParams } from "react-router-dom";
 import { formatFromSeconds } from "../utils/utils";
-
-const streamApi = import.meta.env.VITE_FILE_STREAM_API;
+import { TrackLoader } from "../services/track-loader/TrackLoader";
 
 export const Player = () => {
-  const { getAccessTokenSilently } = useAuth0();
   const { resourceId } = useParams();
   const containerRef = useRef(null);
 
@@ -36,15 +30,9 @@ export const Player = () => {
     if (wavesurfer === null || resourceId === undefined) return;
 
     const init = async () => {
-      const token = await getAccessTokenSilently();
-      const headers: WaveSurferOptions["fetchParams"] = {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      };
-
-      wavesurfer.setOptions({ fetchParams: headers });
-      wavesurfer.load(`${streamApi}${resourceId}`);
+      const blob = await TrackLoader.loadTrack(resourceId);
+      // todo handle null/failure 
+      wavesurfer.loadBlob(blob!);
     };
     init();
   }, [wavesurfer, resourceId]);
@@ -59,6 +47,7 @@ export const Player = () => {
 
   return (
     <>
+      {/* // TODO add loading and error skeleton */}
       <Box ref={containerRef} />
       <Box
         sx={{

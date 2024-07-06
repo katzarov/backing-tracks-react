@@ -15,7 +15,7 @@ build: loadEnvVars
 		--build-arg="VITE_AUTH0_CLIENT_ID=${VITE_AUTH0_CLIENT_ID}"	\
 		--build-arg="VITE_AUTH0_AUDIENCE=${VITE_AUTH0_AUDIENCE}"	\
 		--build-arg="VITE_API=${VITE_API}"	\
-		--build-arg="VITE_FILE_STREAM_API=${VITE_FILE_STREAM_API}"	\
+		--build-arg="VITE_USE_S3_TO_DOWNLOAD_TRACK=${VITE_USE_S3_TO_DOWNLOAD_TRACK}"	\
 		--tag	react-build-prod	.
 
 # https://docs.docker.com/reference/cli/docker/container/run/#publish

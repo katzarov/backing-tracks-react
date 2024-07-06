@@ -18,6 +18,13 @@ interface ITrackResponse {
 
   name: string;
 }
+
+type ITrackS3PresignedUrlRequest = string;
+
+interface ITrackS3PresignedUrlResponse {
+  url: string;
+}
+
 export const tracksApi = api.injectEndpoints({
   endpoints: (builder) => ({
     getAllTracks: builder.query<ITrackResponse[], void>({
@@ -28,6 +35,12 @@ export const tracksApi = api.injectEndpoints({
         ),
         { type: "Tracks" as const, id: "LIST" },
       ],
+    }),
+    getS3PresignedUrlForTrack: builder.query<
+      ITrackS3PresignedUrlResponse,
+      ITrackS3PresignedUrlRequest
+    >({
+      query: (uri) => ({ url: `tracks/s3-presigned-url/${uri}` }),
     }),
   }),
 });
