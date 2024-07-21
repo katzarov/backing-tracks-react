@@ -8,7 +8,7 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 
 import { useGetAllTracksQuery } from "../store/api/tracks";
-import { formatFromMilliSeconds } from "../utils/utils";
+import { formatFromSeconds } from "../utils/utils";
 
 export const TrackList = () => {
   const { data, isLoading, isError } = useGetAllTracksQuery();
@@ -28,28 +28,28 @@ export const TrackList = () => {
     ({ resourceId, trackType, trackInstrument, duration, meta }, index) => {
       const { trackName, artist } = meta;
       const { artistName } = artist;
-    return (
-      <ListItem
-        key={resourceId}
-        disablePadding
-        alignItems="center"
-        sx={{ width: "100%" }}
-      >
-        <ListItemButton component={Link} to={`track/${resourceId}`}>
-          <ListItemText primary={index + 1} sx={{ width: 50 }} />
-          <ListItemText
+      return (
+        <ListItem
+          key={resourceId}
+          disablePadding
+          alignItems="center"
+          sx={{ width: "100%" }}
+        >
+          <ListItemButton component={Link} to={`track/${resourceId}`}>
+            <ListItemText primary={index + 1} sx={{ width: 50 }} />
+            <ListItemText
               primary={trackName}
               secondary={artistName}
-            sx={{ width: "100%" }}
-          />
+              sx={{ width: "100%" }}
+            />
             <ListItemText secondary={trackType} sx={{ width: 100 }} />
             <ListItemText
-              secondary={formatFromMilliSeconds(duration)}
+              secondary={formatFromSeconds(duration)}
               sx={{ width: 50 }}
             />
-        </ListItemButton>
-      </ListItem>
-    );
+          </ListItemButton>
+        </ListItem>
+      );
     }
   );
 

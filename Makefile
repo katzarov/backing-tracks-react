@@ -16,13 +16,13 @@ build: loadEnvVars
 		--build-arg="VITE_AUTH0_AUDIENCE=${VITE_AUTH0_AUDIENCE}"	\
 		--build-arg="VITE_API=${VITE_API}"	\
 		--build-arg="VITE_USE_S3_TO_DOWNLOAD_TRACK=${VITE_USE_S3_TO_DOWNLOAD_TRACK}"	\
-		--tag	react-build-prod	.
+		--tag	backing_tracks-react	.
 
 # https://docs.docker.com/reference/cli/docker/container/run/#publish
 run:
-	docker	rm	-f	react-build-prod-container
-	docker	run	--name react-build-prod-container -p 8080:8080	react-build-prod
+	docker	rm	-f	backing_tracks-react-container
+	docker	run	--name backing_tracks-react-container -p 8080:8080	backing_tracks-react
 
 clean:
-	docker	rm	-f	react-build-prod-container
-	docker	rmi	-f	react-build-prod
+	docker	rm	-f	backing_tracks-react-container
+	docker	rmi	-f	backing_tracks-react
