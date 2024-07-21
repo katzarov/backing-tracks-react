@@ -10,7 +10,7 @@ import { useWavesurfer } from "@wavesurfer/react";
 import Timeline from "wavesurfer.js/dist/plugins/timeline.esm.js";
 import { useParams } from "react-router-dom";
 import { formatFromSeconds } from "../utils/utils";
-import { TrackLoader } from "../services/track-loader/TrackLoader";
+import { TrackLoader } from "../services/track-loader";
 
 export const Player = () => {
   const { resourceId } = useParams();
