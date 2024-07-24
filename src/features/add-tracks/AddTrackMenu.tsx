@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { createPortal } from "react-dom";
 import { styled, alpha } from "@mui/material/styles";
 import Button from "@mui/material/Button";
@@ -11,6 +10,7 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { AddYouTubeTrack } from "./AddYouTubeTrackStepper";
 import { AddTrackViaUploadStepper } from "./AddTrackViaUploadStepper";
 import { useModal } from "../../hooks/useModal";
+import { usePopover } from "../../hooks/usePopover";
 
 const StyledMenu = styled((props: MenuProps) => (
   <Menu
@@ -48,37 +48,37 @@ const StyledMenu = styled((props: MenuProps) => (
 }));
 
 export const AddTrackMenu = () => {
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
-  const handleOpenMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleCloseMenu = () => {
-    setAnchorEl(null);
-  };
+  const {
+    popoverAnchorElement,
+    shoulOpenPopover,
+    handleOpenPopover,
+    handleClosePopover,
+  } = usePopover();
 
   const {
     openModal: openAddYouTubeTrackStepperModal,
     handleOpenModal: handleOpenAddYouTubeTrackStepperModal,
     handleCloseModal: handleCloseAddYouTubeTrackStepperModal,
-  } = useModal({ cbBeforeOpen: handleCloseMenu });
+  } = useModal({ cbBeforeOpen: handleClosePopover });
 
   const {
     openModal: openUploadTrackStepperModal,
     handleOpenModal: handleOpenUploadTrackStepperModal,
     handleCloseModal: handleCloseUploadTrackStepperModal,
-  } = useModal({ cbBeforeOpen: handleCloseMenu });
+  } = useModal({ cbBeforeOpen: handleClosePopover });
 
   return (
     <>
       <Button
         id="demo-customized-button"
-        aria-controls={open ? "demo-customized-menu" : undefined}
+        aria-controls={shoulOpenPopover ? "demo-customized-menu" : undefined}
         aria-haspopup="true"
-        aria-expanded={open ? "true" : undefined}
+        aria-expanded={shoulOpenPopover ? "true" : undefined}
         variant="contained"
-        onClick={handleOpenMenu}
-        endIcon={open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+        onClick={handleOpenPopover}
+        endIcon={
+          shoulOpenPopover ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />
+        }
       >
         Add Track
       </Button>
@@ -87,9 +87,9 @@ export const AddTrackMenu = () => {
         MenuListProps={{
           "aria-labelledby": "demo-customized-button",
         }}
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleCloseMenu}
+        anchorEl={popoverAnchorElement}
+        open={shoulOpenPopover}
+        onClose={handleClosePopover}
       >
         <MenuItem onClick={handleOpenAddYouTubeTrackStepperModal}>
           <YouTubeIcon />

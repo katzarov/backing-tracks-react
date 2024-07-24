@@ -10,7 +10,7 @@ import { store } from "./store/index.ts";
 import { Provider } from "react-redux";
 
 // https://gist.github.com/adamjmcgrath/0ed6a04047aad16506ca24d85f1b2a5c
-// TODO get rid of this when swithing to Cognito. But if I do keep Auth0, they have a (non-react) js sdk, should switch to that.
+// TODO Move to the (non-react) auth0 js sdk.
 const deferred = (() => {
   // @ts-expect-error see todo above
   const props = {} as { promise: Promise<uknown>; resolve: uknown };

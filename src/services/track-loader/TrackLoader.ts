@@ -27,7 +27,7 @@ export class TrackLoader {
 
   /**
    * Loads track.
-   * - first, tries loading the track from indexedDB.
+   * - first, tries loading the track from IndexedDB.
    * - if not found, requests it from either the nest api or s3. If so, then saves it to indexedDB.
    *
    * @param {string} uri - uri of the track to load.
@@ -51,7 +51,9 @@ export class TrackLoader {
       );
     }
 
-    const trackBlobFromServer = await this.fetchingStrategy.fetchTrack(uri);
+    const trackBlobFromServer = await TrackLoader.fetchingStrategy.fetchTrack(
+      uri
+    );
 
     if (trackBlobFromServer === null) {
       console.error("Can't fetch track from server.");
