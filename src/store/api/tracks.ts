@@ -19,6 +19,10 @@ interface ITrackResponse {
   name: string;
 }
 
+type IDeleteTrackRequest = string;
+
+type IDeleteTrackResponse = string;
+
 type ITrackS3PresignedUrlRequest = string;
 
 interface ITrackS3PresignedUrlResponse {
@@ -36,6 +40,13 @@ export const tracksApi = api.injectEndpoints({
         { type: "Tracks" as const, id: "LIST" },
       ],
     }),
+    deleteTrack: builder.mutation<IDeleteTrackResponse, IDeleteTrackRequest>({
+      query: (uri) => ({
+        url: `tracks/${encodeURIComponent(uri)}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Tracks"],
+    }),
     getS3PresignedUrlForTrack: builder.query<
       ITrackS3PresignedUrlResponse,
       ITrackS3PresignedUrlRequest
@@ -45,4 +56,4 @@ export const tracksApi = api.injectEndpoints({
   }),
 });
 
-export const { useGetAllTracksQuery } = tracksApi;
+export const { useGetAllTracksQuery, useDeleteTrackMutation } = tracksApi;
