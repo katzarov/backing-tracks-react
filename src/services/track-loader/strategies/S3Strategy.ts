@@ -1,5 +1,5 @@
 import { store } from "../../../store";
-import { nonRTKQueryApi } from "../../../store/api/api";
+import { nonRTKQueryApi } from "../../../store/api/api.config";
 import { tracksApi } from "../../../store/api/tracks";
 import { AbstractFetchingStrategy } from "../TrackLoader";
 

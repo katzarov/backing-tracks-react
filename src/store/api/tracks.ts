@@ -2,7 +2,7 @@ import {
   TrackInstrument,
   TrackType,
 } from "../../features/add-tracks/interface";
-import { api } from "./api";
+import { api } from "./api.config";
 
 interface ITrackResponse {
   resourceId: string;

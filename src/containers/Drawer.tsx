@@ -6,21 +6,17 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-
 import HomeIcon from "@mui/icons-material/Home";
 import SearchIcon from "@mui/icons-material/Search";
 import LogoutIcon from "@mui/icons-material/Logout";
-import { useAuth0 } from "@auth0/auth0-react";
+import { routes } from "src/routes/routes";
+import { authClient } from "@lib/auth";
 
 export const Drawer = ({ drawerWidth }: { drawerWidth: number }) => {
-  const { logout } = useAuth0();
-
-  const logoutWithRedirect = () =>
-    logout({
-      logoutParams: {
-        returnTo: window.location.origin,
-      },
-    });
+  const logoutWithRedirect = async () =>
+    await authClient.logoutWithRedirect(
+      `${window.location.origin}${routes.logoutUserInitiated}`
+    );
 
   return (
     <MuiDrawer

@@ -1,16 +1,16 @@
 import Box from "@mui/material/Box";
-import { Drawer } from "./Drawer";
+import { Drawer } from "../containers/Drawer";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import { Player } from "./Player";
-import { TrackList } from "./TrackList";
+import { Player } from "../containers/Player";
+import { TrackList } from "../containers/TrackList";
 import { Outlet } from "react-router-dom";
 import { AddTrackMenu } from "../features/add-tracks/AddTrackMenu";
 
 const drawerWidth = 240;
 
-export const Layout = () => {
+export const MainApp = () => {
   return (
     <Box sx={{ display: "flex" }}>
       <AppBar

@@ -1,11 +1,11 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
-import counterReducer from "./counterSlice";
-import { api } from "./api/api";
+import { api } from "./api/api.config";
+import { authReducer } from "./auth/slice";
 
-export const rootReducer = combineReducers({
+const rootReducer = combineReducers({
   [api.reducerPath]: api.reducer,
-  counter: counterReducer,
+  auth: authReducer,
 });
 
 // TODO: might want to persist a slice or two.
