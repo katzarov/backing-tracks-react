@@ -1,4 +1,4 @@
-import { ISearchForTrackInSpotifyResponse } from "../../store/api/acquireTracks";
+import { ISearchForTrackInSpotifyResponseDto } from "@api/acquire-tracks";
 
 export interface ISteps<T> {
   onStepComplete: (stepData: T) => void;
@@ -35,7 +35,7 @@ export interface ILinkToYouTubeTrackProps
 export type ILinkToYouTubeTrackResult =
   | IYoutubeTrackData
   | (IYoutubeTrackData & {
-      preliminarySpotifySearchSuggestions: ISearchForTrackInSpotifyResponse[];
+      preliminarySpotifySearchSuggestions: ISearchForTrackInSpotifyResponseDto[];
     });
 
 export interface IUploadTrackProps extends ISteps<IUploadTrackResult> {}
@@ -43,7 +43,7 @@ export interface IUploadTrackProps extends ISteps<IUploadTrackResult> {}
 export type IUploadTrackResult =
   | IFileTrackData
   | (IFileTrackData & {
-      preliminarySpotifySearchSuggestions: ISearchForTrackInSpotifyResponse[];
+      preliminarySpotifySearchSuggestions: ISearchForTrackInSpotifyResponseDto[];
     });
 
 export interface IFindTrackInSpotifyProps
@@ -52,7 +52,7 @@ export interface IFindTrackInSpotifyProps
   trackType: TrackType;
   trackInstrument: TrackInstrument;
   preliminaryTrackName: string;
-  preliminarySpotifySearchSuggestions: ISearchForTrackInSpotifyResponse[];
+  preliminarySpotifySearchSuggestions: ISearchForTrackInSpotifyResponseDto[];
 }
 
 export type IFindTrackInSpotifyResult = { trackName: string } | undefined;

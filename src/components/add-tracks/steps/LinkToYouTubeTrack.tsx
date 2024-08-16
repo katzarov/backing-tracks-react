@@ -8,7 +8,7 @@ import YouTubeIcon from "@mui/icons-material/YouTube";
 import {
   useLazyGetYouTubeVideoInfoQuery,
   useLazySearchForTrackInSpotifyQuery,
-} from "../../../store/api/acquireTracks";
+} from "@api/acquire-tracks";
 import {
   ILinkToYouTubeTrackProps,
   TrackInstrument,

@@ -1,4 +1,4 @@
-import { nonRTKQueryApi } from "../../../store/api/api.config";
+import { nonRTKQueryApi } from "@api";
 import { AbstractFetchingStrategy } from "../TrackLoader";
 
 export class NestJSApiStrategy implements AbstractFetchingStrategy {

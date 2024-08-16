@@ -1,7 +1,7 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
-import { api } from "./api/api.config";
-import { authReducer } from "./auth/slice";
+import { api } from "./api/rtk-query-api-config";
+import { authReducer } from "./slices/auth";
 
 const rootReducer = combineReducers({
   [api.reducerPath]: api.reducer,

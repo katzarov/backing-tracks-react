@@ -4,7 +4,7 @@ import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { useFormik } from "formik";
-import { useLazySearchForTrackInSpotifyQuery } from "../../../store/api/acquireTracks";
+import { useLazySearchForTrackInSpotifyQuery } from "@api/acquire-tracks";
 import { IUploadTrackProps, TrackInstrument, TrackType } from "../interface";
 import {
   trackFileKey,

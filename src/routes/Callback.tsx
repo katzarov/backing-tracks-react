@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { routes } from "./routes";
 import { LoadingPage } from "src/components/shared/LoadingPage";
 import { useAppDispatch } from "src/store";
-import { setAuthenticated, setUserData } from "src/store/auth";
+import { setAuthenticated, setUserData } from "@slices/auth";
 import { authClient } from "@lib/auth";
 
 export const Callback = () => {

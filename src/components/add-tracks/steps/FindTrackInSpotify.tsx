@@ -10,11 +10,11 @@ import SearchIcon from "@mui/icons-material/Search";
 import { useFormik } from "formik";
 import TextField from "@mui/material/TextField";
 import {
-  IYouTubeVideoDownloadRequest,
+  IYouTubeVideoDownloadRequestDto,
   useAddTrackViaFileUploadMutation,
   useAddYouTubeVideoMutation,
   useLazySearchForTrackInSpotifyQuery,
-} from "../../../store/api/acquireTracks";
+} from "@api/acquire-tracks";
 import { FC, useState } from "react";
 
 import List from "@mui/material/List";
@@ -68,7 +68,7 @@ export const FindTrackInSpotify: FC<IFindTrackInSpotifyProps> = ({
     try {
       // TODO: move this logic to parent.
       if (typeof trackUri === "string") {
-        const reqBody: IYouTubeVideoDownloadRequest = {
+        const reqBody: IYouTubeVideoDownloadRequestDto = {
           url: trackUri,
           trackType,
           trackInstrument,

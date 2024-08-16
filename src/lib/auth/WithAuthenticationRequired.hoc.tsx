@@ -7,7 +7,7 @@ import {
   selectIsAuthenticated,
   setAuthenticated,
   setUserData,
-} from "src/store/auth";
+} from "@slices/auth";
 import { authClient } from "./authClient";
 
 const minimumTimeToShowLoadingComponentForInMs = 200;

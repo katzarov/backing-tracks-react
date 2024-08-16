@@ -1,6 +1,6 @@
 import { store } from "../../../store";
-import { nonRTKQueryApi } from "../../../store/api/api.config";
-import { tracksApi } from "../../../store/api/tracks";
+import { nonRTKQueryApi } from "@api";
+import { tracksApi } from "@api/tracks";
 import { AbstractFetchingStrategy } from "../TrackLoader";
 
 export class S3Strategy implements AbstractFetchingStrategy {

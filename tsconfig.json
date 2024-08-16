@@ -21,6 +21,10 @@
     "noFallthroughCasesInSwitch": true,
     "baseUrl": "./",
     "paths": {
+      "@api": ["src/store/api"],
+      "@api/*": ["src/store/api/*"],
+      "@slices": ["src/store/slices"],
+      "@slices/*": ["src/store/slices/*"],
       "@lib": ["src/lib"],
       "@lib/*": ["src/lib/*"]
     }

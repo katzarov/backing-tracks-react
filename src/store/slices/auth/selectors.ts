@@ -1,4 +1,4 @@
-import { AppState } from "..";
+import { AppState } from "../../";
 
 export const selectIsAuthenticated = (state: AppState) =>
   state.auth.isAuthenticated;
