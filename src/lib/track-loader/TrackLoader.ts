@@ -1,4 +1,4 @@
-import { IndexedDB } from "../browser-storage";
+import { IndexedDB } from "@lib/browser-storage";
 import { NestJSApiStrategy } from "./strategies/NestJSApiStrategy";
 import { S3Strategy } from "./strategies/S3Strategy";
 

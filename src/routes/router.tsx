@@ -1,5 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
-import { TrackInfo } from "src/containers/TrackInfo";
+import { TrackInfo } from "src/components/player/TrackInfo";
 import { Callback } from "./Callback";
 import { routes } from "./routes";
 import { Login } from "./Login";

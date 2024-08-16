@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { routes } from "./routes";
-import { LoadingPage } from "src/containers/LoadingPage";
+import { LoadingPage } from "src/components/shared/LoadingPage";
 import { useAppDispatch } from "src/store";
 import { setAuthenticated, setUserData } from "src/store/auth";
 import { authClient } from "@lib/auth";

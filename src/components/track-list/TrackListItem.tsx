@@ -7,14 +7,14 @@ import IconButton from "@mui/material/IconButton";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { StyledMenu } from "./TrackListItem.styled";
-import { formatFromSeconds } from "../utils/utils";
-import { TrackType } from "../features/add-tracks/interface";
+import { formatFromSeconds } from "../../utils/utils";
+import { TrackType } from "../add-tracks/interface";
 import { MenuItem } from "@mui/material";
-import { useDeleteTrackMutation } from "../store/api/tracks";
-import { usePopover } from "../hooks/usePopover";
-import { useModal } from "../hooks/useModal";
-import { AlertDialog } from "./AlertDialog";
-import { IndexedDB } from "../services/browser-storage";
+import { useDeleteTrackMutation } from "../../store/api/tracks";
+import { usePopover } from "../../hooks/usePopover";
+import { useModal } from "../../hooks/useModal";
+import { AlertDialog } from "../shared/AlertDialog";
+import { IndexedDB } from "../../lib/browser-storage";
 
 interface ITrackListItemProps {
   index: number;

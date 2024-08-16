@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
 import Skeleton from "@mui/material/Skeleton";
 import List from "@mui/material/List";
-import { useGetAllTracksQuery } from "../store/api/tracks";
+import { useGetAllTracksQuery } from "../../store/api/tracks";
 import { TrackListItem } from "./TrackListItem";
 
 export const TrackList = () => {

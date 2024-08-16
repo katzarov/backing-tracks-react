@@ -1,6 +1,6 @@
 import { ComponentType, useEffect, FC, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { LoadingPage } from "src/containers/LoadingPage";
+import { LoadingPage } from "src/components/shared/LoadingPage";
 import { routes } from "src/routes/routes";
 import { useAppDispatch, useAppSelector } from "src/store";
 import {

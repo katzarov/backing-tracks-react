@@ -1,12 +1,12 @@
 import Box from "@mui/material/Box";
-import { Drawer } from "../containers/Drawer";
+import { Drawer } from "../components/shared/Drawer";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import { Player } from "../containers/Player";
-import { TrackList } from "../containers/TrackList";
+import { Player } from "../components/player/Player";
+import { TrackList } from "../components/track-list/TrackList";
 import { Outlet } from "react-router-dom";
-import { AddTrackMenu } from "../features/add-tracks/AddTrackMenu";
+import { AddTrackMenu } from "../components/add-tracks/AddTrackMenu";
 
 const drawerWidth = 240;
 

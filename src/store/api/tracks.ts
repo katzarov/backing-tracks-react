@@ -1,7 +1,7 @@
 import {
   TrackInstrument,
   TrackType,
-} from "../../features/add-tracks/interface";
+} from "../../components/add-tracks/interface";
 import { api } from "./api.config";
 
 interface ITrackResponse {
