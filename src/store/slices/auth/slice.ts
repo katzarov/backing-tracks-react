@@ -3,6 +3,7 @@ import {
   setAuthenticated as setAuthenticatedAction,
   setUserData as setUserDataAction,
 } from "./actions";
+import { resetStoreActionMatcher } from "src/store/utils";
 
 export interface AuthState {
   isAuthenticated: boolean;
@@ -24,6 +25,11 @@ export const { reducer: authReducer, actions: authActions } = createSlice({
   reducers: {
     setAuthenticated: setAuthenticatedAction,
     setUserData: setUserDataAction,
+  },
+  extraReducers: (builder) => {
+    builder.addMatcher(resetStoreActionMatcher, () => {
+      return initialState;
+    });
   },
 });
 
