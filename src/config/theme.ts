@@ -13,10 +13,14 @@ export const theme = extendTheme({
         secondary: {
           main: "#19857b",
         },
+        background: {
+          default: "#f6f2e6",
+          paper: "#f6f2e6",
+        },
       },
     },
     dark: {
-  palette: {
+      palette: {
         primary: {
           main: "#556cd6",
         },

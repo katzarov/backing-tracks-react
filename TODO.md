@@ -25,8 +25,7 @@
 - create waveform skeleton
 - on app startup (unless a specific track route) preload the last played track - 1) make it local - persist a slice or 2) persist in db ..
 
-## Stuff that strict mode breaks, but that should be fine on prod:
+## Stuff that strict mode breaks:
 
 - breaks form field autofocus when modal is opened initally https://github.com/mui/material-ui/issues/33004
-- auth: when redirected to the callback route in our app, trying to get the code from the url second time around fails, cause its already stripped after the first time.
 

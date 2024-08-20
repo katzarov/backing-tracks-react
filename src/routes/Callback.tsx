@@ -1,16 +1,16 @@
-import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { routes } from "./routes";
 import { LoadingPage } from "src/components/shared/LoadingPage";
 import { useAppDispatch } from "src/store";
 import { setAuthenticated, setUserData } from "@slices/auth";
 import { authClient } from "@lib/auth";
+import { useEffectOnce } from "src/hooks/useEffectOnce";
 
 export const Callback = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  useEffect(() => {
+  useEffectOnce(() => {
     (async (): Promise<void> => {
       try {
         await authClient.handleRedirectCallback();
@@ -19,12 +19,11 @@ export const Callback = () => {
         dispatch(setUserData({ userData: { name: userData!.name ?? null } }));
         navigate(routes.app.root);
       } catch (error) {
-        // TODO: Errors in strict mode, because the second time react runs the effect, the code from the url is already stripped
         // TODO: show error message, either pass via the url or redux
         navigate(routes.login);
       }
     })();
-  }, [navigate, dispatch]);
+  });
 
   return <LoadingPage message="Logging you in..." />;
 };

@@ -62,7 +62,7 @@ export const withAuthenticationRequired = <P extends object>(
           // todo, what we should do is:
           // get the current url, show some msg to user, rdirect to auth0, on login there, redirct back to where we were
           dispatch(setAuthenticated(false));
-          navigate(routes.logoutAuth0Initiated); // or pass the current url as query here, and get it on the login page and proceed from there.
+          navigate(routes.login); // or pass the current url as query here, and get it on the login page and proceed from there.
         }
       })();
     }, [isAuthenticated, navigate, dispatch]);
