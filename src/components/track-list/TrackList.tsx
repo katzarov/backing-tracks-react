@@ -18,24 +18,9 @@ export const TrackList = () => {
       </Box>
     );
 
-  const trackList = data!.map(
-    ({ resourceId, trackType, duration, meta }, index) => {
-      const { trackName, artist } = meta;
-      const { artistName } = artist;
-
-      return (
-        <TrackListItem
-          key={resourceId}
-          index={index}
-          resourceId={resourceId}
-          trackName={trackName}
-          trackType={trackType}
-          duration={duration}
-          artistName={artistName}
-        />
-      );
-    }
-  );
+  const trackList = data!.map((item, index) => {
+    return <TrackListItem key={item.id} index={index} data={item} />;
+  });
 
   return (
     <List dense sx={{ width: "100%", bgcolor: "background.paper" }}>

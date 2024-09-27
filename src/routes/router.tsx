@@ -11,7 +11,7 @@ export const router = createBrowserRouter([
     element: <ProtectedMainApp />,
     children: [
       {
-        path: routes.app.trackUri,
+        path: routes.app.trackUri(),
         element: <TrackInfo />,
       },
     ],

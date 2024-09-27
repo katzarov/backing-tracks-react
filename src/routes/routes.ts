@@ -16,6 +16,6 @@ export const routes = {
   // onBeforeRedirect: "",
   app: {
     root: "/",
-    trackUri: "track/:resourceId",
+    trackUri: (param = ":resourceId") => `track/${param}`,
   },
 };
