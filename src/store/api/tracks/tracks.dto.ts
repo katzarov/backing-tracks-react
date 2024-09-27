@@ -6,7 +6,8 @@ import {
 export type ITrackRequestDto = void;
 
 export interface ITrackResponseDto {
-  resourceId: string;
+  id: number;
+  resourceId: string; // TODO remove
   trackType: TrackType;
   trackInstrument: TrackInstrument;
   duration: number;
@@ -16,6 +17,7 @@ export interface ITrackResponseDto {
       artistName: string;
     };
   };
+  playlists: Array<{ id: number; name: string; description: string }>;
 }
 
 export type IDeleteTrackRequestDto = string;
