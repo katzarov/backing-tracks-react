@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, ReactNode } from "react";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -8,12 +8,12 @@ import DialogTitle from "@mui/material/DialogTitle";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 
-// TODO handle passing react comps and not just text
 interface IAlertDialogProps {
   title: string;
-  textContent: string;
+  content: ReactNode;
   negativeButtonText: string;
   affirmativeButtonText: string;
+  disableAffirmativeButton?: boolean;
   open: boolean;
   showSpinner: boolean;
   onCloseNegative: () => void;
@@ -22,9 +22,10 @@ interface IAlertDialogProps {
 
 export const AlertDialog: FC<IAlertDialogProps> = ({
   title,
-  textContent,
+  content,
   negativeButtonText,
   affirmativeButtonText,
+  disableAffirmativeButton = false,
   open,
   showSpinner,
   onCloseNegative,
@@ -42,9 +43,13 @@ export const AlertDialog: FC<IAlertDialogProps> = ({
     >
       <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
       <DialogContent>
-        <DialogContentText id="alert-dialog-description">
-          {textContent}
-        </DialogContentText>
+        {typeof content === "string" ? (
+          <DialogContentText id="alert-dialog-description">
+            {content}
+          </DialogContentText>
+        ) : (
+          content
+        )}
         {showSpinner && (
           <Box
             sx={(theme) => ({
@@ -62,7 +67,7 @@ export const AlertDialog: FC<IAlertDialogProps> = ({
           {negativeButtonText}
         </Button>
         <Button
-          disabled={shouldDisableActions}
+          disabled={shouldDisableActions || disableAffirmativeButton}
           onClick={onCloseAffirmative}
           autoFocus
         >
