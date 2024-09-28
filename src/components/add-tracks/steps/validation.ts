@@ -44,7 +44,6 @@ export const uploadTrackValidationSchema = yup.object({
       return true;
     })
     .test("fileSize", "File size must not be more than 20MB", (value) => {
-      // TODO check math
       if (value.size > 20000000) {
         return false;
       }

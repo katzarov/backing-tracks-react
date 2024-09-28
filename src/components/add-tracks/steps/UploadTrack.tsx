@@ -112,7 +112,12 @@ export const UplaodTrack: FC<IUploadTrackProps> = ({ onStepComplete }) => {
             type="file"
             accept="audio/mpeg"
             onChange={(e) =>
-              formik.setFieldValue(trackFileKey, e.target.files[0])
+              formik.setFieldValue(
+                trackFileKey,
+                e.target.files && e.target.files.length > 0
+                  ? e.target.files[0]
+                  : undefined
+              )
             }
           />
         </Button>
@@ -145,6 +150,7 @@ export const UplaodTrack: FC<IUploadTrackProps> = ({ onStepComplete }) => {
             onClick={() => formik.setFieldValue(trackTypeKey, TrackType.JAM)}
             id="jam"
             value={TrackType.JAM}
+            disabled={true} // TODO: jam track flow not implemented yet
           >
             Jam Track
           </ToggleButton>

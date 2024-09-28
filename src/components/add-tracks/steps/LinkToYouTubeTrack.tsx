@@ -148,6 +148,7 @@ export const LinkToYouTubeTrack: FC<ILinkToYouTubeTrackProps> = ({
             onClick={() => formik.setFieldValue(trackTypeKey, TrackType.JAM)}
             id="jam"
             value={TrackType.JAM}
+            disabled={true} // TODO: jam track flow not implemented yet
           >
             Jam Track
           </ToggleButton>

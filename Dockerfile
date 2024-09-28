@@ -13,7 +13,7 @@ RUN echo "VITE_AUTH0_DOMAIN=$VITE_AUTH0_DOMAIN" > .env && \
     echo "VITE_AUTH0_AUDIENCE=$VITE_AUTH0_AUDIENCE" >> .env && \
     echo "VITE_API=$VITE_API" >> .env && \
     echo "VITE_USE_S3_TO_DOWNLOAD_TRACK=$VITE_USE_S3_TO_DOWNLOAD_TRACK" >> .env
-RUN npm run build-skip-ts
+RUN npm run build
 
 FROM nginx:stable-alpine
 COPY nginx.conf /etc/nginx/conf.d/default.conf

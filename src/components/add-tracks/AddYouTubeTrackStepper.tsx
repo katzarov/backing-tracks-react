@@ -26,13 +26,12 @@ const modalBodyStyles = {
   p: 4,
 };
 
-interface IAddYouTubeTrackProps {
+interface IAddYouTubeTrackStepperProps {
   showModal: boolean;
   onClose: () => void;
 }
 
-// TODO: rename to stepper
-export const AddYouTubeTrack: FC<IAddYouTubeTrackProps> = ({
+export const AddYouTubeTrackStepper: FC<IAddYouTubeTrackStepperProps> = ({
   showModal,
   onClose,
 }) => {
@@ -58,8 +57,6 @@ export const AddYouTubeTrack: FC<IAddYouTubeTrackProps> = ({
     result: IFindTrackInSpotifyResult
   ) => {
     if (result === undefined) {
-      // we done with this flow
-      //  TODO cleantup mpre
       handleOnClose();
     } else {
       // go to manual enter step

@@ -32,19 +32,15 @@ export interface IFileTrackData extends ITrackData {
 export interface ILinkToYouTubeTrackProps
   extends ISteps<ILinkToYouTubeTrackResult> {}
 
-export type ILinkToYouTubeTrackResult =
-  | IYoutubeTrackData
-  | (IYoutubeTrackData & {
-      preliminarySpotifySearchSuggestions: ISearchForTrackInSpotifyResponseDto[];
-    });
+export type ILinkToYouTubeTrackResult = IYoutubeTrackData & {
+  preliminarySpotifySearchSuggestions: ISearchForTrackInSpotifyResponseDto[];
+};
 
 export interface IUploadTrackProps extends ISteps<IUploadTrackResult> {}
 
-export type IUploadTrackResult =
-  | IFileTrackData
-  | (IFileTrackData & {
-      preliminarySpotifySearchSuggestions: ISearchForTrackInSpotifyResponseDto[];
-    });
+export type IUploadTrackResult = IFileTrackData & {
+  preliminarySpotifySearchSuggestions: ISearchForTrackInSpotifyResponseDto[];
+};
 
 export interface IFindTrackInSpotifyProps
   extends ISteps<IFindTrackInSpotifyResult> {

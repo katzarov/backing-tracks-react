@@ -27,13 +27,13 @@ const modalBodyStyles = {
   p: 4,
 };
 
-interface IAddTrackViaUploadStepperModalProps {
+interface IAddTrackViaUploadStepperProps {
   showModal: boolean;
   onClose: () => void;
 }
 
 export const AddTrackViaUploadStepper: FC<
-  IAddTrackViaUploadStepperModalProps
+  IAddTrackViaUploadStepperProps
 > = ({ showModal, onClose }) => {
   const { activeStep, completed, handleStep, handleReset } = useStepper(steps);
   const [uploadTrackResult, setUploadTrackResult] =
@@ -55,8 +55,6 @@ export const AddTrackViaUploadStepper: FC<
     result: IFindTrackInSpotifyResult
   ) => {
     if (result === undefined) {
-      // we done with this flow
-      //  TODO cleantup mpre
       handleOnClose();
     } else {
       // go to manual enter step
