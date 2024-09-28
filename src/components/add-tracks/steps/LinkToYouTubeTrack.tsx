@@ -1,8 +1,5 @@
 import { FC } from "react";
-import { Box, Button, InputAdornment, Typography } from "@mui/material";
-import ToggleButton from "@mui/material/ToggleButton";
-import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
-import { useFormik } from "formik";
+import { Box, Button, InputAdornment } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import {
@@ -14,12 +11,14 @@ import {
   TrackInstrument,
   TrackType,
 } from "../interface";
+import { TrackDetails } from "./TrackDetails";
 import {
-  linkToYouTubeTrackValidationSchema,
+  ILinkToYouTubeTrackFormikState,
   trackTypeKey,
   trackInstrumentKey,
   youtubeUrlKey,
-} from "./validation";
+  useLinkToYouTubeTrackFormik,
+} from "./LinkToYouTubeTrack.formik";
 
 export const LinkToYouTubeTrack: FC<ILinkToYouTubeTrackProps> = ({
   onStepComplete,
@@ -34,37 +33,18 @@ export const LinkToYouTubeTrack: FC<ILinkToYouTubeTrackProps> = ({
     { isFetching: isFetchingSearch, isUninitialized: isUninitializedSearch },
   ] = useLazySearchForTrackInSpotifyQuery();
 
-  // TODO:
   const isFetching =
     isFetchingYoutube ||
     (isSuccessYoutube && isUninitializedSearch) ||
     isFetchingSearch;
 
-  const formik = useFormik<{
-    [youtubeUrlKey]: string;
-    [trackTypeKey]: TrackType;
-    [trackInstrumentKey]: TrackInstrument;
-  }>({
-    initialValues: {
-      [youtubeUrlKey]: "",
-      [trackTypeKey]: TrackType.BACKING,
-      [trackInstrumentKey]: TrackInstrument.GUITAR,
-    },
-    validationSchema: linkToYouTubeTrackValidationSchema,
-    validateOnMount: true,
-    onSubmit: () => {
-      handleSubmit();
-    },
-  });
-  // TODO: Trim whitespace
-
-  const handleSubmit = async () => {
+  const handleSubmit = async (values: ILinkToYouTubeTrackFormikState) => {
     try {
       const {
         [youtubeUrlKey]: videoUrl,
         [trackTypeKey]: trackType,
         [trackInstrumentKey]: trackInstrument,
-      } = formik.values;
+      } = values;
       const youtubeResult = await fetchYouTubeVideoInfo(videoUrl).unwrap();
       const { title } = youtubeResult;
       const searchResults = await fetchSearchForTrackInSpotify({
@@ -84,6 +64,8 @@ export const LinkToYouTubeTrack: FC<ILinkToYouTubeTrackProps> = ({
       console.error("error", e);
     }
   };
+
+  const formik = useLinkToYouTubeTrackFormik(handleSubmit);
 
   return (
     <Box sx={{ mt: 6 }}>
@@ -123,68 +105,25 @@ export const LinkToYouTubeTrack: FC<ILinkToYouTubeTrackProps> = ({
           }}
         />
 
-        <Typography variant="subtitle1">
-          Is this a backing track or a jam track ?
-        </Typography>
-
-        <ToggleButtonGroup
-          id={trackTypeKey}
-          color="primary"
-          value={formik.values[trackTypeKey]}
+        <TrackDetails
+          trackTypeKey={trackTypeKey}
+          trackTypeValue={formik.values[trackTypeKey]}
+          trackInstrumentKey={trackInstrumentKey}
+          trackInstrumentValue={formik.values[trackInstrumentKey]}
           disabled={isFetching}
-          exclusive
-          aria-label="Track type"
-        >
-          <ToggleButton
-            onClick={() =>
-              formik.setFieldValue(trackTypeKey, TrackType.BACKING)
-            }
-            id="backing"
-            value={TrackType.BACKING}
-          >
-            Backing Track
-          </ToggleButton>
-          <ToggleButton
-            onClick={() => formik.setFieldValue(trackTypeKey, TrackType.JAM)}
-            id="jam"
-            value={TrackType.JAM}
-            disabled={true} // TODO: jam track flow not implemented yet
-          >
-            Jam Track
-          </ToggleButton>
-        </ToggleButtonGroup>
-
-        <Typography variant="subtitle1">
-          Is this track for guitar or bass ?
-        </Typography>
-
-        <ToggleButtonGroup
-          id={trackInstrumentKey}
-          color="primary"
-          value={formik.values[trackInstrumentKey]}
-          disabled={isFetching}
-          exclusive
-          aria-label="Track type"
-        >
-          <ToggleButton
-            onClick={() =>
-              formik.setFieldValue(trackInstrumentKey, TrackInstrument.GUITAR)
-            }
-            id="guitar"
-            value={TrackInstrument.GUITAR}
-          >
-            Guitar
-          </ToggleButton>
-          <ToggleButton
-            onClick={() =>
-              formik.setFieldValue(trackInstrumentKey, TrackInstrument.BASS)
-            }
-            id="bass"
-            value={TrackInstrument.BASS}
-          >
-            Bass
-          </ToggleButton>
-        </ToggleButtonGroup>
+          onTrackTypeBackingClick={() =>
+            formik.setFieldValue(trackTypeKey, TrackType.BACKING)
+          }
+          onTrackTypeJamClick={() =>
+            formik.setFieldValue(trackTypeKey, TrackType.JAM)
+          }
+          onTrackInstrumentGuitarClick={() =>
+            formik.setFieldValue(trackInstrumentKey, TrackInstrument.GUITAR)
+          }
+          onTrackInstrumentBassClick={() =>
+            formik.setFieldValue(trackInstrumentKey, TrackInstrument.BASS)
+          }
+        />
 
         <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
           <Box sx={{ flex: "1 1 auto" }} />

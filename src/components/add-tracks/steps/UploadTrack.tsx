@@ -1,59 +1,29 @@
 import { FC } from "react";
-import { Box, Button, Typography, styled } from "@mui/material";
-import ToggleButton from "@mui/material/ToggleButton";
-import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
+import { Box, Button } from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import { useFormik } from "formik";
 import { useLazySearchForTrackInSpotifyQuery } from "@api/acquire-tracks";
 import { IUploadTrackProps, TrackInstrument, TrackType } from "../interface";
+import { VisuallyHiddenInput } from "./UploadTrack.styled";
 import {
   trackFileKey,
   trackTypeKey,
   trackInstrumentKey,
-  uploadTrackValidationSchema,
-} from "./validation";
-
-const VisuallyHiddenInput = styled("input")({
-  clip: "rect(0 0 0 0)",
-  clipPath: "inset(50%)",
-  height: 1,
-  overflow: "hidden",
-  position: "absolute",
-  bottom: 0,
-  left: 0,
-  whiteSpace: "nowrap",
-  width: 1,
-});
+  useUploadTrackFormik,
+  IUploadTrackFormikState,
+} from "./UploadTrack.formik";
+import { TrackDetails } from "./TrackDetails";
 
 export const UplaodTrack: FC<IUploadTrackProps> = ({ onStepComplete }) => {
   const [fetchSearchForTrackInSpotify, { isFetching }] =
     useLazySearchForTrackInSpotifyQuery();
 
-  const formik = useFormik<{
-    [trackFileKey]: File | undefined;
-    [trackTypeKey]: TrackType;
-    [trackInstrumentKey]: TrackInstrument;
-  }>({
-    initialValues: {
-      [trackFileKey]: undefined,
-      [trackTypeKey]: TrackType.BACKING,
-      [trackInstrumentKey]: TrackInstrument.GUITAR,
-    },
-    validationSchema: uploadTrackValidationSchema,
-    validateOnMount: true,
-    onSubmit: () => {
-      handleSubmit();
-    },
-  });
-  // TODO: Trim whitespace
-
-  const handleSubmit = async () => {
+  const handleSubmit = async (values: IUploadTrackFormikState) => {
     try {
       const {
         [trackFileKey]: trackFile,
         [trackTypeKey]: trackType,
         [trackInstrumentKey]: trackInstrument,
-      } = formik.values;
+      } = values;
 
       const { name } = trackFile!;
 
@@ -73,6 +43,8 @@ export const UplaodTrack: FC<IUploadTrackProps> = ({ onStepComplete }) => {
       console.error("error", e);
     }
   };
+
+  const formik = useUploadTrackFormik(handleSubmit);
 
   const fileName =
     formik.values[trackFileKey] !== undefined
@@ -111,6 +83,7 @@ export const UplaodTrack: FC<IUploadTrackProps> = ({ onStepComplete }) => {
             name={trackFileKey}
             type="file"
             accept="audio/mpeg"
+            disabled={isFetching}
             onChange={(e) =>
               formik.setFieldValue(
                 trackFileKey,
@@ -126,65 +99,26 @@ export const UplaodTrack: FC<IUploadTrackProps> = ({ onStepComplete }) => {
 
         {fileName}
 
-        <Typography variant="subtitle1">
-          Is this a backing track or a jam track ?
-        </Typography>
-        <ToggleButtonGroup
-          id={trackTypeKey}
-          color="primary"
-          value={formik.values[trackTypeKey]}
+        <TrackDetails
+          trackTypeKey={trackTypeKey}
+          trackTypeValue={formik.values[trackTypeKey]}
+          trackInstrumentKey={trackInstrumentKey}
+          trackInstrumentValue={formik.values[trackInstrumentKey]}
           disabled={isFetching}
-          exclusive
-          aria-label="Track type"
-        >
-          <ToggleButton
-            onClick={() =>
-              formik.setFieldValue(trackTypeKey, TrackType.BACKING)
-            }
-            id="backing"
-            value={TrackType.BACKING}
-          >
-            Backing Track
-          </ToggleButton>
-          <ToggleButton
-            onClick={() => formik.setFieldValue(trackTypeKey, TrackType.JAM)}
-            id="jam"
-            value={TrackType.JAM}
-            disabled={true} // TODO: jam track flow not implemented yet
-          >
-            Jam Track
-          </ToggleButton>
-        </ToggleButtonGroup>
-        <Typography variant="subtitle1">
-          Is this track for guitar or bass ?
-        </Typography>
-        <ToggleButtonGroup
-          id={trackInstrumentKey}
-          color="primary"
-          value={formik.values[trackInstrumentKey]}
-          disabled={isFetching}
-          exclusive
-          aria-label="Track type"
-        >
-          <ToggleButton
-            onClick={() =>
-              formik.setFieldValue(trackInstrumentKey, TrackInstrument.GUITAR)
-            }
-            id="guitar"
-            value={TrackInstrument.GUITAR}
-          >
-            Guitar
-          </ToggleButton>
-          <ToggleButton
-            onClick={() =>
-              formik.setFieldValue(trackInstrumentKey, TrackInstrument.BASS)
-            }
-            id="bass"
-            value={TrackInstrument.BASS}
-          >
-            Bass
-          </ToggleButton>
-        </ToggleButtonGroup>
+          onTrackTypeBackingClick={() =>
+            formik.setFieldValue(trackTypeKey, TrackType.BACKING)
+          }
+          onTrackTypeJamClick={() =>
+            formik.setFieldValue(trackTypeKey, TrackType.JAM)
+          }
+          onTrackInstrumentGuitarClick={() =>
+            formik.setFieldValue(trackInstrumentKey, TrackInstrument.GUITAR)
+          }
+          onTrackInstrumentBassClick={() =>
+            formik.setFieldValue(trackInstrumentKey, TrackInstrument.BASS)
+          }
+        />
+
         <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
           <Box sx={{ flex: "1 1 auto" }} />
           <Button

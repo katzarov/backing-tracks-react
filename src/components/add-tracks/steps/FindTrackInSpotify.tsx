@@ -7,7 +7,6 @@ import {
   Skeleton,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import { useFormik } from "formik";
 import TextField from "@mui/material/TextField";
 import {
   IYouTubeVideoDownloadRequestDto,
@@ -22,7 +21,10 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import { IFindTrackInSpotifyProps } from "../interface";
-import { findTrackInSpotifyValidationSchema, trackNameKey } from "./validation";
+import {
+  useFindTrackInSpotifyFormik,
+  trackNameKey,
+} from "./FindTrackInSpotify.formik";
 
 export const FindTrackInSpotify: FC<IFindTrackInSpotifyProps> = ({
   trackUri,
@@ -44,25 +46,9 @@ export const FindTrackInSpotify: FC<IFindTrackInSpotifyProps> = ({
 
   const isLoading = isLoadingYoutube || isLoadingUpload;
 
-  const formik = useFormik({
-    initialValues: {
-      [trackNameKey]: preliminaryTrackName,
-    },
-    validationSchema: findTrackInSpotifyValidationSchema,
-    validateOnMount: true,
-    onSubmit: () => {
-      handleSubmit();
-    },
-    onReset: () => {
-      onResetAllSteps!();
-    },
-  });
-
   const [selectedTrackId, setSelectedTrackId] = useState<string | null>(null);
   const [lastFetchQuery, setLastFetchQuery] =
     useState<string>(preliminaryTrackName);
-
-  // TODO: Trim whitespace
 
   const handleSubmit = async () => {
     try {
@@ -91,6 +77,13 @@ export const FindTrackInSpotify: FC<IFindTrackInSpotifyProps> = ({
     }
   };
 
+  const formik = useFindTrackInSpotifyFormik(
+    preliminaryTrackName,
+    handleSubmit,
+    onResetAllSteps!
+  );
+
+  // TODO: automatic debounced search
   const handleSearch = async (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (
       event.key !== "Enter" ||
