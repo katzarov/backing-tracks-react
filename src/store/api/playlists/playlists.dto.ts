@@ -1,9 +1,20 @@
+import { ITrackResponseDto } from "@api/tracks";
+
 export type IPlaylistRequestDto = void;
 
 export interface IPlaylistResponseDto {
   id: number;
   name: string;
   description: string;
+}
+
+export type IPlaylistWithTracksRequestDto = number;
+
+export interface IPlaylistWithTracksResponseDto {
+  id: number;
+  name: string;
+  description: string;
+  tracks: ITrackResponseDto[];
 }
 
 export interface IEditPlaylistsOfTrackRequestDto {

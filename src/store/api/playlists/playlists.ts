@@ -3,6 +3,8 @@ import {
   ICreatePlaylistResponseDto,
   IEditPlaylistsOfTrackRequestDto,
   IEditPlaylistsOfTrackResponseDto,
+  IPlaylistWithTracksRequestDto,
+  IPlaylistWithTracksResponseDto,
   IPlaylistRequestDto,
   IPlaylistResponseDto,
 } from "./playlists.dto";
@@ -21,6 +23,17 @@ export const playlistsApi = api.injectEndpoints({
         ],
       }
     ),
+    getPlaylistWithTracks: builder.query<
+      IPlaylistWithTracksResponseDto,
+      IPlaylistWithTracksRequestDto
+    >({
+      query: (id) => ({ url: `playlists/${id}` }),
+      providesTags: (_result, _err, arg) => [
+        { type: "Playlists", id: arg } as const,
+      ],
+    }),
+    // PLaylists => PlaylistDetails ?
+    // TODO need to learn more about rtk query and rethink the caching and some of the endpoints. Need to do more careful invalidation.
     createPlaylist: builder.mutation<
       ICreatePlaylistResponseDto,
       ICreatePlaylistRequestDto
@@ -47,6 +60,7 @@ export const playlistsApi = api.injectEndpoints({
 });
 
 export const {
+  useGetPlaylistWithTracksQuery,
   useGetAllPlaylistsQuery,
   useCreatePlaylistMutation,
   useEditPlaylistsOfTrackMutation,
