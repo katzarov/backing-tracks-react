@@ -1,39 +1,35 @@
 import Box from "@mui/material/Box";
-import { Drawer } from "../components/shared/Drawer";
-import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import { Player } from "../components/player/Player";
-import { TrackList } from "../components/track-list/TrackList";
+import { useDrawer } from "src/hooks/useDrawer";
+import { Header } from "src/components/layout/Header";
+import { Footer } from "src/components/layout/Footer";
+import { Drawer } from "src/components/layout/Drawer";
 import { Outlet } from "react-router-dom";
-import { AddTrackMenu } from "../components/add-tracks/AddTrackMenu";
-
-const drawerWidth = 240;
 
 export const MainApp = () => {
+  const { mobileDrawerOpen, handleDrawerToggle, handleDrawerClose } =
+    useDrawer();
+
   return (
-    <Box sx={{ display: "flex" }}>
-      <AppBar
-        position="fixed"
-        sx={{ width: `calc(100% - ${drawerWidth}px)`, ml: `${drawerWidth}px` }}
-      >
-        <Toolbar>
-          <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
-            Backing Tracks
-          </Typography>
-          <AddTrackMenu />
-        </Toolbar>
-      </AppBar>
-      <Drawer drawerWidth={drawerWidth} />
+    <Box sx={{ display: "flex", flexDirection: "column", height: "100vh" }}>
+      <Header handleDrawerToggle={handleDrawerToggle} />
       <Box
-        component="main"
-        sx={{ flexGrow: 1, bgcolor: "background.default", p: 3 }}
+        sx={{
+          display: "flex",
+          flexGrow: 1,
+          overflowY: "hidden",
+          bgcolor: "background.paper",
+        }}
       >
-        <Toolbar />
-        <Outlet />
-        <Player />
-        <TrackList />
+        <Drawer
+          mobileDrawerOpen={mobileDrawerOpen}
+          handleDrawerToggle={handleDrawerToggle}
+          handleDrawerClose={handleDrawerClose}
+        />
+        <Box component="main" sx={{ flexGrow: 1, overflowY: "auto" }}>
+          <Outlet />
+        </Box>
       </Box>
+      <Footer />
     </Box>
   );
 };

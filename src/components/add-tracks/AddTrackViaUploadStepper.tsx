@@ -19,8 +19,8 @@ const modalBodyStyles = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  // width: '100%', maxWidth: 800
-  width: 800,
+  width: "100%",
+  maxWidth: 800,
   bgcolor: "background.paper",
   border: "2px solid #000",
   boxShadow: 24,
@@ -32,9 +32,10 @@ interface IAddTrackViaUploadStepperProps {
   onClose: () => void;
 }
 
-export const AddTrackViaUploadStepper: FC<
-  IAddTrackViaUploadStepperProps
-> = ({ showModal, onClose }) => {
+export const AddTrackViaUploadStepper: FC<IAddTrackViaUploadStepperProps> = ({
+  showModal,
+  onClose,
+}) => {
   const { activeStep, completed, handleStep, handleReset } = useStepper(steps);
   const [uploadTrackResult, setUploadTrackResult] =
     useState<IUploadTrackResult>();

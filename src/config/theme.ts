@@ -1,4 +1,8 @@
-import { experimental_extendTheme as extendTheme } from "@mui/material/styles";
+import {
+  experimental_extendTheme as extendTheme,
+  Theme,
+  darken,
+} from "@mui/material/styles";
 
 // remaining issues until stable
 // https://github.com/mui/material-ui/issues/40225
@@ -87,3 +91,20 @@ export const theme = extendTheme({
 
 // https://github.com/mui/material-ui/issues/40516
 // TODO: responsiveFontSizes(); feat seems to still work, so it might be only that there is a type issue, but I can just wait for now.
+
+export const globalStyles = (theme: Theme) => ({
+  "::-webkit-scrollbar": {
+    width: "8px", // width of the scrollbar
+    height: "8px", // height of the scrollbar (for horizontal scrollbars)
+  },
+  "::-webkit-scrollbar-thumb": {
+    backgroundColor: theme.palette.primary.main,
+    borderRadius: "10px",
+  },
+  "::-webkit-scrollbar-thumb:hover": {
+    backgroundColor: darken(theme.palette.primary.main, 0.2),
+  },
+  "::-webkit-scrollbar-track": {
+    backgroundColor: "background.paper",
+  },
+});

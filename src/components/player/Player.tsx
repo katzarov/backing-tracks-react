@@ -18,12 +18,15 @@ export const Player = () => {
 
   const { wavesurfer, isPlaying, currentTime } = useWavesurfer({
     container: containerRef,
-    height: 150,
+    height: 50,
     backend: "WebAudio",
     waveColor: "rgb(200, 0, 200)",
     progressColor: "rgb(100, 0, 100)",
     dragToSeek: true,
-    plugins: useMemo(() => [Timeline.create()], []),
+    plugins: useMemo(
+      () => [Timeline.create({ height: 30, secondaryLabelOpacity: 1 })],
+      []
+    ),
   });
 
   useEffect(() => {
@@ -46,15 +49,13 @@ export const Player = () => {
   }, [wavesurfer]);
 
   return (
-    <>
+    <Box sx={{ display: "flex", flexDirection: "column" }}>
       {/* // TODO add loading and error skeleton */}
-      <Box ref={containerRef} />
       <Box
         sx={{
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          mt: 2,
         }}
       >
         <IconButton aria-label="previous song">
@@ -75,6 +76,7 @@ export const Player = () => {
         </IconButton>
       </Box>
       <Typography>Current time: {formatFromSeconds(currentTime)}</Typography>
-    </>
+      <Box ref={containerRef} sx={{ flexGrow: 1 }} />
+    </Box>
   );
 };
