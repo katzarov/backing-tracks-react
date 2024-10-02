@@ -13,7 +13,7 @@ import { formatFromSeconds } from "../../utils/utils";
 import { TrackLoader } from "@lib/track-loader";
 
 export const Player = () => {
-  const { resourceId } = useParams();
+  const { trackUri } = useParams();
   const containerRef = useRef(null);
 
   const { wavesurfer, isPlaying, currentTime } = useWavesurfer({
@@ -30,15 +30,18 @@ export const Player = () => {
   });
 
   useEffect(() => {
-    if (wavesurfer === null || resourceId === undefined) return;
+    if (wavesurfer === null || trackUri === undefined) return;
 
     const init = async () => {
-      const blob = await TrackLoader.loadTrack(resourceId);
-      // todo handle null/failure 
+      const blob = await TrackLoader.loadTrack(trackUri);
+      if (blob === null) {
+        console.error("track is null");
+      }
+      // todo handle null/failure
       wavesurfer.loadBlob(blob!);
     };
     init();
-  }, [wavesurfer, resourceId]);
+  }, [wavesurfer, trackUri]);
 
   // wavesurfer && wavesurfer.on("play", (e) => console.log("play start"));
 

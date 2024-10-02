@@ -8,7 +8,7 @@ export interface IPlaylistResponseDto {
   description: string;
 }
 
-export type IPlaylistWithTracksRequestDto = number;
+export type IPlaylistWithTracksRequestDto = string;
 
 export interface IPlaylistWithTracksResponseDto {
   id: number;

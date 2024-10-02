@@ -16,6 +16,15 @@ export const routes = {
   // onBeforeRedirect: "",
   app: {
     root: "/",
-    trackUri: (param = ":resourceId") => `track/${param}`,
+    allTracks: {
+      root: "/all-tracks",
+      uri: (param = ":trackUri") => `${param}`,
+    },
+    playlist: {
+      uri: (param = ":playlistId") => `/playlist/${param}`,
+      track: {
+        uri: (param = ":trackUri") => `track/${param}`,
+      },
+    },
   },
 };

@@ -1,15 +1,24 @@
 import Box from "@mui/material/Box";
 import Skeleton from "@mui/material/Skeleton";
 import List from "@mui/material/List";
-import { useGetAllTracksQuery } from "../../store/api/tracks";
+import { ITrackResponseDto } from "../../store/api/tracks";
 import { TrackListItem } from "./TrackListItem";
+import { FC } from "react";
 
-export const TrackList = () => {
-  const { data, isLoading, isError } = useGetAllTracksQuery();
+interface ITrackListProps {
+  data: ITrackResponseDto[] | undefined;
+  isLoading: boolean;
+  trackItemClickRouteNavigateTo: (trackUri: string) => string;
+}
 
+export const TrackList: FC<ITrackListProps> = ({
+  data,
+  isLoading,
+  trackItemClickRouteNavigateTo,
+}) => {
   // TODO skeleton may be able to infer dimensions ?
   // https://mui.com/material-ui/react-skeleton/#inferring-dimensions
-  if (isLoading || isError)
+  if (isLoading)
     return (
       <Box>
         <Skeleton height={50} />
@@ -18,8 +27,15 @@ export const TrackList = () => {
       </Box>
     );
 
-  const trackList = data!.map((item, index) => {
-    return <TrackListItem key={item.id} index={index} data={item} />;
+  const trackList = data?.map((item, index) => {
+    return (
+      <TrackListItem
+        key={item.id}
+        index={index}
+        data={item}
+        trackItemClickRouteNavigateTo={trackItemClickRouteNavigateTo}
+      />
+    );
   });
 
   return (

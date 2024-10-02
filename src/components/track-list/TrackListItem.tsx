@@ -9,14 +9,18 @@ import { formatFromSeconds } from "../../utils/utils";
 import { ITrackResponseDto } from "../../store/api/tracks";
 import { usePopover } from "../../hooks/usePopover";
 import { TrackListItemMenu } from "./item-menu/TrackListItemMenu";
-import { routes } from "src/routes/routes";
 
 interface ITrackListItemProps {
   index: number;
   data: ITrackResponseDto;
+  trackItemClickRouteNavigateTo: (trackUri: string) => string;
 }
 
-export const TrackListItem: FC<ITrackListItemProps> = ({ index, data }) => {
+export const TrackListItem: FC<ITrackListItemProps> = ({
+  index,
+  data,
+  trackItemClickRouteNavigateTo,
+}) => {
   const {
     popoverAnchorElement,
     shoulOpenPopover,
@@ -41,7 +45,8 @@ export const TrackListItem: FC<ITrackListItemProps> = ({ index, data }) => {
     >
       <ListItemButton
         component={Link}
-        to={routes.app.trackUri(data.resourceId)}
+        to={trackItemClickRouteNavigateTo(data.resourceId)}
+        replace // we want to replace and not stack multiple track/playlist changes in the history
       >
         <ListItemText primary={index + 1} sx={{ width: 50 }} />
         <ListItemText
