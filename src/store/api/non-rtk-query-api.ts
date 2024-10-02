@@ -9,6 +9,7 @@ export const nonRTKQueryApi = {
   fetchTrackFromNestJSApi: async (uri: string): Promise<Blob | null> => {
     const getTrackFileEndpoint = `${apiBaseUrl}tracks/file/${uri}`;
 
+    // TODO this throws, handle error => need to redirect to login page and show some error msg
     const token = await authClient.getTokenSilently();
 
     const headers = {
