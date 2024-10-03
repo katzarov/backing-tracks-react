@@ -8,13 +8,21 @@ const rootReducer = combineReducers({
   auth: authReducer,
 });
 
-export const store = configureStore({
-  reducer: rootReducer,
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(api.middleware),
-});
-
-export type AppDispatch = typeof store.dispatch;
 export type AppState = ReturnType<typeof rootReducer>;
+
+// used to create the same store configuration when testing
+export const createStore = (preloadedState?: Partial<AppState>) => {
+  return configureStore({
+    reducer: rootReducer,
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware().concat(api.middleware),
+    preloadedState,
+  });
+};
+
+export const store = createStore();
+
+export type AppStore = ReturnType<typeof createStore>;
+export type AppDispatch = AppStore["dispatch"];
 export const useAppDispatch: () => AppDispatch = useDispatch;
 export const useAppSelector: TypedUseSelectorHook<AppState> = useSelector;

@@ -5,11 +5,15 @@
 - client user roles - user, admin, demo.
 - create some import convention, organzie imports. And In general, need to impl some conventions readme.
 - decide if I want a feature based structure or not. But I think at this point, I need to commit to some structure.
-- Also think of the different extensions and how it come to play with the file structure - ReactComp.tsx, ReactComp.loading.tsx, ReactComp.error.tsx, ReactComp.use.tsx, ReactComp.formik.tsx, ReactComp.utils.tsx, ReactComp.styled.tsx etc
+- Also think of the different extensions and how it come to play with the file structure - ReactComp.tsx, ReactComp.controller.tsx, ReactComp.loading.tsx, ReactComp.error.tsx, ReactComp.use.tsx, ReactComp.formik.tsx, ReactComp.utils.tsx, ReactComp.styled.tsx etc
 - tab sync (with broadcast channel)
-- do intl. ( & don't forget to include the form errors messages)
+- setup intl. ( & don't forget to include the form errors messages)
 - do keyboard autofocus. Make sure adhere to a11y standards https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/
 - https://vitejs.dev/guide/features.html#transpile-only https://github.com/fi3ework/vite-plugin-checker ?
+
+## Testing
+
+- setup msw
 
 ## MUI
 
