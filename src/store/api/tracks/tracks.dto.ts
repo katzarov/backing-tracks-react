@@ -5,6 +5,12 @@ import {
 
 export type ITrackRequestDto = void;
 
+interface IAlbumArtImage {
+  url: string;
+  width: number;
+  height: number;
+}
+
 export interface ITrackResponseDto {
   id: number;
   resourceId: string; // TODO remove
@@ -15,6 +21,11 @@ export interface ITrackResponseDto {
     trackName: string;
     artist: {
       artistName: string;
+    };
+    albumArt: {
+      small: IAlbumArtImage | null;
+      medium: IAlbumArtImage | null;
+      large: IAlbumArtImage | null;
     };
   };
   playlists: Array<{ id: number; name: string; description: string }>;

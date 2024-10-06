@@ -9,6 +9,7 @@ import { formatFromSeconds } from "../../utils/utils";
 import { ITrackResponseDto } from "../../store/api/tracks";
 import { usePopover } from "../../hooks/usePopover";
 import { TrackListItemMenu } from "./item-menu/TrackListItemMenu";
+import { Avatar, ListItemAvatar } from "@mui/material";
 
 interface ITrackListItemProps {
   index: number;
@@ -49,6 +50,9 @@ export const TrackListItem: FC<ITrackListItemProps> = ({
         replace // we want to replace and not stack multiple track/playlist changes in the history
       >
         <ListItemText primary={index + 1} sx={{ width: 50 }} />
+        <ListItemAvatar>
+          <Avatar variant="square" src={data.meta.albumArt.small?.url} />
+        </ListItemAvatar>
         <ListItemText
           primary={data.meta.trackName}
           secondary={data.meta.artist.artistName}
