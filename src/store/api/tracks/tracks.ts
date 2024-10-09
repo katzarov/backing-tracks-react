@@ -23,8 +23,8 @@ export const tracksApi = api.injectEndpoints({
       IDeleteTrackResponseDto,
       IDeleteTrackRequestDto
     >({
-      query: (uri) => ({
-        url: `tracks/${encodeURIComponent(uri)}`,
+      query: (id) => ({
+        url: `tracks/${id}`,
         method: "DELETE",
       }),
       invalidatesTags: ["Tracks"],

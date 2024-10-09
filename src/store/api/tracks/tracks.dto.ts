@@ -31,7 +31,7 @@ export interface ITrackResponseDto {
   playlists: Array<{ id: number; name: string; description: string }>;
 }
 
-export type IDeleteTrackRequestDto = string;
+export type IDeleteTrackRequestDto = number;
 
 export type IDeleteTrackResponseDto = string;
 

@@ -4,6 +4,7 @@ import { useDeleteTrackMutation } from "@api/tracks";
 import { AlertDialog } from "../../../shared/AlertDialog";
 
 interface IDeleteTrackDialogProps {
+  trackId: number;
   resourceId: string;
   trackName: string;
   artistName: string;
@@ -12,6 +13,7 @@ interface IDeleteTrackDialogProps {
 }
 
 export const DeleteTrackDialog: FC<IDeleteTrackDialogProps> = ({
+  trackId,
   resourceId,
   trackName,
   artistName,
@@ -25,7 +27,7 @@ export const DeleteTrackDialog: FC<IDeleteTrackDialogProps> = ({
   };
 
   const handleDeleteTrackAffirmative = async () => {
-    await deleteTrack(resourceId).unwrap();
+    await deleteTrack(trackId).unwrap();
     await IndexedDB.getInstance().delete(IndexedDB.trackStore, resourceId);
     handleCloseDeleteConfirmationDialog();
   };

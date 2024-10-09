@@ -78,6 +78,7 @@ export const TrackListItemMenu: FC<ITrackListItemMenuProps> = ({
       )}
       {shouldOpenDeleteConfirmationDialog && (
         <DeleteTrackDialog
+          trackId={trackId}
           resourceId={resourceId}
           trackName={trackName}
           artistName={artistName}
