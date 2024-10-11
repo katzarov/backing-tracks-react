@@ -69,7 +69,6 @@ export const TrackListItem: FC<ITrackListItemProps> = ({
         resourceId={data.resourceId}
         trackName={data.meta.trackName}
         artistName={data.meta.artist.artistName}
-        playlists={data.playlists}
         popoverAnchorElement={popoverAnchorElement}
         shoulOpenPopover={shoulOpenPopover}
         handleClosePopover={handleClosePopover}

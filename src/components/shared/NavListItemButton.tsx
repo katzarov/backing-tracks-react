@@ -10,6 +10,7 @@ interface INavListItemButtonProps extends ListItemButtonProps {
   children: ReactNode;
 }
 
+// TODO; fix keyboard focus
 export const NavListItemButton: FC<INavListItemButtonProps> = ({
   to,
   replace,

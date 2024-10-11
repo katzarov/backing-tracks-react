@@ -1,14 +1,12 @@
 import {
   ICreatePlaylistRequestDto,
   ICreatePlaylistResponseDto,
-  IEditPlaylistsOfTrackRequestDto,
-  IEditPlaylistsOfTrackResponseDto,
-  IPlaylistWithTracksRequestDto,
-  IPlaylistWithTracksResponseDto,
+  ITracksOfPlaylistRequestDto,
+  ITracksOfPlaylistResponseDto,
   IPlaylistRequestDto,
   IPlaylistResponseDto,
 } from "./playlists.dto";
-import { api } from "../rtk-query-api-config";
+import { api, listId } from "../rtk-query-api-config";
 
 export const playlistsApi = api.injectEndpoints({
   endpoints: (builder) => ({
@@ -18,22 +16,28 @@ export const playlistsApi = api.injectEndpoints({
         transformResponse: (response: IPlaylistResponseDto[]) =>
           response.sort((a, b) => a.name.localeCompare(b.name)),
         providesTags: (result = []) => [
-          ...result.map(({ id }) => ({ type: "Playlists", id } as const)),
-          { type: "Playlists" as const, id: "LIST" },
+          ...result.map((item) => ({
+            type: "Playlist" as const,
+            id: item.id,
+          })),
+          { type: "Playlist", id: listId },
         ],
       }
     ),
-    getPlaylistWithTracks: builder.query<
-      IPlaylistWithTracksResponseDto,
-      IPlaylistWithTracksRequestDto
+    // getPlaylist TODO
+    getTracksOfPlaylist: builder.query<
+      ITracksOfPlaylistResponseDto,
+      ITracksOfPlaylistRequestDto
     >({
-      query: (id) => ({ url: `playlists/${id}` }),
-      providesTags: (_result, _err, arg) => [
-        { type: "Playlists", id: arg } as const,
+      query: (id) => ({ url: `playlists/${id}/tracks` }),
+      providesTags: (result, _err, arg) => [
+        { type: "TracksOfPlaylist", id: arg } as const,
+        ...(result?.tracks ?? []).map((item) => ({
+          type: "Track" as const,
+          id: item.id,
+        })),
       ],
     }),
-    // PLaylists => PlaylistDetails ?
-    // TODO need to learn more about rtk query and rethink the caching and some of the endpoints. Need to do more careful invalidation.
     createPlaylist: builder.mutation<
       ICreatePlaylistResponseDto,
       ICreatePlaylistRequestDto
@@ -43,25 +47,14 @@ export const playlistsApi = api.injectEndpoints({
         method: "POST",
         body,
       }),
-      invalidatesTags: ["Playlists"],
+      invalidatesTags: [{ type: "Playlist", id: listId }],
     }),
-    editPlaylistsOfTrack: builder.mutation<
-      IEditPlaylistsOfTrackResponseDto,
-      IEditPlaylistsOfTrackRequestDto
-    >({
-      query: ({ params, body }) => ({
-        url: `playlists/${params.trackId}`,
-        method: "PUT",
-        body,
-      }),
-      invalidatesTags: ["Tracks"],
-    }),
+    // TODO on name change or remove playlist will need to invalidate all cache of PlaylistsOfTrack
   }),
 });
 
 export const {
-  useGetPlaylistWithTracksQuery,
+  useGetTracksOfPlaylistQuery,
   useGetAllPlaylistsQuery,
   useCreatePlaylistMutation,
-  useEditPlaylistsOfTrackMutation,
 } = playlistsApi;

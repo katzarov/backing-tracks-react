@@ -1,18 +1,17 @@
 import { FC, useMemo } from "react";
 import { AlertDialog } from "../../../shared/AlertDialog";
 import { SelectablePlaylists } from "./SelectablePlaylists";
+import { useGetAllPlaylistsQuery } from "@api/playlists";
 import {
-  useEditPlaylistsOfTrackMutation,
-  useGetAllPlaylistsQuery,
-} from "@api/playlists";
-import { ITrackResponseDto } from "@api/tracks";
+  useGetAllPlaylistsOfTrackQuery,
+  useUpdatePlaylistsOfTrackMutation,
+} from "@api/tracks";
 import { useCheckboxListLogic } from "src/hooks/useCheckboxListLogic";
 import { mergeTrackPlaylistsWithAllPlaylists } from "src/utils/playlist";
 
 interface IEditPlaylistsOfTrackDialogProps {
   trackId: number;
   shouldOpenEditPlaylistsOfTrackDialog: boolean;
-  playlists: ITrackResponseDto["playlists"];
   handleCloseEditPlaylistsOfTrackDialog: () => void;
 }
 
@@ -21,21 +20,26 @@ export const EditPlaylistsOfTrackDialog: FC<
 > = ({
   trackId,
   shouldOpenEditPlaylistsOfTrackDialog,
-  playlists: trackPlaylists,
   handleCloseEditPlaylistsOfTrackDialog,
 }) => {
   const { data: allPlaylists, isLoading: isLoadingGetAllPlaylists } =
     useGetAllPlaylistsQuery();
 
-  const [editPlaylistsOfTrack, { isLoading: isLoadingEditPlaylistsOfTrack }] =
-    useEditPlaylistsOfTrackMutation();
+  const { data: playlistsOfTrack, isLoading: isLoadingPlaylistsOfTrack } =
+    useGetAllPlaylistsOfTrackQuery(trackId);
+
+  const [updatePlaylistsOfTrack, { isLoading: isLoadingEditPlaylistsOfTrack }] =
+    useUpdatePlaylistsOfTrackMutation();
 
   const playlistsPreSelected = useMemo(
     () =>
-      allPlaylists !== undefined
-        ? mergeTrackPlaylistsWithAllPlaylists(trackPlaylists, allPlaylists)
+      allPlaylists !== undefined && playlistsOfTrack?.playlists !== undefined
+        ? mergeTrackPlaylistsWithAllPlaylists(
+            playlistsOfTrack.playlists,
+            allPlaylists
+          )
         : [],
-    [trackPlaylists, allPlaylists]
+    [playlistsOfTrack, allPlaylists]
   );
 
   const { items, itemsEqualToInitialState, handleToggle } =
@@ -46,16 +50,17 @@ export const EditPlaylistsOfTrackDialog: FC<
   };
 
   const handleAddToPlaylistAffirmative = async () => {
-    const playlistsOfTrack = items
+    const newPlaylistsOfTrack = items
       .filter((item) => item.selected)
       .map((item) => ({
         id: item.id,
       }));
 
     try {
-      await editPlaylistsOfTrack({
+      await updatePlaylistsOfTrack({
         params: { trackId },
-        body: { playlists: playlistsOfTrack },
+        body: { playlists: newPlaylistsOfTrack },
+        rtkq_meta: { currentState: playlistsOfTrack?.playlists ?? [] },
       }).unwrap();
 
       handleCloseEditPlaylistsOfTrackDialog();
@@ -68,11 +73,15 @@ export const EditPlaylistsOfTrackDialog: FC<
   return (
     <AlertDialog
       open={shouldOpenEditPlaylistsOfTrackDialog}
-      showSpinner={isLoadingGetAllPlaylists || isLoadingEditPlaylistsOfTrack}
+      showSpinner={
+        isLoadingGetAllPlaylists ||
+        isLoadingPlaylistsOfTrack ||
+        isLoadingEditPlaylistsOfTrack
+      }
       title="Add track to playlist"
       // todo should pass as a child when possible, this looks weird
       content={
-        isLoadingGetAllPlaylists ? null : (
+        isLoadingGetAllPlaylists || isLoadingPlaylistsOfTrack ? null : (
           <SelectablePlaylists
             playlistsPreSelected={items}
             handleToggle={handleToggle}

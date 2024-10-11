@@ -3,7 +3,6 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import { MenuItem } from "@mui/material";
 import { StyledMenu } from "./TrackListItemMenu.styled";
-import { ITrackResponseDto } from "../../../store/api/tracks";
 import { useModal } from "../../../hooks/useModal";
 import { EditPlaylistsOfTrackDialog } from "./edit-playlists-of-track/EditPlaylistsOfTrackDialog";
 import { DeleteTrackDialog } from "./delete-track/DeleteTrackDialog";
@@ -13,7 +12,6 @@ interface ITrackListItemMenuProps {
   resourceId: string;
   trackName: string;
   artistName: string;
-  playlists: ITrackResponseDto["playlists"];
   popoverAnchorElement: HTMLElement | null;
   shoulOpenPopover: boolean;
   handleClosePopover: () => void;
@@ -24,7 +22,6 @@ export const TrackListItemMenu: FC<ITrackListItemMenuProps> = ({
   resourceId,
   trackName,
   artistName,
-  playlists,
   popoverAnchorElement,
   shoulOpenPopover,
   handleClosePopover,
@@ -73,7 +70,6 @@ export const TrackListItemMenu: FC<ITrackListItemMenuProps> = ({
           handleCloseEditPlaylistsOfTrackDialog={
             handleCloseEditPlaylistsOfTrackDialog
           }
-          playlists={playlists}
         />
       )}
       {shouldOpenDeleteConfirmationDialog && (

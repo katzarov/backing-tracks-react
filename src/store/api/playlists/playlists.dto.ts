@@ -8,29 +8,12 @@ export interface IPlaylistResponseDto {
   description: string;
 }
 
-export type IPlaylistWithTracksRequestDto = string;
+export type ITracksOfPlaylistRequestDto = IPlaylistResponseDto["id"];
 
-export interface IPlaylistWithTracksResponseDto {
-  id: number;
-  name: string;
-  description: string;
-  tracks: ITrackResponseDto[];
+export interface ITracksOfPlaylistResponseDto extends IPlaylistResponseDto {
+  tracks: Array<ITrackResponseDto>;
 }
 
-export interface IEditPlaylistsOfTrackRequestDto {
-  params: {
-    trackId: number;
-  };
-  body: {
-    playlists: Array<{ id: number }>;
-  };
-}
-
-export type IEditPlaylistsOfTrackResponseDto = string;
-
-export interface ICreatePlaylistRequestDto {
-  name: string;
-  description?: string;
-}
+export type ICreatePlaylistRequestDto = Omit<IPlaylistResponseDto, "id">;
 
 export type ICreatePlaylistResponseDto = string;

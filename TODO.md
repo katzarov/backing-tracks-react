@@ -27,6 +27,7 @@
 
 ## API Client / RTK Query
 
+- may need to move the invalidation logic out of the same file
 - need to learn more about rtk query and rethink the caching and some of the endpoints. Need to do more careful invalidation.
 - play with redux-saga or redux-observables. Not that it is needed but I'd be nice to know since both are heavily used in larger projects https://blog.logrocket.com/redux-toolkits-new-listener-middleware-vs-redux-saga/#comparing-new-listener-middleware-redux-saga
 - "abort" reqs for fetching the tracks when swithcing to another track..(and when swithcing routes), try "abort" the rtkq stuff as well
@@ -51,6 +52,8 @@
 
 ## Player:
 
+- save computed peaks to indexedDB. (Ideally should already be precomputed on server and come along with the audio file... but we may never get to that).
+- Show "computing peaks" loader on the waveform.
 - support spacebar play pause and other DAW like keyboard shortcuts
 - ability to change track speed/pitch. Or precompute/ondemand different track speeds/pitches on server cause higher quality probably... investigate.
 - create waveform skeleton

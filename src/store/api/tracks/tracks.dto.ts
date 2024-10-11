@@ -2,8 +2,7 @@ import {
   TrackInstrument,
   TrackType,
 } from "../../../components/add-tracks/interface";
-
-export type ITrackRequestDto = void;
+import { IPlaylistResponseDto } from "../playlists";
 
 interface IAlbumArtImage {
   url: string;
@@ -11,9 +10,11 @@ interface IAlbumArtImage {
   height: number;
 }
 
+export type ITrackRequestDto = void;
+
 export interface ITrackResponseDto {
   id: number;
-  resourceId: string; // TODO remove
+  resourceId: string;
   trackType: TrackType;
   trackInstrument: TrackInstrument;
   duration: number;
@@ -28,14 +29,33 @@ export interface ITrackResponseDto {
       large: IAlbumArtImage | null;
     };
   };
-  playlists: Array<{ id: number; name: string; description: string }>;
 }
 
-export type IDeleteTrackRequestDto = number;
+export type IGetAllPlaylistsOfTrackRequestDto = ITrackResponseDto["id"];
+
+export interface IGetAllPlaylistsOfTrackResponseDto extends ITrackResponseDto {
+  playlists: Array<IPlaylistResponseDto>;
+}
+
+export interface IUpdatePlaylistsOfTrackRequestDto {
+  params: {
+    trackId: ITrackResponseDto["id"];
+  };
+  body: {
+    playlists: Array<{ id: IPlaylistResponseDto["id"] }>;
+  };
+  rtkq_meta: {
+    currentState: Array<{ id: IPlaylistResponseDto["id"] }>;
+  };
+}
+
+export type IUpdatePlaylistsOfTrackResponseDto = string;
+
+export type IDeleteTrackRequestDto = ITrackResponseDto["id"];
 
 export type IDeleteTrackResponseDto = string;
 
-export type ITrackS3PresignedUrlRequestDto = string;
+export type ITrackS3PresignedUrlRequestDto = ITrackResponseDto["resourceId"];
 
 export interface ITrackS3PresignedUrlResponseDto {
   url: string;

@@ -8,7 +8,7 @@ import {
   IYouTubeVideoInfoRequestDto,
   IYouTubeVideoInfoResponseDto,
 } from ".";
-import { api } from "../rtk-query-api-config";
+import { api, listId } from "../rtk-query-api-config";
 
 // https://github.com/reduxjs/redux-toolkit/discussions/2052
 export const acquireTracksApi = api.injectEndpoints({
@@ -30,7 +30,7 @@ export const acquireTracksApi = api.injectEndpoints({
         method: "POST",
         body,
       }),
-      invalidatesTags: ["Tracks"],
+      invalidatesTags: [{ type: "Track", id: listId }],
     }),
     addTrackViaFileUpload: builder.mutation<
       IAddTrackViaFileUploadResponseDto,
@@ -42,7 +42,7 @@ export const acquireTracksApi = api.injectEndpoints({
         body,
         formData: true,
       }),
-      invalidatesTags: ["Tracks"],
+      invalidatesTags: [{ type: "Track", id: listId }],
     }),
     searchForTrackInSpotify: builder.query<
       ISearchForTrackInSpotifyResponseDto[],
