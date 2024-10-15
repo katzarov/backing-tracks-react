@@ -16,7 +16,7 @@ export const TracksOfPlaylist = () => {
     <TrackList
       data={data?.tracks}
       isLoading={isLoading}
-      trackItemClickRouteNavigateTo={routes.app.playlist.track.uri}
+      trackItemClickRouteNavigateTo={routes.app.playlist.track.id}
     />
   );
 };

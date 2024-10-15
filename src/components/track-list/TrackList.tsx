@@ -8,7 +8,7 @@ import { FC } from "react";
 interface ITrackListProps {
   data: ITrackResponseDto[] | undefined;
   isLoading: boolean;
-  trackItemClickRouteNavigateTo: (trackUri: string) => string;
+  trackItemClickRouteNavigateTo: (trackId: string) => string;
 }
 
 export const TrackList: FC<ITrackListProps> = ({

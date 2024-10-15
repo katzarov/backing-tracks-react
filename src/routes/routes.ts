@@ -18,12 +18,12 @@ export const routes = {
     root: "/",
     allTracks: {
       root: "/all-tracks",
-      uri: (param = ":trackUri") => `${param}`,
+      id: (param = ":trackId") => `${param}`,
     },
     playlist: {
-      uri: (param = ":playlistId") => `/playlist/${param}`,
+      id: (param = ":playlistId") => `/playlist/${param}`,
       track: {
-        uri: (param = ":trackUri") => `track/${param}`,
+        id: (param = ":trackId") => `track/${param}`,
       },
     },
   },

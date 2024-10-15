@@ -12,7 +12,7 @@ export const AllTracks = () => {
     <TrackList
       data={data}
       isLoading={isLoading}
-      trackItemClickRouteNavigateTo={routes.app.allTracks.uri}
+      trackItemClickRouteNavigateTo={routes.app.allTracks.id}
     />
   );
 };

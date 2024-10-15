@@ -33,7 +33,7 @@ export const PlaylistListItem: FC<IPlaylistListItemProps> = ({
       }
     >
       <NavListItemButton
-        to={routes.app.playlist.uri(id.toString())}
+        to={routes.app.playlist.id(id.toString())}
         replace // we want to replace and not stack multiple track/playlist changes in the history
       >
         <ListItemText primary={name} sx={{ width: "100%" }} />

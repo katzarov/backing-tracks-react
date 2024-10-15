@@ -21,21 +21,21 @@ export const router = createBrowserRouter([
         element: <AllTracks />,
         children: [
           {
-            path: routes.app.allTracks.uri(),
+            path: routes.app.allTracks.id(),
             element: null,
           },
         ],
       },
       {
-        path: routes.app.playlist.uri(),
+        path: routes.app.playlist.id(),
         element: <TracksOfPlaylist />,
         children: [
           {
-            path: routes.app.playlist.uri(),
+            path: routes.app.playlist.id(),
             element: null,
             children: [
               {
-                path: routes.app.playlist.track.uri(),
+                path: routes.app.playlist.track.id(),
                 element: null,
               },
             ],

@@ -14,7 +14,7 @@ import { Avatar, ListItemAvatar } from "@mui/material";
 interface ITrackListItemProps {
   index: number;
   data: ITrackResponseDto;
-  trackItemClickRouteNavigateTo: (trackUri: string) => string;
+  trackItemClickRouteNavigateTo: (trackId: string) => string;
 }
 
 export const TrackListItem: FC<ITrackListItemProps> = ({
@@ -46,7 +46,7 @@ export const TrackListItem: FC<ITrackListItemProps> = ({
     >
       <ListItemButton
         component={Link}
-        to={trackItemClickRouteNavigateTo(data.resourceId)}
+        to={trackItemClickRouteNavigateTo(data.id.toString())}
         replace // we want to replace and not stack multiple track/playlist changes in the history
       >
         <ListItemText primary={index + 1} sx={{ width: 50 }} />
