@@ -31,6 +31,8 @@ export interface ITrackResponseDto {
   };
 }
 
+export type IGetTrackRequestDto = ITrackResponseDto["id"];
+
 export type IGetAllPlaylistsOfTrackRequestDto = ITrackResponseDto["id"];
 
 export interface IGetAllPlaylistsOfTrackResponseDto extends ITrackResponseDto {

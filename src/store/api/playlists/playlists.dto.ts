@@ -8,6 +8,8 @@ export interface IPlaylistResponseDto {
   description: string;
 }
 
+export type IGetPlaylistRequestDto = IPlaylistResponseDto["id"];
+
 export type ITracksOfPlaylistRequestDto = IPlaylistResponseDto["id"];
 
 export interface ITracksOfPlaylistResponseDto extends IPlaylistResponseDto {

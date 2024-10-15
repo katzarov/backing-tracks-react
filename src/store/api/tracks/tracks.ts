@@ -10,6 +10,7 @@ import {
   ITrackS3PresignedUrlResponseDto,
   IGetAllPlaylistsOfTrackRequestDto,
   IGetAllPlaylistsOfTrackResponseDto,
+  IGetTrackRequestDto,
 } from ".";
 import { api, listId } from "../rtk-query-api-config";
 
@@ -25,7 +26,15 @@ export const tracksApi = api.injectEndpoints({
         { type: "Track", id: listId },
       ],
     }),
-    //  TODO getTrack impl
+    getTrack: builder.query<ITrackResponseDto, IGetTrackRequestDto>({
+      query: (id) => ({ url: `tracks/${id}` }),
+      providesTags: (result, error) => {
+        if (error) {
+          return [];
+        }
+        return [{ type: "Track", id: result!.id }];
+      },
+    }),
     getAllPlaylistsOfTrack: builder.query<
       IGetAllPlaylistsOfTrackResponseDto,
       IGetAllPlaylistsOfTrackRequestDto

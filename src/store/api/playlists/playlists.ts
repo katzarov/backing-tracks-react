@@ -5,6 +5,7 @@ import {
   ITracksOfPlaylistResponseDto,
   IPlaylistRequestDto,
   IPlaylistResponseDto,
+  IGetPlaylistRequestDto,
 } from "./playlists.dto";
 import { api, listId } from "../rtk-query-api-config";
 
@@ -24,7 +25,15 @@ export const playlistsApi = api.injectEndpoints({
         ],
       }
     ),
-    // getPlaylist TODO
+    getPlaylist: builder.query<IPlaylistResponseDto, IGetPlaylistRequestDto>({
+      query: (id) => ({ url: `playlists/${id}` }),
+      providesTags: (result, error) => {
+        if (error) {
+          return [];
+        }
+        return [{ type: "Playlist", id: result!.id }];
+      },
+    }),
     getTracksOfPlaylist: builder.query<
       ITracksOfPlaylistResponseDto,
       ITracksOfPlaylistRequestDto
