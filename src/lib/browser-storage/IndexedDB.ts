@@ -8,6 +8,7 @@ export class IndexedDB {
   private static dbName = "backing-tracks";
   private static version = 1;
   static trackStore = "track_blobs";
+  static peaksStore = "track_peaks";
 
   private dbConnection: IDBDatabase | null = null;
 
@@ -40,11 +41,11 @@ export class IndexedDB {
         const db = (event.target as IDBOpenDBRequest).result;
 
         db.createObjectStore(IndexedDB.trackStore, { keyPath: "uri" });
+        db.createObjectStore(IndexedDB.peaksStore, { keyPath: "uri" });
       };
 
       request.onsuccess = (event: Event) => {
         this.dbConnection = (event.target as IDBOpenDBRequest).result;
-        console.info("Initialized connection to IndexedDB.");
 
         this.dbConnection.onclose = () => {
           this.dbConnection = null;
@@ -55,6 +56,7 @@ export class IndexedDB {
       };
 
       request.onerror = (event: Event) => {
+        console.error("Could not connect to IndexedDB.", event);
         reject((event.target as IDBOpenDBRequest).error);
       };
     });
