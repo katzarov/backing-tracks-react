@@ -2,10 +2,12 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { api } from "./api/rtk-query-api-config";
 import { authReducer } from "./slices/auth";
+import { playerReducer } from "./slices/player";
 
 const rootReducer = combineReducers({
   [api.reducerPath]: api.reducer,
   auth: authReducer,
+  player: playerReducer,
 });
 
 export type AppState = ReturnType<typeof rootReducer>;
