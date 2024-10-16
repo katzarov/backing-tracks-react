@@ -2,6 +2,7 @@ import { IPlaylistResponseDto } from "@api/playlists";
 import { listId, ITagTypes } from "@src/store/api";
 import { IGetAllPlaylistsOfTrackResponseDto } from "@src/store/api/tracks";
 import { IGenericCheckboxItem } from "src/hooks/useCheckboxListLogic";
+import { getSymmetricDifference } from "./utils";
 
 export interface IMergedTrackPlaylistsWithAllPlaylists
   extends IGenericCheckboxItem {
@@ -27,16 +28,6 @@ export const mergeTrackPlaylistsWithAllPlaylists = (
     }
     return { ...playlist, selected: false };
   });
-
-const getSymmetricDifference = <T extends number | string>(
-  arr1: Array<T>,
-  arr2: Array<T>
-) => {
-  // Set.prototype.symmetricDifference would have been sweet but I am not going to do polyfills
-  return arr1
-    .filter((x) => !arr2.includes(x))
-    .concat(arr2.filter((x) => !arr1.includes(x)));
-};
 
 /**
  * Returns the 'TracksOfPlaylist' ids that need to be invalidated.

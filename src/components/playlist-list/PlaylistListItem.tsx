@@ -5,6 +5,7 @@ import IconButton from "@mui/material/IconButton";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { routes } from "src/routes/routes";
 import { NavListItemButton } from "../shared/NavListItemButton";
+import { convertIntToString } from "@src/utils/utils";
 
 interface IPlaylistListItemProps {
   id: number;
@@ -33,7 +34,7 @@ export const PlaylistListItem: FC<IPlaylistListItemProps> = ({
       }
     >
       <NavListItemButton
-        to={routes.app.playlist.id(id.toString())}
+        to={routes.app.playlist.id(convertIntToString(id))}
         replace // we want to replace and not stack multiple track/playlist changes in the history
       >
         <ListItemText primary={name} sx={{ width: "100%" }} />

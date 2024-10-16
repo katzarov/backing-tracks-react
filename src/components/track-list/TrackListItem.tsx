@@ -5,7 +5,7 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import IconButton from "@mui/material/IconButton";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { formatFromSeconds } from "../../utils/utils";
+import { convertIntToString, formatFromSeconds } from "../../utils/utils";
 import { ITrackResponseDto } from "../../store/api/tracks";
 import { usePopover } from "../../hooks/usePopover";
 import { TrackListItemMenu } from "./item-menu/TrackListItemMenu";
@@ -46,7 +46,7 @@ export const TrackListItem: FC<ITrackListItemProps> = ({
     >
       <ListItemButton
         component={Link}
-        to={trackItemClickRouteNavigateTo(data.id.toString())}
+        to={trackItemClickRouteNavigateTo(convertIntToString(data.id))}
         replace // we want to replace and not stack multiple track/playlist changes in the history
       >
         <ListItemText primary={index + 1} sx={{ width: 50 }} />
