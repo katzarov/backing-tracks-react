@@ -86,6 +86,7 @@ export const tracksApi = api.injectEndpoints({
 
 export const {
   useGetAllTracksQuery,
+  useLazyGetTrackQuery,
   useGetAllPlaylistsOfTrackQuery,
   useUpdatePlaylistsOfTrackMutation,
   useDeleteTrackMutation,

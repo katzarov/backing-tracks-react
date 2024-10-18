@@ -64,6 +64,7 @@ export const playlistsApi = api.injectEndpoints({
 
 export const {
   useGetTracksOfPlaylistQuery,
+  useLazyGetPlaylistQuery,
   useGetAllPlaylistsQuery,
   useCreatePlaylistMutation,
 } = playlistsApi;

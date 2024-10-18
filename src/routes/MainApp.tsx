@@ -4,8 +4,11 @@ import { Header } from "src/components/layout/Header";
 import { Footer } from "src/components/layout/Footer";
 import { Drawer } from "src/components/layout/Drawer";
 import { Outlet } from "react-router-dom";
+import { useTrackSelector } from "src/hooks/useTrackSelector";
 
 export const MainApp = () => {
+  useTrackSelector();
+
   const { mobileDrawerOpen, handleDrawerToggle, handleDrawerClose } =
     useDrawer();
 

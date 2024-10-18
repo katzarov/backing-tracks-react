@@ -1,5 +1,5 @@
 import { Box, lighten } from "@mui/material";
-import { Player } from "../player/Player";
+import { PlayerContainer } from "../player/PlayerContainer";
 
 export const Footer = () => {
   return (
@@ -11,7 +11,7 @@ export const Footer = () => {
         background: lighten(theme.palette.background.paper, 0.2),
       })}
     >
-      <Player />
+      <PlayerContainer />
     </Box>
   );
 };
