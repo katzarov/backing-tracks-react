@@ -36,11 +36,12 @@ export const DeleteTrackDialog: FC<IDeleteTrackDialogProps> = ({
       open={shouldOpenDeleteConfirmationDialog}
       showSpinner={isLoading}
       title="Please confirm"
-      content={`Are you sure you want to delete the ${trackName} by ${artistName}?`}
       affirmativeButtonText="Delete"
       negativeButtonText="Cancel"
       onCloseNegative={handleDeleteTrackNegative}
       onCloseAffirmative={handleDeleteTrackAffirmative}
-    ></AlertDialog>
+    >
+      {`Are you sure you want to delete the ${trackName} by ${artistName}?`}
+    </AlertDialog>
   );
 };

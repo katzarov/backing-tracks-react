@@ -1,4 +1,4 @@
-import { FC, ReactNode } from "react";
+import { FC, PropsWithChildren } from "react";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -8,9 +8,8 @@ import DialogTitle from "@mui/material/DialogTitle";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 
-interface IAlertDialogProps {
+interface IAlertDialogProps extends PropsWithChildren {
   title: string;
-  content: ReactNode;
   negativeButtonText: string;
   affirmativeButtonText: string;
   disableAffirmativeButton?: boolean;
@@ -21,8 +20,8 @@ interface IAlertDialogProps {
 }
 
 export const AlertDialog: FC<IAlertDialogProps> = ({
+  children,
   title,
-  content,
   negativeButtonText,
   affirmativeButtonText,
   disableAffirmativeButton = false,
@@ -43,12 +42,12 @@ export const AlertDialog: FC<IAlertDialogProps> = ({
     >
       <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
       <DialogContent>
-        {typeof content === "string" ? (
+        {typeof children === "string" ? (
           <DialogContentText id="alert-dialog-description">
-            {content}
+            {children}
           </DialogContentText>
         ) : (
-          content
+          children
         )}
         {showSpinner && (
           <Box

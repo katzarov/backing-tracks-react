@@ -79,20 +79,18 @@ export const EditPlaylistsOfTrackDialog: FC<
         isLoadingEditPlaylistsOfTrack
       }
       title="Add track to playlist"
-      // todo should pass as a child when possible, this looks weird
-      content={
-        isLoadingGetAllPlaylists || isLoadingPlaylistsOfTrack ? null : (
-          <SelectablePlaylists
-            playlistsPreSelected={items}
-            handleToggle={handleToggle}
-          />
-        )
-      }
       affirmativeButtonText="Save"
       negativeButtonText="Cancel"
       disableAffirmativeButton={itemsEqualToInitialState}
       onCloseNegative={handleAddToPlaylistNegative}
       onCloseAffirmative={handleAddToPlaylistAffirmative}
-    ></AlertDialog>
+    >
+      {isLoadingGetAllPlaylists || isLoadingPlaylistsOfTrack ? null : (
+        <SelectablePlaylists
+          playlistsPreSelected={items}
+          handleToggle={handleToggle}
+        />
+      )}
+    </AlertDialog>
   );
 };
