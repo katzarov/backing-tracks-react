@@ -11,7 +11,7 @@ import { TrackLoader } from "@lib/track-loader";
 import { ITrackResponseDto } from "@src/store/api/tracks";
 import { PeaksLoader } from "@src/lib/peaks-loader";
 import { formatFromSeconds } from "@src/utils/utils";
-import { Typography } from "@mui/material";
+import { lighten, Typography, useTheme } from "@mui/material";
 import {
   StyledLoadingOverlay,
   StyledLoadingOverlayMessage,
@@ -28,14 +28,15 @@ const timelineHeightString = `${timelineHeight}px`;
 
 // TODO drop this wavesurfer react lib and create my own binding.
 export const Player: FC<IPlayerProps> = ({ trackUri, duration }) => {
+  const theme = useTheme();
   const containerRef = useRef(null);
   const [isPlayerLoading, setIsPlayerLoading] = useState(false);
   const { wavesurfer, isPlaying, currentTime } = useWavesurfer({
     container: containerRef,
     height: 50,
     backend: "WebAudio",
-    waveColor: "rgb(200, 0, 200)",
-    progressColor: "rgb(100, 0, 100)",
+    waveColor: lighten(theme.palette.primary.main, 0.25),
+    progressColor: theme.palette.primary.main,
     dragToSeek: true,
     plugins: useMemo(
       () => [

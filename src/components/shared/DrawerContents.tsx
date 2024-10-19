@@ -57,8 +57,6 @@ export const DrawerContents = () => {
         </ListItem>
       </List>
       <Divider />
-      {/* TODO */}
-      Playlists | add playlist btn
       <PlaylistList />
     </>
   );

@@ -1,8 +1,6 @@
 import { FC } from "react";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
-import IconButton from "@mui/material/IconButton";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { routes } from "src/routes/routes";
 import { NavListItemButton } from "../shared/NavListItemButton";
 import { convertIntToString } from "@src/utils/utils";
@@ -19,23 +17,11 @@ export const PlaylistListItem: FC<IPlaylistListItemProps> = ({
   // description,
 }) => {
   return (
-    <ListItem
-      disablePadding
-      alignItems="center"
-      sx={{ width: "100%" }}
-      secondaryAction={
-        <IconButton
-          edge="end"
-          aria-label="edit playlist"
-          onClick={() => console.log(`click playlist ${id} TODO open menu`)}
-        >
-          <MoreVertIcon />
-        </IconButton>
-      }
-    >
+    <ListItem disablePadding alignItems="center" sx={{ width: "100%" }}>
       <NavListItemButton
         to={routes.app.playlist.id(convertIntToString(id))}
         replace // we want to replace and not stack multiple track/playlist changes in the history
+        sx={{ py: 0.5 }}
       >
         <ListItemText primary={name} sx={{ width: "100%" }} />
       </NavListItemButton>
