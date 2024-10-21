@@ -1,77 +1,65 @@
 import { FC, PropsWithChildren } from "react";
 import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import CircularProgress from "@mui/material/CircularProgress";
-import Box from "@mui/material/Box";
+import { ButtonWithLoadingSpinner } from "./ButtonWithLoadingSpinner";
+import { Dialog } from "./Dialog";
 
-interface IAlertDialogProps extends PropsWithChildren {
+interface IConfirmationDialogProps extends PropsWithChildren {
   title: string;
   negativeButtonText: string;
   affirmativeButtonText: string;
   disableAffirmativeButton?: boolean;
+  affirmativeActionLoading?: boolean;
+  childrenLoading?: boolean;
   open: boolean;
-  showSpinner: boolean;
   onCloseNegative: () => void;
   onCloseAffirmative: () => void;
 }
 
-export const AlertDialog: FC<IAlertDialogProps> = ({
+export const ConfirmationDialog: FC<IConfirmationDialogProps> = ({
   children,
   title,
   negativeButtonText,
   affirmativeButtonText,
   disableAffirmativeButton = false,
+  affirmativeActionLoading = false,
+  childrenLoading = false,
   open,
-  showSpinner,
   onCloseNegative,
   onCloseAffirmative,
 }) => {
-  const shouldDisableActions = showSpinner;
+  const shouldDisableActions = childrenLoading || affirmativeActionLoading;
 
+  // todo min width/height
   return (
     <Dialog
       open={open}
-      disableEscapeKeyDown={shouldDisableActions}
-      onClose={shouldDisableActions ? undefined : onCloseNegative}
-      aria-labelledby="alert-dialog-title"
-      aria-describedby="alert-dialog-description"
+      disableClose={shouldDisableActions}
+      onClose={onCloseNegative}
     >
-      <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
+      <DialogTitle>{title}</DialogTitle>
       <DialogContent>
         {typeof children === "string" ? (
-          <DialogContentText id="alert-dialog-description">
-            {children}
-          </DialogContentText>
+          <DialogContentText>{children}</DialogContentText>
         ) : (
           children
-        )}
-        {showSpinner && (
-          <Box
-            sx={(theme) => ({
-              display: "flex",
-              justifyContent: "center",
-              margin: theme.spacing(1),
-            })}
-          >
-            <CircularProgress />
-          </Box>
         )}
       </DialogContent>
       <DialogActions>
         <Button disabled={shouldDisableActions} onClick={onCloseNegative}>
           {negativeButtonText}
         </Button>
-        <Button
+        <ButtonWithLoadingSpinner
+          showLoadingSpinner={affirmativeActionLoading}
           disabled={shouldDisableActions || disableAffirmativeButton}
           onClick={onCloseAffirmative}
           autoFocus
         >
           {affirmativeButtonText}
-        </Button>
+        </ButtonWithLoadingSpinner>
       </DialogActions>
     </Dialog>
   );

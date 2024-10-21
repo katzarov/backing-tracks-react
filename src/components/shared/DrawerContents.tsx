@@ -12,6 +12,7 @@ import { authClient } from "@lib/auth";
 import { PlaylistList } from "../playlist-list/PlaylistList";
 import AudiotrackIcon from "@mui/icons-material/Audiotrack";
 import { NavListItemButton } from "./NavListItemButton";
+import { CreatePlaylistButton } from "../playlist-list/create-playlist/CreatePlaylistButton";
 
 export const DrawerContents = () => {
   const logoutWithRedirect = async () =>
@@ -57,6 +58,7 @@ export const DrawerContents = () => {
         </ListItem>
       </List>
       <Divider />
+      <CreatePlaylistButton />
       <PlaylistList />
     </>
   );

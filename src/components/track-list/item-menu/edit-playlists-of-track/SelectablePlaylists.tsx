@@ -10,10 +10,12 @@ import { IMergedTrackPlaylistsWithAllPlaylists } from "src/utils/playlist";
 
 interface ISelectablePlaylistsProps {
   playlistsPreSelected: IMergedTrackPlaylistsWithAllPlaylists[];
+  disableActions?: boolean;
   handleToggle: (id: IGenericCheckboxItem["id"]) => void;
 }
 export const SelectablePlaylists: FC<ISelectablePlaylistsProps> = ({
   playlistsPreSelected,
+  disableActions = false,
   handleToggle,
 }) => {
   return (
@@ -25,6 +27,7 @@ export const SelectablePlaylists: FC<ISelectablePlaylistsProps> = ({
           <ListItem key={item.id} disablePadding>
             <ListItemButton
               role={undefined}
+              disabled={disableActions}
               onClick={() => handleToggle(item.id)}
               dense
             >

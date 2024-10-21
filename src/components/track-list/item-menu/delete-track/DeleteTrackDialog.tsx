@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { IndexedDB } from "@lib/browser-storage";
 import { useDeleteTrackMutation } from "@api/tracks";
-import { AlertDialog } from "../../../shared/AlertDialog";
+import { ConfirmationDialog } from "../../../shared/ConfirmationDialog";
 
 interface IDeleteTrackDialogProps {
   trackId: number;
@@ -32,9 +32,9 @@ export const DeleteTrackDialog: FC<IDeleteTrackDialogProps> = ({
     handleCloseDeleteConfirmationDialog();
   };
   return (
-    <AlertDialog
+    <ConfirmationDialog
       open={shouldOpenDeleteConfirmationDialog}
-      showSpinner={isLoading}
+      affirmativeActionLoading={isLoading}
       title="Please confirm"
       affirmativeButtonText="Delete"
       negativeButtonText="Cancel"
@@ -42,6 +42,6 @@ export const DeleteTrackDialog: FC<IDeleteTrackDialogProps> = ({
       onCloseAffirmative={handleDeleteTrackAffirmative}
     >
       {`Are you sure you want to delete the ${trackName} by ${artistName}?`}
-    </AlertDialog>
+    </ConfirmationDialog>
   );
 };

@@ -28,7 +28,6 @@
 ## API Client / RTK Query
 
 - may need to move the invalidation logic out of the same file
-- need to learn more about rtk query and rethink the caching and some of the endpoints. Need to do more careful invalidation.
 - play with redux-saga or redux-observables. Not that it is needed but I'd be nice to know since both are heavily used in larger projects https://blog.logrocket.com/redux-toolkits-new-listener-middleware-vs-redux-saga/#comparing-new-listener-middleware-redux-saga
 - "abort" reqs for fetching the tracks when swithcing to another track..(and when swithcing routes), try "abort" the rtkq stuff as well
 - dont save tokens to local storage but as HttpOnly secure cookie, then include credentials: true in fetch and the browser will auto include the cookie with the token
@@ -42,6 +41,7 @@
 
 ## Add Tracks:
 
+- refactor all modals/steppers
 - paste clipboard url with button click
 - impl manually enter track details step
 - do better with forms https://formik.org/docs/api/useField
@@ -49,6 +49,10 @@
 - after YT link is pasted show a preview of the YT clip to confirm its the correct link ?
 - debounce search input
 - at end show confirmation step ?
+
+## Playlist:
+
+- drag each track item to change order in playlist
 
 ## Player:
 

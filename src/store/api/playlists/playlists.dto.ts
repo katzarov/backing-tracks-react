@@ -16,6 +16,9 @@ export interface ITracksOfPlaylistResponseDto extends IPlaylistResponseDto {
   tracks: Array<ITrackResponseDto>;
 }
 
-export type ICreatePlaylistRequestDto = Omit<IPlaylistResponseDto, "id">;
+export interface ICreatePlaylistRequestDto {
+  name: string;
+  description?: string;
+}
 
 export type ICreatePlaylistResponseDto = string;

@@ -1,5 +1,5 @@
 import { FC, useMemo } from "react";
-import { AlertDialog } from "../../../shared/AlertDialog";
+import { ConfirmationDialog } from "../../../shared/ConfirmationDialog";
 import { SelectablePlaylists } from "./SelectablePlaylists";
 import { useGetAllPlaylistsQuery } from "@api/playlists";
 import {
@@ -8,6 +8,7 @@ import {
 } from "@api/tracks";
 import { useCheckboxListLogic } from "src/hooks/useCheckboxListLogic";
 import { mergeTrackPlaylistsWithAllPlaylists } from "src/utils/playlist";
+import { Box, CircularProgress } from "@mui/material";
 
 interface IEditPlaylistsOfTrackDialogProps {
   trackId: number;
@@ -71,26 +72,35 @@ export const EditPlaylistsOfTrackDialog: FC<
   };
 
   return (
-    <AlertDialog
-      open={shouldOpenEditPlaylistsOfTrackDialog}
-      showSpinner={
-        isLoadingGetAllPlaylists ||
-        isLoadingPlaylistsOfTrack ||
-        isLoadingEditPlaylistsOfTrack
-      }
+    <ConfirmationDialog
       title="Add track to playlist"
       affirmativeButtonText="Save"
       negativeButtonText="Cancel"
       disableAffirmativeButton={itemsEqualToInitialState}
+      affirmativeActionLoading={isLoadingEditPlaylistsOfTrack}
+      childrenLoading={isLoadingGetAllPlaylists || isLoadingPlaylistsOfTrack}
+      open={shouldOpenEditPlaylistsOfTrackDialog}
       onCloseNegative={handleAddToPlaylistNegative}
       onCloseAffirmative={handleAddToPlaylistAffirmative}
     >
-      {isLoadingGetAllPlaylists || isLoadingPlaylistsOfTrack ? null : (
+      {isLoadingGetAllPlaylists || isLoadingPlaylistsOfTrack ? (
+        <Box
+          sx={(theme) => ({
+            display: "flex",
+            justifyContent: "center",
+            margin: theme.spacing(1),
+          })}
+        >
+          {/* TODO: should be skeleton */}
+          <CircularProgress />
+        </Box>
+      ) : (
         <SelectablePlaylists
           playlistsPreSelected={items}
+          disableActions={isLoadingEditPlaylistsOfTrack}
           handleToggle={handleToggle}
         />
       )}
-    </AlertDialog>
+    </ConfirmationDialog>
   );
 };
