@@ -30,6 +30,7 @@ export const DeleteTrackDialog: FC<IDeleteTrackDialogProps> = ({
     await deleteTrack(trackId).unwrap();
     await IndexedDB.getInstance().delete(IndexedDB.trackStore, resourceId);
     handleCloseDeleteConfirmationDialog();
+    // TODO handle current played track is deleted scenario
   };
   return (
     <ConfirmationDialog

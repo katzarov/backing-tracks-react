@@ -6,6 +6,8 @@ import {
   IPlaylistRequestDto,
   IPlaylistResponseDto,
   IGetPlaylistRequestDto,
+  IDeletePlaylistRequestDto,
+  IDeletePlaylistResponseDto,
 } from "./playlists.dto";
 import { api, listId } from "../rtk-query-api-config";
 
@@ -58,6 +60,19 @@ export const playlistsApi = api.injectEndpoints({
       }),
       invalidatesTags: [{ type: "Playlist", id: listId }],
     }),
+    deletePlaylist: builder.mutation<
+      IDeletePlaylistResponseDto,
+      IDeletePlaylistRequestDto
+    >({
+      query: (id) => ({
+        url: `playlists/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: (_result, _error, arg) => [
+        { type: "Playlist", id: arg },
+        { type: "TracksOfPlaylist", id: arg }, // TODO: double check
+      ],
+    }),
     // TODO on name change or remove playlist will need to invalidate all cache of PlaylistsOfTrack
   }),
 });
@@ -67,4 +82,5 @@ export const {
   useLazyGetPlaylistQuery,
   useGetAllPlaylistsQuery,
   useCreatePlaylistMutation,
+  useDeletePlaylistMutation,
 } = playlistsApi;

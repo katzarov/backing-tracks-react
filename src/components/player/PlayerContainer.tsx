@@ -31,11 +31,31 @@ export const PlayerContainer = () => {
     // TODO if 404 error, show some notification/message and redirect user to home, maybe remove wrong url from nav history.
   }, [trackId, playlistId, fetchGetTrackQuery, fetchGetPlaylistQuery]);
 
-  const trackName = trackData?.meta.trackName || "";
-  const artistName = trackData?.meta.artist.artistName || "";
-  const playlistName = playlistId !== null ? playlistData?.name || "" : "";
+  const currentTrack: {
+    trackName: string;
+    artistName: string;
+    playlistName: string;
+    albumImageSrc: string;
+    trackUri: string | null;
+    trackDuration: number | null;
+  } = {
+    trackName: "",
+    artistName: "",
+    playlistName: "",
+    albumImageSrc: "",
+    trackUri: null,
+    trackDuration: null,
+  };
 
-  const albumImageSrc = trackData?.meta.albumArt.small?.url || "";
+  if (trackId !== null) {
+    currentTrack.trackName = trackData?.meta.trackName || "";
+    currentTrack.artistName = trackData?.meta.artist.artistName || "";
+    currentTrack.playlistName =
+      playlistId !== null ? playlistData?.name || "" : "";
+    currentTrack.albumImageSrc = trackData?.meta.albumArt.small?.url || "";
+    currentTrack.trackUri = trackData?.resourceId ?? null;
+    currentTrack.trackDuration = trackData?.duration ?? null;
+  }
 
   const playlistIdTrackIdRoute =
     playlistId !== null && trackId !== null
@@ -64,7 +84,7 @@ export const PlayerContainer = () => {
         {/* TODO load small image for mobile and larger for desktop https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement/sizes */}
         <Avatar
           variant="square"
-          src={albumImageSrc}
+          src={currentTrack.albumImageSrc}
           sx={{ width: 64, height: 64 }}
         />
         <Stack
@@ -73,8 +93,10 @@ export const PlayerContainer = () => {
           sx={{ alignItems: "flex-start" }}
         >
           {/* TODO do noWrap but need to specify actual width, do so based on screen size */}
-          <Typography variant={"subtitle2"}>{trackName}</Typography>
-          <Typography variant={"body2"}>{artistName}</Typography>
+          <Typography variant={"subtitle2"}>
+            {currentTrack.trackName}
+          </Typography>
+          <Typography variant={"body2"}>{currentTrack.artistName}</Typography>
           <Typography variant={"body2"}>
             <Link
               to={playlistIdTrackIdRoute}
@@ -82,14 +104,14 @@ export const PlayerContainer = () => {
                 color: "unset",
               }}
             >
-              {playlistName}
+              {currentTrack.playlistName}
             </Link>
           </Typography>
         </Stack>
       </Stack>
       <Player
-        trackUri={trackData?.resourceId ?? null}
-        duration={trackData?.duration ?? null}
+        trackUri={currentTrack.trackUri}
+        duration={currentTrack.trackDuration}
       />
       <Box sx={{ width: "50%", textAlign: "right" }}></Box>
     </Box>

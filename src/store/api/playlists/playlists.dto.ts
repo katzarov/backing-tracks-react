@@ -22,3 +22,7 @@ export interface ICreatePlaylistRequestDto {
 }
 
 export type ICreatePlaylistResponseDto = string;
+
+export type IDeletePlaylistRequestDto = IPlaylistResponseDto["id"];
+
+export type IDeletePlaylistResponseDto = string;

@@ -53,7 +53,13 @@ export const Player: FC<IPlayerProps> = ({ trackUri, duration }) => {
   });
 
   useEffect(() => {
-    if (wavesurfer === null || trackUri === null) {
+    if (wavesurfer === null) {
+      return;
+    }
+
+    if (trackUri === null) {
+      wavesurfer.seekTo(0);
+      wavesurfer.empty();
       return;
     }
 
