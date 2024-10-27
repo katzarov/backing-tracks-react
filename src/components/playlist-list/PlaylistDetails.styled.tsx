@@ -36,7 +36,6 @@ export const StyledBoxShrankWithBgImage = styled(
     position: "fixed",
     zIndex: 100, // TODO: get this from global config
     width: "100%",
-    top: theme.mixins.toolbar.minHeight,
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
     backgroundImage: `linear-gradient(${strongColor}, ${weakColor}, ${weakColor}, ${strongColor}), url(${url})`,

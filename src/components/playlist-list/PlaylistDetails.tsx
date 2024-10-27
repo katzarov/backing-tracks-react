@@ -68,6 +68,28 @@ export const PlaylistDetails: FC<IPlaylistDetailsProps> = ({
 
   return (
     <>
+      <Fade in={triggerShrankMenu}>
+        <StyledBoxShrankWithBgImage url={bgAlbumArt}>
+          <StyledStackShrankMenu>
+            <Stack direction="row" marginX={4}>
+              <Stack marginX={4}>
+                <Typography variant="body1"> {name}</Typography>
+                <Typography variant="caption">
+                  {playlistNumberOfTracks} tracks
+                </Typography>
+              </Stack>
+              <Button
+                size="medium"
+                variant="contained"
+                startIcon={<PlayArrowIcon />}
+                disabled={!triggerShrankMenu}
+              >
+                Play
+              </Button>
+            </Stack>
+          </StyledStackShrankMenu>
+        </StyledBoxShrankWithBgImage>
+      </Fade>
       <StyledBoxWithBgImage url={bgAlbumArt}>
         <StyledStackMenu>
           <Stack direction="row" marginLeft={4} alignItems="baseline">
@@ -102,28 +124,6 @@ export const PlaylistDetails: FC<IPlaylistDetailsProps> = ({
           </Stack>
         </StyledStackMenu>
       </StyledBoxWithBgImage>
-      <Fade in={triggerShrankMenu}>
-        <StyledBoxShrankWithBgImage url={bgAlbumArt}>
-          <StyledStackShrankMenu>
-            <Stack direction="row" marginX={4}>
-              <Stack marginX={4}>
-                <Typography variant="body1"> {name}</Typography>
-                <Typography variant="caption">
-                  {playlistNumberOfTracks} tracks
-                </Typography>
-              </Stack>
-              <Button
-                size="medium"
-                variant="contained"
-                startIcon={<PlayArrowIcon />}
-                disabled={!triggerShrankMenu}
-              >
-                Play
-              </Button>
-            </Stack>
-          </StyledStackShrankMenu>
-        </StyledBoxShrankWithBgImage>
-      </Fade>
     </>
   );
 };
