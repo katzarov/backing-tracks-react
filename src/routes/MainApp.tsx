@@ -5,12 +5,18 @@ import { Footer } from "src/components/layout/Footer";
 import { Drawer } from "src/components/layout/Drawer";
 import { Outlet } from "react-router-dom";
 import { useTrackSelector } from "src/hooks/useTrackSelector";
+import { Theme, useMediaQuery } from "@mui/material";
+import { FixedUIElements } from "@src/components/layout/FixedUIElements";
 
 export const MainApp = () => {
   useTrackSelector();
 
   const { mobileDrawerOpen, handleDrawerToggle, handleDrawerClose } =
     useDrawer();
+
+  const isXsScreen = useMediaQuery<Theme>((theme) =>
+    theme.breakpoints.only("xs")
+  );
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", height: "100vh" }}>
@@ -29,6 +35,7 @@ export const MainApp = () => {
           handleDrawerClose={handleDrawerClose}
         />
         <Box component="main" sx={{ flexGrow: 1, overflowY: "auto" }}>
+          {isXsScreen ? null : <FixedUIElements />}
           <Outlet />
         </Box>
       </Box>

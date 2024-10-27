@@ -4,7 +4,7 @@ import { PlayerContainer } from "../player/PlayerContainer";
 export const Footer = () => {
   return (
     <Box
-      // component="footer"
+      component="footer"
       color="primary"
       sx={(theme) => ({
         flexShrink: 0,

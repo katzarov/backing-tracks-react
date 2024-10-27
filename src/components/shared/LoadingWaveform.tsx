@@ -1,5 +1,4 @@
-import { Box, lighten } from "@mui/material";
-import { keyframes } from "@emotion/react";
+import { Box, lighten, keyframes } from "@mui/material";
 
 const getWaveformKeyframes = (
   startColor: string,
