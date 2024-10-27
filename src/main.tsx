@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { Experimental_CssVarsProvider as CssVarsProvider } from "@mui/material/styles";
+import { ThemeProvider } from "@mui/material/styles";
 import { CssBaseline, GlobalStyles } from "@mui/material";
 import { globalStyles, theme } from "./config/theme";
 import { Provider } from "react-redux";
@@ -10,12 +10,17 @@ import { store } from "./store";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <CssVarsProvider theme={theme} defaultMode={"system"}>
+    <ThemeProvider
+      theme={theme}
+      modeStorageKey="bt_mui-mode"
+      colorSchemeStorageKey="bt_mui-color-scheme"
+      defaultMode={"system"}
+    >
       <CssBaseline />
       <GlobalStyles styles={(theme) => globalStyles(theme)} />
       <Provider store={store}>
         <RouterProvider router={router} />
       </Provider>
-    </CssVarsProvider>
+    </ThemeProvider>
   </React.StrictMode>
 );

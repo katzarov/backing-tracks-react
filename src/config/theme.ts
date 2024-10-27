@@ -1,13 +1,14 @@
 import {
-  experimental_extendTheme as extendTheme,
+  createTheme,
+  responsiveFontSizes,
   Theme,
   darken,
 } from "@mui/material/styles";
 
-// remaining issues until stable
 // https://github.com/mui/material-ui/issues/40225
 // https://github.com/mui/material-ui/issues/38137
-export const theme = extendTheme({
+const baseTheme = createTheme({
+  cssVariables: true,
   colorSchemes: {
     light: {
       palette: {
@@ -86,11 +87,9 @@ export const theme = extendTheme({
   transitions: {
     create: () => "none",
   },
-  // apparently typography doestn't work
 });
 
-// https://github.com/mui/material-ui/issues/40516
-// TODO: responsiveFontSizes(); feat seems to still work, so it might be only that there is a type issue, but I can just wait for now.
+export const theme = responsiveFontSizes(baseTheme);
 
 export const globalStyles = (theme: Theme) => ({
   "::-webkit-scrollbar": {
