@@ -6,18 +6,18 @@ export const StyledLoadingOverlay = styled(Box)(({ theme }) => ({
   left: 0,
   width: "100%",
   height: "100%",
-  zIndex: 1000,
+  zIndex: theme.zIndex.footerWaveformOverlays,
   opacity: 0.3,
   backgroundColor: theme.palette.primary.main,
 }));
 
-export const StyledLoadingOverlayMessage = styled(Box)({
+export const StyledLoadingOverlayMessage = styled(Box)(({ theme }) => ({
   position: "absolute",
   top: 20,
   left: 0,
   width: "100%",
-  zIndex: 1000,
+  zIndex: theme.zIndex.footerWaveformOverlays,
   textAlign: "center",
   // pointerEvents: 'none',
   userSelect: "none",
-});
+}));

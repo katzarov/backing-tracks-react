@@ -34,7 +34,7 @@ export const StyledBoxShrankWithBgImage = styled(
 
   return {
     position: "fixed",
-    zIndex: 100, // TODO: get this from global config
+    zIndex: theme.zIndex.mainFixedShrankMenu,
     width: "100%",
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",

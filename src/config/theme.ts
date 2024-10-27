@@ -5,6 +5,15 @@ import {
   darken,
 } from "@mui/material/styles";
 
+// https://mui.com/material-ui/customization/theming/#typescript
+declare module "@mui/material/styles" {
+  interface ZIndex {
+    footerWaveformOverlays: number;
+    mainFixedShrankMenu: number;
+    mainFixedUI: number;
+  }
+}
+
 // https://github.com/mui/material-ui/issues/40225
 // https://github.com/mui/material-ui/issues/38137
 const baseTheme = createTheme({
@@ -80,12 +89,25 @@ const baseTheme = createTheme({
       },
     },
   },
-
   shape: {
     // borderRadius:
   },
   transitions: {
-    create: () => "none",
+    // TODO make all transitions a bit faster than default
+  },
+  zIndex: {
+    // default mui z-index values redefined here for visibility, + our custom ones.
+    footerWaveformOverlays: 100,
+    mainFixedShrankMenu: 300,
+    mainFixedUI: 600,
+    mobileStepper: 1000,
+    fab: 1050,
+    speedDial: 1050,
+    appBar: 1100,
+    drawer: 1200,
+    modal: 1300,
+    snackbar: 1400,
+    tooltip: 1500,
   },
 });
 
