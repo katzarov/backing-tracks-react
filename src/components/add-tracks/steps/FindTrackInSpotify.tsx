@@ -201,7 +201,7 @@ export const FindTrackInSpotify: FC<IFindTrackInSpotifyProps> = ({
           }}
         />
 
-        <List dense sx={{ width: "100%", bgcolor: "background.paper" }}>
+        <List dense sx={{ width: "100%" }}>
           {isFetchingSearch
             ? spotifySearchSuggestionsSkeleton
             : spotifySearchSuggestions}

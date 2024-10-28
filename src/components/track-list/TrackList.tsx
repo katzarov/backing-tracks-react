@@ -4,14 +4,17 @@ import List from "@mui/material/List";
 import { ITrackResponseDto } from "../../store/api/tracks";
 import { TrackListItem } from "./TrackListItem";
 import { FC } from "react";
+import { SxProps, Theme } from "@mui/material";
 
 interface ITrackListProps {
+  sx?: SxProps<Theme>;
   data: ITrackResponseDto[] | undefined;
   isLoading: boolean;
   trackItemClickRouteNavigateTo: (trackId: string) => string;
 }
 
 export const TrackList: FC<ITrackListProps> = ({
+  sx,
   data,
   isLoading,
   trackItemClickRouteNavigateTo,
@@ -39,7 +42,7 @@ export const TrackList: FC<ITrackListProps> = ({
   });
 
   return (
-    <List dense sx={{ width: "100%", bgcolor: "background.paper" }}>
+    <List dense sx={{ width: "100%", ...sx }}>
       {trackList}
     </List>
   );

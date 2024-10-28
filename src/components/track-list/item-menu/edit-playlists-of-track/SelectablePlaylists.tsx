@@ -19,7 +19,7 @@ export const SelectablePlaylists: FC<ISelectablePlaylistsProps> = ({
   handleToggle,
 }) => {
   return (
-    <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
+    <List sx={{ width: "100%", maxWidth: 360 }}>
       {playlistsPreSelected.map((item) => {
         const labelId = `checkbox-list-label-${item.name}`;
 

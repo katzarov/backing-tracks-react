@@ -4,8 +4,8 @@ import { Header } from "@src/components/layout/Header";
 
 describe("Header", () => {
   it("renders and displays the name of the app", async () => {
-    renderWithProviders(<Header handleDrawerToggle={() => {}} />);
+    renderWithProviders(<Header />);
 
-    expect(screen.getByText("Backing Tracks")).toBeInTheDocument();
+    expect(screen.getByAltText("App logo")).toBeInTheDocument();
   });
 });

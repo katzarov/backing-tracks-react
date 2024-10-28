@@ -41,10 +41,31 @@ const baseTheme = createTheme({
         secondary: {
           main: "#19857b",
         },
+        background: {
+          default: "#121212",
+          paper: "#121212",
+        },
       },
     },
   },
   components: {
+    MuiAppBar: {
+      defaultProps: {
+        enableColorOnDark: true,
+      },
+      styleOverrides: {
+        root: ({ theme }) => ({
+          backgroundColor: theme.vars.palette.background.paper,
+          backgroundImage: "none",
+          boxShadow: "none",
+        }),
+      },
+    },
+    MuiToolbar: {
+      defaultProps: {
+        disableGutters: true,
+      },
+    },
     MuiPaper: {
       styleOverrides: {
         root: {
@@ -126,6 +147,6 @@ export const globalStyles = (theme: Theme) => ({
     backgroundColor: darken(theme.palette.primary.main, 0.2),
   },
   "::-webkit-scrollbar-track": {
-    backgroundColor: "background.paper",
+    backgroundColor: theme.palette.background.paper,
   },
 });

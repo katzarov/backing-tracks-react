@@ -1,18 +1,11 @@
 import { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { authClient } from "@lib/auth";
-import {
-  Avatar,
-  Box,
-  Button,
-  Container,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Box, Button, Container, Stack, Typography } from "@mui/material";
 import { queryParams, routes } from "./routes";
 import { Alert } from "src/components/shared/Alert";
 import { useEffectOnce } from "src/hooks/useEffectOnce";
-import logo_transparent from "../assets/logo_transparent.png";
+import { AppLogo } from "@src/components/shared/AppLogo";
 
 // TODO: should check the auth state and show the correct button "login" or "go to app", or just redirect to the app.
 export const Login = () => {
@@ -86,12 +79,7 @@ export const Login = () => {
               borderBottom: `1px solid ${theme.palette.primary.main}`,
             })}
           >
-            <Avatar
-              alt="Example Alt"
-              src={logo_transparent}
-              variant="square"
-              sx={{ width: 80, height: 80 }}
-            />
+            <AppLogo sx={{ width: 80, height: 80 }} />
 
             <Typography variant="h5" gutterBottom>
               Backing Tracks

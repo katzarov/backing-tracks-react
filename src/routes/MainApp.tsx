@@ -1,12 +1,15 @@
 import Box from "@mui/material/Box";
 import { useDrawer } from "src/hooks/useDrawer";
-import { Header } from "src/components/layout/Header";
+import { HeaderMobile } from "@src/components/layout/Header.mobile";
 import { Footer } from "src/components/layout/Footer";
 import { Drawer } from "src/components/layout/Drawer";
 import { Outlet } from "react-router-dom";
 import { useTrackSelector } from "src/hooks/useTrackSelector";
 import { Theme, useMediaQuery } from "@mui/material";
 import { FixedUIElements } from "@src/components/layout/FixedUIElements";
+import { DrawerMobile } from "@src/components/layout/Drawer.mobile";
+import { DrawerContents } from "@src/components/shared/DrawerContents";
+import { Header } from "@src/components/layout/Header";
 
 export const MainApp = () => {
   useTrackSelector();
@@ -18,24 +21,36 @@ export const MainApp = () => {
     theme.breakpoints.only("xs")
   );
 
+  // TODO: One time warning - warn user that app is best used and fully featured only on desktop.
   return (
     <Box sx={{ display: "flex", flexDirection: "column", height: "100vh" }}>
-      <Header handleDrawerToggle={handleDrawerToggle} />
+      {isXsScreen && (
+        <>
+          <HeaderMobile handleDrawerToggle={handleDrawerToggle} />
+          <DrawerMobile
+            mobileDrawerOpen={mobileDrawerOpen}
+            handleDrawerClose={handleDrawerClose}
+          >
+            <DrawerContents />
+          </DrawerMobile>
+        </>
+      )}
       <Box
         sx={{
           display: "flex",
+          flexDirection: "row",
           flexGrow: 1,
           overflowY: "hidden",
-          bgcolor: "background.paper",
         }}
       >
-        <Drawer
-          mobileDrawerOpen={mobileDrawerOpen}
-          handleDrawerToggle={handleDrawerToggle}
-          handleDrawerClose={handleDrawerClose}
-        />
+        {!isXsScreen && (
+          <Drawer>
+            <Header />
+            <DrawerContents />
+          </Drawer>
+        )}
         <Box component="main" sx={{ flexGrow: 1, overflowY: "auto" }}>
-          {isXsScreen ? null : <FixedUIElements />}
+          {!isXsScreen && <FixedUIElements />}
           <Outlet />
         </Box>
       </Box>

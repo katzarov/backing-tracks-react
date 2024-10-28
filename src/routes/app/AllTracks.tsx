@@ -10,6 +10,7 @@ export const AllTracks = () => {
 
   return (
     <TrackList
+      sx={{ mt: { sm: "4rem" } }}
       data={data}
       isLoading={isLoading}
       trackItemClickRouteNavigateTo={routes.app.allTracks.id}

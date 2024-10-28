@@ -16,7 +16,7 @@ export const PlaylistList = () => {
     );
 
   return (
-    <List sx={{ width: "100%", bgcolor: "background.paper" }}>
+    <List sx={{ width: "100%" }}>
       {data?.map((item) => {
         return (
           <PlaylistListItem
