@@ -3,6 +3,9 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { api } from "./api/rtk-query-api-config";
 import { authReducer } from "./slices/auth";
 import { playerReducer } from "./slices/player";
+import { rememberEnhancer, rememberReducer } from "redux-remember";
+import { reduxRememberConfig } from "./middleware/redux-remember.config";
+import { ListenerMiddlewareWithAppTypes } from "./middleware/createListenerMiddleware.config";
 
 const rootReducer = combineReducers({
   [api.reducerPath]: api.reducer,
@@ -12,13 +15,27 @@ const rootReducer = combineReducers({
 
 export type AppState = ReturnType<typeof rootReducer>;
 
+const persistedReducer = rememberReducer(rootReducer);
+
 // used to create the same store configuration when testing
-export const createStore = (preloadedState?: Partial<AppState>) => {
+export const createStore = (state?: Partial<AppState>) => {
   return configureStore({
-    reducer: rootReducer,
-    middleware: (getDefaultMiddleware) =>
-      getDefaultMiddleware().concat(api.middleware),
-    preloadedState,
+    reducer: persistedReducer,
+    middleware: (getDefaultMiddleware) => {
+      return getDefaultMiddleware()
+        .prepend(ListenerMiddlewareWithAppTypes.listenerMiddleware.middleware)
+        .concat(api.middleware);
+    },
+    enhancers: (getDefaultEnhancers) => {
+      return getDefaultEnhancers().concat(
+        rememberEnhancer(
+          reduxRememberConfig.driver,
+          reduxRememberConfig.persistedKeys,
+          reduxRememberConfig.options
+        )
+      );
+    },
+    preloadedState: state,
   });
 };
 
