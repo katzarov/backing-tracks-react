@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { setTrackPlaylistTuple as setTrackPlaylistTupleAction } from "./actions";
-import { resetStoreActionMatcher } from "src/store/utils";
+import { resetStoreAction } from "src/store/extraActions";
 import { router } from "@src/routes/router";
 import { routes } from "@src/routes/routes";
 import { playlistsApi } from "@src/store/api/playlists";
@@ -48,7 +48,7 @@ export const { reducer: playerReducer, actions: playerActions } = createSlice({
         router.navigate(`${routes.app.root}`, { replace: true });
       }
     );
-    builder.addMatcher(resetStoreActionMatcher, () => {
+    builder.addMatcher(resetStoreAction.match, () => {
       return initialState;
     });
   },

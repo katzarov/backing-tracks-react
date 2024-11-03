@@ -6,9 +6,11 @@ import { playerReducer } from "./slices/player";
 import { rememberEnhancer, rememberReducer } from "redux-remember";
 import { reduxRememberConfig } from "./middleware/redux-remember.config";
 import { ListenerMiddlewareWithAppTypes } from "./middleware/createListenerMiddleware.config";
+import { appReducer } from "./slices/app/slice";
 
 const rootReducer = combineReducers({
   [api.reducerPath]: api.reducer,
+  app: appReducer,
   auth: authReducer,
   player: playerReducer,
 });
