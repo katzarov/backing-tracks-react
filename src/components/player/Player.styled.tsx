@@ -1,6 +1,6 @@
-import { styled, Box } from "@mui/material";
+import { styled, Box, LinearProgress } from "@mui/material";
 
-export const StyledLoadingOverlay = styled(Box)(({ theme }) => ({
+export const StyledLoadingOverlay = styled(LinearProgress)(({ theme }) => ({
   position: "absolute",
   top: 0,
   left: 0,
@@ -8,7 +8,6 @@ export const StyledLoadingOverlay = styled(Box)(({ theme }) => ({
   height: "100%",
   zIndex: theme.zIndex.footerWaveformOverlays,
   opacity: 0.3,
-  backgroundColor: theme.palette.primary.main,
 }));
 
 export const StyledLoadingOverlayMessage = styled(Box)(({ theme }) => ({

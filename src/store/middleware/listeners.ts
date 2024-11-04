@@ -1,6 +1,7 @@
 import { routerUtils } from "src/lib/router";
 import { ListenerMiddlewareWithAppTypes } from "./createListenerMiddleware.config";
 import { setTrackPlaylistTuple } from "../slices/player";
+import { userEventClickTrack } from "../extraActions";
 import { playlistsApi } from "../api/playlists";
 import { isAnyOf } from "@reduxjs/toolkit";
 import { PlaylistPlayerState } from "./listeners.helpers";
@@ -73,5 +74,39 @@ ListenerMiddlewareWithAppTypes.startListening({
     // if(isError) do somehting todo
 
     playlistBeingPlayed.ref = promise;
+  },
+});
+
+/**
+ *
+ *  Executed on every user click track
+ *  This could easily be a thunk.. but then we need to keep playlistBeingPlayed ref in the store, which is probably not serializable.
+ */
+ListenerMiddlewareWithAppTypes.startListening({
+  actionCreator: userEventClickTrack,
+  effect: async (action, listenerApi) => {
+    const trackId = action.payload;
+
+    const { playlistId } = routerUtils.getParams();
+
+    if (playlistId !== playlistBeingPlayed.id) {
+      playlistBeingPlayed.ref?.unsubscribe();
+      playlistBeingPlayed.id = playlistId;
+
+      if (playlistId !== null) {
+        const promise = listenerApi.dispatch(
+          playlistsApi.endpoints.getTracksOfPlaylist.initiate(playlistId)
+        );
+
+        const { data, isSuccess, error } = await promise;
+
+        playlistBeingPlayed.ref = promise;
+      }
+    }
+
+    listenerApi.dispatch(setTrackPlaylistTuple({ trackId, playlistId }));
+    // TODO: In general, need to decide if we are going to handle the route change here or in the react comps...
+    // here we have the opportunity to wait and see if the next track is sucessfully loaded and only then change the route - kinda like what the react router loaders allow you to do.
+    // having all that logic here + the handling the error scenario as well - and viewing this as one async workflow - sound nice to have it all here.. Maybe in the future if stuff gets more complex.
   },
 });

@@ -9,7 +9,11 @@ import { convertIntToString, formatFromSeconds } from "../../utils/utils";
 import { ITrackResponseDto } from "../../store/api/tracks";
 import { usePopover } from "../../hooks/usePopover";
 import { TrackListItemMenu } from "./item-menu/TrackListItemMenu";
-import { Avatar, ListItemAvatar } from "@mui/material";
+import { Avatar, Box, ListItemAvatar, ListItemIcon } from "@mui/material";
+import VolumeUpIcon from "@mui/icons-material/VolumeUp";
+import { useAppDispatch, useAppSelector } from "src/store";
+import { selectTrackId } from "src/store/slices/player";
+import { userEventClickTrack } from "src/store/extraActions";
 
 interface ITrackListItemProps {
   index: number;
@@ -29,6 +33,19 @@ export const TrackListItem: FC<ITrackListItemProps> = ({
     handleClosePopover,
   } = usePopover();
 
+  // TODO: this good for performance ?
+  const trackId = useAppSelector(selectTrackId);
+  const dispatch = useAppDispatch();
+
+  const clickHandler = () => {
+    // todo also pass the playlist id
+    dispatch(userEventClickTrack(data.id));
+  };
+
+  // TODO: also check if playlist is same
+  const isBeingPlayed = trackId === data.id;
+
+  // TODO: redo layout in Grid2
   return (
     <ListItem
       disablePadding
@@ -45,11 +62,20 @@ export const TrackListItem: FC<ITrackListItemProps> = ({
       }
     >
       <ListItemButton
+        onClick={clickHandler}
         component={Link}
         to={trackItemClickRouteNavigateTo(convertIntToString(data.id))}
         replace // we want to replace and not stack multiple track/playlist changes in the history
       >
-        <ListItemText primary={index + 1} sx={{ width: 50 }} />
+        <Box width={"3rem"}>
+          {isBeingPlayed ? (
+            <ListItemIcon>
+              <VolumeUpIcon fontSize="small" />
+            </ListItemIcon>
+          ) : (
+            <ListItemText primary={index + 1} sx={{ width: 50 }} />
+          )}
+        </Box>
         <ListItemAvatar>
           <Avatar variant="square" src={data.meta.albumArt.small?.url} />
         </ListItemAvatar>
