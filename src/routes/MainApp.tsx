@@ -4,7 +4,6 @@ import { HeaderMobile } from "@src/components/layout/Header.mobile";
 import { Footer } from "src/components/layout/Footer";
 import { Drawer } from "src/components/layout/Drawer";
 import { Outlet } from "react-router-dom";
-import { useTrackSelector } from "src/hooks/useTrackSelector";
 import { Theme, useMediaQuery } from "@mui/material";
 import { FixedUIElements } from "@src/components/layout/FixedUIElements";
 import { DrawerMobile } from "@src/components/layout/Drawer.mobile";
@@ -12,8 +11,6 @@ import { DrawerContents } from "@src/components/shared/DrawerContents";
 import { Header } from "@src/components/layout/Header";
 
 export const MainApp = () => {
-  useTrackSelector();
-
   const { mobileDrawerOpen, handleDrawerToggle, handleDrawerClose } =
     useDrawer();
 
@@ -22,6 +19,7 @@ export const MainApp = () => {
   );
 
   // TODO: One time warning - warn user that app is best used and fully featured only on desktop.
+  // Also check for browser min version, and dont even load the js bundle?
   return (
     <Box sx={{ display: "flex", flexDirection: "column", height: "100vh" }}>
       {isXsScreen && (

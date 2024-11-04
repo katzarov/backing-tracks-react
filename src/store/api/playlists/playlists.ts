@@ -84,3 +84,6 @@ export const {
   useCreatePlaylistMutation,
   useDeletePlaylistMutation,
 } = playlistsApi;
+
+export const { useQueryState: useGetTracksOfPlaylistQueryState } =
+  playlistsApi.endpoints.getTracksOfPlaylist;
