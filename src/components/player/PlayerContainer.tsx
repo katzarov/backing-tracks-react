@@ -68,6 +68,8 @@ export const PlayerContainer = () => {
         </Stack>
       </Stack>
       <Player
+        trackId={trackId}
+        playlistId={playlistId}
         trackUri={trackUri}
         duration={trackDuration}
       />

@@ -16,8 +16,16 @@ import {
   StyledLoadingOverlay,
   StyledLoadingOverlayMessage,
 } from "./Player.styled";
+import { IPlaylistResponseDto } from "src/store/api/playlists";
+import { useAppDispatch } from "src/store";
+import {
+  userEventClickNextTrack,
+  userEventClickPreviousTrack,
+} from "src/store/extraActions";
 
 interface IPlayerProps {
+  trackId: ITrackResponseDto["id"] | null;
+  playlistId: IPlaylistResponseDto["id"] | null;
   trackUri: ITrackResponseDto["resourceId"] | null;
   // TODO should probably get the duration from wavesurfer.js, lets do it when we redo the binding with the lib although the current one is good as well as we got it via ffprobe
   duration: ITrackResponseDto["duration"] | null;
@@ -27,7 +35,13 @@ const timelineHeight = 16;
 const timelineHeightString = `${timelineHeight}px`;
 
 // TODO drop this wavesurfer react lib and create my own binding.
-export const Player: FC<IPlayerProps> = ({ trackUri, duration }) => {
+export const Player: FC<IPlayerProps> = ({
+  // trackId,
+  playlistId,
+  trackUri,
+  duration,
+}) => {
+  const dispatch = useAppDispatch();
   const theme = useTheme();
   const containerRef = useRef(null);
   const [isPlayerLoading, setIsPlayerLoading] = useState(false);
@@ -113,6 +127,15 @@ export const Player: FC<IPlayerProps> = ({ trackUri, duration }) => {
     wavesurfer.playPause();
   }, [wavesurfer]);
 
+  const onPrevTrackHandler = () => {
+    dispatch(userEventClickPreviousTrack());
+  };
+
+  const onNextTrackHandler = () => {
+    dispatch(userEventClickNextTrack());
+  };
+
+
   const formattedCurrentTime = formatFromSeconds(currentTime);
   const formattedDuration = formatFromSeconds(duration ?? 0);
 
@@ -125,7 +148,11 @@ export const Player: FC<IPlayerProps> = ({ trackUri, duration }) => {
           justifyContent: "center",
         }}
       >
-        <IconButton aria-label="previous song" disabled>
+        <IconButton
+          aria-label="previous song"
+          disabled={playlistId === null}
+          onClick={onPrevTrackHandler}
+        >
           <FastRewindRounded sx={{ fontSize: "1.8rem" }} />
         </IconButton>
         <IconButton
@@ -138,7 +165,11 @@ export const Player: FC<IPlayerProps> = ({ trackUri, duration }) => {
             <PlayArrowRounded sx={{ fontSize: "2rem" }} />
           )}
         </IconButton>
-        <IconButton aria-label="next song" disabled>
+        <IconButton
+          aria-label="next song"
+          disabled={playlistId === null}
+          onClick={onNextTrackHandler}
+        >
           <FastForwardRounded sx={{ fontSize: "1.8rem" }} />
         </IconButton>
       </Box>

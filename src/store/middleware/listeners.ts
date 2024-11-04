@@ -1,7 +1,13 @@
 import { routerUtils } from "src/lib/router";
 import { ListenerMiddlewareWithAppTypes } from "./createListenerMiddleware.config";
 import { setTrackPlaylistTuple } from "../slices/player";
-import { userEventClickTrack } from "../extraActions";
+import {
+  nextTrackAction,
+  previousTrackAction,
+  userEventClickNextTrack,
+  userEventClickPreviousTrack,
+  userEventClickTrack,
+} from "../extraActions";
 import { playlistsApi } from "../api/playlists";
 import { isAnyOf } from "@reduxjs/toolkit";
 import { PlaylistPlayerState } from "./listeners.helpers";
@@ -108,5 +114,58 @@ ListenerMiddlewareWithAppTypes.startListening({
     // TODO: In general, need to decide if we are going to handle the route change here or in the react comps...
     // here we have the opportunity to wait and see if the next track is sucessfully loaded and only then change the route - kinda like what the react router loaders allow you to do.
     // having all that logic here + the handling the error scenario as well - and viewing this as one async workflow - sound nice to have it all here.. Maybe in the future if stuff gets more complex.
+  },
+});
+
+/**
+ *
+ *  Executed on prev/next user track click or auto prev/next event
+ */
+ListenerMiddlewareWithAppTypes.startListening({
+  matcher: isAnyOf(
+    previousTrackAction,
+    userEventClickPreviousTrack,
+    nextTrackAction,
+    userEventClickNextTrack
+  ),
+  effect: async (action, listenerApi) => {
+    const state = listenerApi.getState();
+
+    const { trackId, playlistId } = state.player;
+
+    // can't have prev/next wihout a playlist => we are in the all-tracks case.
+    if (playlistId === null) {
+      return;
+    }
+
+    const result =
+      playlistsApi.endpoints.getTracksOfPlaylist.select(playlistId)(state);
+
+    const { data, isSuccess, isError, error, isLoading } = result;
+
+    if (data === undefined) {
+      return;
+    }
+
+    const currentPlaylist = new PlaylistPlayerState(data.tracks, trackId);
+
+    if (
+      previousTrackAction.match(action) ||
+      userEventClickPreviousTrack.match(action)
+    ) {
+      listenerApi.dispatch(
+        setTrackPlaylistTuple({
+          trackId: currentPlaylist.previousTrack(),
+          playlistId,
+        })
+      );
+    } else {
+      listenerApi.dispatch(
+        setTrackPlaylistTuple({
+          trackId: currentPlaylist.nextTrack(),
+          playlistId,
+        })
+      );
+    }
   },
 });
