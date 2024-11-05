@@ -22,6 +22,7 @@ import {
   userEventClickNextTrack,
   userEventClickPreviousTrack,
 } from "src/store/extraActions";
+import { isSafari } from "src/utils/detect-browser";
 
 interface IPlayerProps {
   trackId: ITrackResponseDto["id"] | null;
@@ -48,7 +49,7 @@ export const Player: FC<IPlayerProps> = ({
   const { wavesurfer, isPlaying, currentTime } = useWavesurfer({
     container: containerRef,
     height: 50,
-    backend: "WebAudio",
+    backend: isSafari ? "WebAudio" : "MediaElement",
     waveColor: lighten(theme.palette.primary.main, 0.25),
     progressColor: theme.palette.primary.main,
     dragToSeek: true,
