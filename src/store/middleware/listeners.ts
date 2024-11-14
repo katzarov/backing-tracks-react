@@ -33,11 +33,10 @@ const playlistBeingPlayed: {
  *
  */
 ListenerMiddlewareWithAppTypes.startListening({
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  predicate(action, currentState, originalState) {
+  predicate(_action, currentState) {
     return currentState.app.appRehydrated && currentState.auth.isAuthenticated;
   },
-  effect: async (action, listenerApi) => {
+  effect: async (_action, listenerApi) => {
     listenerApi.unsubscribe();
 
     // in future, this can just be a query to some new endpoint that will give the last saved user state, instead of this locally persisted data
@@ -75,9 +74,8 @@ ListenerMiddlewareWithAppTypes.startListening({
       playlistsApi.endpoints.getTracksOfPlaylist.initiate(playlistId) //initiate(playlistId, {subscriptionOptions: {}})
     );
 
-    const { data, isSuccess, isError } = await promise;
-
-    // if(isError) do somehting todo
+    // TODO: handle err
+    await promise;
 
     playlistBeingPlayed.ref = promise;
   },
@@ -93,6 +91,7 @@ ListenerMiddlewareWithAppTypes.startListening({
   effect: async (action, listenerApi) => {
     const trackId = action.payload;
 
+    // TODO: carry the playlistId with the action instead of getting it from route.
     const { playlistId } = routerUtils.getParams();
 
     if (playlistId !== playlistBeingPlayed.id) {
@@ -104,7 +103,8 @@ ListenerMiddlewareWithAppTypes.startListening({
           playlistsApi.endpoints.getTracksOfPlaylist.initiate(playlistId)
         );
 
-        const { data, isSuccess, error } = await promise;
+        // TODO: handle err
+        await promise;
 
         playlistBeingPlayed.ref = promise;
       }
@@ -141,9 +141,10 @@ ListenerMiddlewareWithAppTypes.startListening({
     const result =
       playlistsApi.endpoints.getTracksOfPlaylist.select(playlistId)(state);
 
-    const { data, isSuccess, isError, error, isLoading } = result;
+    const { data } = result;
 
-    if (data === undefined) {
+    if (data === undefined || trackId === null) {
+      // determine if scenario is actually possible and handle
       return;
     }
 
