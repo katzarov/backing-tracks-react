@@ -4,7 +4,7 @@ import {
 } from "../../../components/add-tracks/interface";
 import { IPlaylistResponseDto } from "../playlists";
 
-interface IAlbumArtImage {
+export interface IAlbumArtImage {
   url: string;
   width: number;
   height: number;

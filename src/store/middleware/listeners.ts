@@ -11,6 +11,7 @@ import {
 import { playlistsApi } from "../api/playlists";
 import { isAnyOf } from "@reduxjs/toolkit";
 import { PlaylistPlayerState } from "./listeners.helpers";
+import { notificationsApi } from "../api/notifications/notifications";
 
 // we keep the subscription for the current playlist being played
 // todo have this as a class where setting the ref automatically resets prev sub so we never forget to do it.
@@ -38,6 +39,10 @@ ListenerMiddlewareWithAppTypes.startListening({
   },
   effect: async (_action, listenerApi) => {
     listenerApi.unsubscribe();
+
+    listenerApi.dispatch(
+      notificationsApi.endpoints.listenToNotifications.initiate()
+    );
 
     // in future, this can just be a query to some new endpoint that will give the last saved user state, instead of this locally persisted data
     const { trackId: persistedTrackId, playlistId: persistedPlaylistId } =

@@ -21,16 +21,16 @@ export const acquireTracksApi = api.injectEndpoints({
         url: `acquire-tracks/youtube/info/${encodeURIComponent(videoUrl)}`,
       }),
     }),
+    // TODO rename to addYouTubeDownloadJob
     addYouTubeVideo: builder.mutation<
       IYouTubeVideoDownloadResponseDto,
       IYouTubeVideoDownloadRequestDto
     >({
       query: (body) => ({
-        url: "acquire-tracks/youtube/download",
+        url: "acquire-tracks/youtube/addJob",
         method: "POST",
         body,
       }),
-      invalidatesTags: [{ type: "Track", id: listId }],
     }),
     addTrackViaFileUpload: builder.mutation<
       IAddTrackViaFileUploadResponseDto,
