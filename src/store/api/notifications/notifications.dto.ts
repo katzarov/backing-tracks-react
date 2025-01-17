@@ -42,12 +42,23 @@ export interface YtdlJobData {
   };
 }
 
+/**
+ * The progress a job has performed so far.
+ * @defaultValue 0 - when job is initialized. And after its taken by a processor, the job data gets updated with percentage and eta
+ */
+type YtdlJobProgress =
+  | number
+  | {
+      percent: string;
+      eta: number | null;
+    };
+
 export interface YtdlJobFormatted {
   name: "yt_download";
   id: string;
   data: YtdlJobData;
   state: JobState | "unknown";
-  progress: number | object;
+  progress: YtdlJobProgress;
   returnvalue: YtDownloadReturnType;
   timestamp: number; // when job was created
   finishedOn: number;

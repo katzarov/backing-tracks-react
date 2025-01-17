@@ -1,18 +1,60 @@
-import { Badge, IconButton, Tooltip } from "@mui/material";
+import { Badge, Box, IconButton, List, Popover } from "@mui/material";
 import DownloadIcon from "@mui/icons-material/Download";
+import { usePopover } from "@src/hooks/usePopover";
+import { useListenToNotificationsQueryState } from "@src/store/api/notifications";
+import { DownloadsListItem } from "./DownloadsListItem";
 
 export const DownloadsTracker = () => {
+  const {
+    shoulOpenPopover,
+    popoverAnchorElement,
+    handleOpenPopover,
+    handleClosePopover,
+  } = usePopover();
+
+  const { YtdlState } = useListenToNotificationsQueryState(undefined, {
+    selectFromResult: ({ data }) => {
+      return { YtdlState: data?.ytdl };
+    },
+  });
+
+  const downloadsCount =
+    (YtdlState?.count.active || 0) + (YtdlState?.count.waiting || 0);
+
   return (
-    <Tooltip arrow placement="bottom-start" title="Not implemented yet!">
+    <>
       <IconButton
         size="medium"
-        aria-label="show 2 active downloads"
+        aria-label={`shows ${downloadsCount} current downloads`}
         color="inherit"
+        onClick={handleOpenPopover}
       >
-        <Badge badgeContent={2} color="error">
+        {/* TODO color error when a failed job and dislay the failed count. When no err, show current downloads */}
+        <Badge badgeContent={downloadsCount} color="success">
           <DownloadIcon />
         </Badge>
       </IconButton>
-    </Tooltip>
+      <Popover
+        open={shoulOpenPopover}
+        anchorEl={popoverAnchorElement}
+        onClose={handleClosePopover}
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "left",
+        }}
+        transformOrigin={{
+          vertical: "top",
+          horizontal: "center",
+        }}
+      >
+        <Box sx={{ height: "20rem" }}>
+          <List dense>
+            {YtdlState?.jobs.map((job) => (
+              <DownloadsListItem key={job.id} job={job} />
+            ))}
+          </List>
+        </Box>
+      </Popover>
+    </>
   );
 };

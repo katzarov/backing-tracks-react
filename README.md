@@ -28,13 +28,17 @@ One possible solution to the above-mentioned problems is a web app that can offe
 ## App Stack
 
 - React 18
+- Redux Toolkit - Redux, RTK Query, createListenerMiddleware (like Redux Saga but much simpler)
 - React Router v6
-- Redux Toolkit - we also use RTK Query (which is part of the package) for data fetching and caching.
 - MUI
 - Wavesurfer.js
 - Vite
 
-## Folder Structure
+## Conventions
+
+As of now, it's a playground for ideas.., the whole project is. So don't take it too seriously, but the goal is: at some point I will come up with my own style for writing scalable and maintanable React apps.
+
+### Folder Structure
 
 TODO
 
