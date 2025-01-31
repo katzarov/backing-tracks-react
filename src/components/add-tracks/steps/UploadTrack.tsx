@@ -13,7 +13,7 @@ import {
 } from "./UploadTrack.formik";
 import { TrackDetails } from "./TrackDetails";
 
-export const UplaodTrack: FC<IUploadTrackProps> = ({ onStepComplete }) => {
+export const UploadTrack: FC<IUploadTrackProps> = ({ onStepComplete }) => {
   const [fetchSearchForTrackInSpotify, { isFetching }] =
     useLazySearchForTrackInSpotifyQuery();
 

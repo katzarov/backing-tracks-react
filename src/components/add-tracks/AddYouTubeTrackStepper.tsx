@@ -2,7 +2,7 @@ import { FC, useState } from "react";
 import Box from "@mui/material/Box";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
-import { Modal, StepLabel } from "@mui/material";
+import { DialogContent, StepLabel } from "@mui/material";
 import { useStepper } from "../../hooks/useStepper";
 import { LinkToYouTubeTrack } from "./steps/LinkToYouTubeTrack";
 import {
@@ -11,31 +11,15 @@ import {
   TrackType,
 } from "./interface";
 import { FindTrackInSpotify } from "./steps/FindTrackInSpotify";
+import { Dialog } from "../shared/Dialog";
+import { AddYouTubeTrackStepperModalContext } from "./AddTrackMenu.context";
 
 const steps = ["Enter YouTube link", "Edit track details"];
 
-const modalBodyStyles = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: "100%",
-  maxWidth: 800,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
-};
+export const AddYouTubeTrackStepper: FC = () => {
+  const { openModal, disableClose, handleCloseModal } =
+    AddYouTubeTrackStepperModalContext.getUseModalContextHook()();
 
-interface IAddYouTubeTrackStepperProps {
-  showModal: boolean;
-  onClose: () => void;
-}
-
-export const AddYouTubeTrackStepper: FC<IAddYouTubeTrackStepperProps> = ({
-  showModal,
-  onClose,
-}) => {
   const { activeStep, completed, handleStep, handleReset } = useStepper(steps);
   const [linkToYouTubeTrackResult, setLinkToYouTubeTrackResult] =
     useState<ILinkToYouTubeTrackResult>();
@@ -71,18 +55,18 @@ export const AddYouTubeTrackStepper: FC<IAddYouTubeTrackStepperProps> = ({
 
   const handleOnClose = () => {
     handleResetSteps();
-    onClose();
+    handleCloseModal();
   };
 
   return (
-    <Modal
-      open={showModal}
-      keepMounted={false}
-      onClose={handleOnClose} // TODO: need to refactor the logic. In order to be able to disable this while something in the steps loading, for example.
-      aria-labelledby="modal-modal-title"
-      aria-describedby="modal-modal-description"
+    <Dialog
+      fullWidth
+      maxWidth="md"
+      open={openModal}
+      disableClose={disableClose}
+      onClose={handleCloseModal}
     >
-      <Box sx={modalBodyStyles}>
+      <DialogContent>
         <Stepper activeStep={activeStep}>
           {steps.map((label, index) => (
             <Step key={label} completed={completed[index]}>
@@ -110,7 +94,7 @@ export const AddYouTubeTrackStepper: FC<IAddYouTubeTrackStepperProps> = ({
             />
           )}
         </Box>
-      </Box>
-    </Modal>
+      </DialogContent>
+    </Dialog>
   );
 };

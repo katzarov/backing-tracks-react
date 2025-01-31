@@ -2,7 +2,7 @@ import { FC, useState } from "react";
 import Box from "@mui/material/Box";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
-import { Modal, StepLabel } from "@mui/material";
+import { DialogContent, StepLabel } from "@mui/material";
 import { useStepper } from "../../hooks/useStepper";
 import {
   IFindTrackInSpotifyResult,
@@ -10,32 +10,16 @@ import {
   TrackType,
 } from "./interface";
 import { FindTrackInSpotify } from "./steps/FindTrackInSpotify";
-import { UplaodTrack } from "./steps/UploadTrack";
+import { UploadTrack } from "./steps/UploadTrack";
+import { Dialog } from "../shared/Dialog";
+import { AddTrackViaUploadStepperModalContext } from "./AddTrackMenu.context";
 
 const steps = ["Upload track", "Edit track details"];
 
-const modalBodyStyles = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: "100%",
-  maxWidth: 800,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
-};
+export const AddTrackViaUploadStepper: FC = () => {
+  const { openModal, disableClose, handleCloseModal } =
+    AddTrackViaUploadStepperModalContext.getUseModalContextHook()();
 
-interface IAddTrackViaUploadStepperProps {
-  showModal: boolean;
-  onClose: () => void;
-}
-
-export const AddTrackViaUploadStepper: FC<IAddTrackViaUploadStepperProps> = ({
-  showModal,
-  onClose,
-}) => {
   const { activeStep, completed, handleStep, handleReset } = useStepper(steps);
   const [uploadTrackResult, setUploadTrackResult] =
     useState<IUploadTrackResult>();
@@ -69,18 +53,18 @@ export const AddTrackViaUploadStepper: FC<IAddTrackViaUploadStepperProps> = ({
 
   const handleOnClose = () => {
     handleResetSteps();
-    onClose();
+    handleCloseModal();
   };
 
   return (
-    <Modal
-      open={showModal}
-      onClose={handleOnClose} // TODO: need to refactor the logic. In order to be able to disable this while something in the steps loading, for example.
-      // disableRestoreFocus={true}
-      aria-labelledby="modal-modal-title"
-      aria-describedby="modal-modal-description"
+    <Dialog
+      fullWidth
+      maxWidth="md"
+      open={openModal}
+      disableClose={disableClose}
+      onClose={handleCloseModal}
     >
-      <Box sx={modalBodyStyles}>
+      <DialogContent>
         <Stepper activeStep={activeStep}>
           {steps.map((label, index) => (
             <Step key={label} completed={completed[index]}>
@@ -90,7 +74,7 @@ export const AddTrackViaUploadStepper: FC<IAddTrackViaUploadStepperProps> = ({
         </Stepper>
         <Box>
           {activeStep === 0 && (
-            <UplaodTrack onStepComplete={handleUploadTrackCompleted} />
+            <UploadTrack onStepComplete={handleUploadTrackCompleted} />
           )}
           {activeStep === 1 && (
             <FindTrackInSpotify
@@ -106,7 +90,7 @@ export const AddTrackViaUploadStepper: FC<IAddTrackViaUploadStepperProps> = ({
             />
           )}
         </Box>
-      </Box>
-    </Modal>
+      </DialogContent>
+    </Dialog>
   );
 };
