@@ -12,6 +12,9 @@ import { playlistsApi } from "../api/playlists";
 import { isAnyOf } from "@reduxjs/toolkit";
 import { PlaylistPlayerState } from "./listeners.helpers";
 import { notificationsApi } from "../api/notifications/notifications";
+import "../listeners/on-delete-playlist-fulfilled.listener";
+
+// TODO move the rest of the listeners to separate files.
 
 // we keep the subscription for the current playlist being played
 // todo have this as a class where setting the ref automatically resets prev sub so we never forget to do it.

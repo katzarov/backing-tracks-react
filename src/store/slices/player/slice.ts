@@ -1,8 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { setTrackPlaylistTuple as setTrackPlaylistTupleAction } from "./actions";
 import { resetStoreAction } from "src/store/extraActions";
-import { router } from "@src/routes/router";
-import { routes } from "@src/routes/routes";
 import { playlistsApi } from "@src/store/api/playlists";
 
 export interface PlayerState {
@@ -35,8 +33,6 @@ export const { reducer: playerReducer, actions: playerActions } = createSlice({
           state.playlistId = null;
           state.trackId = null;
         }
-
-        router.navigate(`${routes.app.root}`, { replace: true });
       }
     );
     builder.addMatcher(resetStoreAction.match, () => {
