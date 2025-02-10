@@ -1,6 +1,7 @@
 import { screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { renderWithProviders } from "../utils";
+import { AddYouTubeTrackStepperModalContext } from "@src/components/add-tracks/AddTrackMenu.context";
 import { LinkToYouTubeTrack } from "@src/components/add-tracks/steps/LinkToYouTubeTrack";
 
 describe("LinkToYouTubeTrack", () => {
@@ -32,7 +33,9 @@ describe("LinkToYouTubeTrack", () => {
 
   it("allows users to change their input until it is valid and then submit", async () => {
     renderWithProviders(
-      <LinkToYouTubeTrack onStepComplete={mockOnStepComplete} />
+      <AddYouTubeTrackStepperModalContext.Provider>
+        <LinkToYouTubeTrack onStepComplete={mockOnStepComplete} />
+      </AddYouTubeTrackStepperModalContext.Provider>
     );
 
     const input = screen.getByLabelText<HTMLInputElement>(
