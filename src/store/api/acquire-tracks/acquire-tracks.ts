@@ -26,7 +26,7 @@ export const acquireTracksApi = api.injectEndpoints({
       IAddYouTubeDownloadJobRequestDto
     >({
       query: (body) => ({
-        url: "acquire-tracks/youtube/addJob",
+        url: "acquire-tracks/youtube/add-job",
         method: "POST",
         body,
       }),
