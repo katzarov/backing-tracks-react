@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export const useStepper = (steps: string[]) => {
+export const useStepper = (steps: Array<unknown>) => {
   const [activeStep, setActiveStep] = useState(0);
   const [completed, setCompleted] = useState<{
     [k: number]: boolean;

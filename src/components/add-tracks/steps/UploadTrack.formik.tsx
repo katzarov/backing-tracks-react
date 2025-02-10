@@ -2,9 +2,10 @@ import * as yup from "yup";
 import { useFormik } from "formik";
 import { TrackInstrument, TrackType } from "../interface";
 
-export const trackFileKey = "trackFile";
-export const trackTypeKey = "trackType";
-export const trackInstrumentKey = "trackInstrument";
+export const formId = "upload-track-form";
+export const trackFileKey = `${formId}--trackFile`;
+export const trackTypeKey = `${formId}--trackType`;
+export const trackInstrumentKey = `${formId}--trackInstrument`;
 
 const uploadTrackValidationSchema = yup.object({
   [trackFileKey]: yup

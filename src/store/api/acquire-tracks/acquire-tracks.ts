@@ -3,8 +3,8 @@ import {
   IAddTrackViaFileUploadResponseDto,
   ISearchForTrackInSpotifyRequestDto,
   ISearchForTrackInSpotifyResponseDto,
-  IYouTubeVideoDownloadRequestDto,
-  IYouTubeVideoDownloadResponseDto,
+  IAddYouTubeDownloadJobRequestDto,
+  IAddYouTubeDownloadJobResponseDto,
   IYouTubeVideoInfoRequestDto,
   IYouTubeVideoInfoResponseDto,
 } from ".";
@@ -21,10 +21,9 @@ export const acquireTracksApi = api.injectEndpoints({
         url: `acquire-tracks/youtube/info/${encodeURIComponent(videoUrl)}`,
       }),
     }),
-    // TODO rename to addYouTubeDownloadJob
-    addYouTubeVideo: builder.mutation<
-      IYouTubeVideoDownloadResponseDto,
-      IYouTubeVideoDownloadRequestDto
+    addYouTubeDownloadJob: builder.mutation<
+      IAddYouTubeDownloadJobResponseDto,
+      IAddYouTubeDownloadJobRequestDto
     >({
       query: (body) => ({
         url: "acquire-tracks/youtube/addJob",
@@ -58,7 +57,7 @@ export const acquireTracksApi = api.injectEndpoints({
 
 export const {
   useLazyGetYouTubeVideoInfoQuery,
-  useAddYouTubeVideoMutation,
+  useAddYouTubeDownloadJobMutation,
   useAddTrackViaFileUploadMutation,
   useLazySearchForTrackInSpotifyQuery,
 } = acquireTracksApi;

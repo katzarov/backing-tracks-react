@@ -12,14 +12,14 @@ export interface IYouTubeVideoInfoResponseDto {
   thumbnailUrl: string;
 }
 
-export interface IYouTubeVideoDownloadRequestDto {
+export interface IAddYouTubeDownloadJobRequestDto {
   url: string;
   spotifyId: string;
   trackType: TrackType;
   trackInstrument: TrackInstrument;
 }
 
-export type IYouTubeVideoDownloadResponseDto = string;
+export type IAddYouTubeDownloadJobResponseDto = string;
 
 export type IAddTrackViaFileUploadRequestDto = FormData;
 

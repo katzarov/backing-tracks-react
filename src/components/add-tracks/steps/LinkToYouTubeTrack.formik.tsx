@@ -2,9 +2,10 @@ import * as yup from "yup";
 import { useFormik } from "formik";
 import { TrackInstrument, TrackType } from "../interface";
 
-export const youtubeUrlKey = "youtubeUrl";
-export const trackTypeKey = "trackType";
-export const trackInstrumentKey = "trackInstrument";
+export const formId = "link-to-youtube-track-form";
+export const youtubeUrlKey = `${formId}--youtubeUrl`;
+export const trackTypeKey = `${formId}--trackType`;
+export const trackInstrumentKey = `${formId}--trackInstrument`;
 
 const linkToYouTubeTrackValidationSchema = yup.object({
   [youtubeUrlKey]: yup
@@ -42,6 +43,7 @@ export interface ILinkToYouTubeTrackFormikState {
 export const useLinkToYouTubeTrackFormik = (
   handleSubmit: (values: ILinkToYouTubeTrackFormikState) => void
 ) => {
+  // TODO: consider using formik via react context. I dont even remember why I started using it like this.
   const formik = useFormik<ILinkToYouTubeTrackFormikState>({
     initialValues: {
       [youtubeUrlKey]: "",

@@ -5,6 +5,10 @@ interface IButtonWithLoadingSpinnerProps extends ButtonProps {
   showLoadingSpinner: boolean;
 }
 
+/**
+ *
+ * @deprecated TODO MUI 6.4 introduces loading states to buttons... remove this, and read what else has been recently introduced
+ */
 export const ButtonWithLoadingSpinner: FC<IButtonWithLoadingSpinnerProps> = ({
   showLoadingSpinner,
   children,

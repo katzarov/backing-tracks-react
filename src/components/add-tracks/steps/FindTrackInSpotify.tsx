@@ -9,12 +9,12 @@ import {
 import SearchIcon from "@mui/icons-material/Search";
 import TextField from "@mui/material/TextField";
 import {
-  IYouTubeVideoDownloadRequestDto,
+  IAddYouTubeDownloadJobRequestDto,
   useAddTrackViaFileUploadMutation,
-  useAddYouTubeVideoMutation,
+  useAddYouTubeDownloadJobMutation,
   useLazySearchForTrackInSpotifyQuery,
 } from "@api/acquire-tracks";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
@@ -24,7 +24,9 @@ import { IFindTrackInSpotifyProps } from "../interface";
 import {
   useFindTrackInSpotifyFormik,
   trackNameKey,
+  formId,
 } from "./FindTrackInSpotify.formik";
+import { DialogActions, DialogContent } from "@mui/material";
 
 export const FindTrackInSpotify: FC<IFindTrackInSpotifyProps> = ({
   trackUri,
@@ -32,6 +34,7 @@ export const FindTrackInSpotify: FC<IFindTrackInSpotifyProps> = ({
   trackInstrument,
   preliminaryTrackName,
   preliminarySpotifySearchSuggestions,
+  setDialogDisableClose,
   onStepComplete,
   onResetAllSteps,
 }) => {
@@ -39,28 +42,45 @@ export const FindTrackInSpotify: FC<IFindTrackInSpotifyProps> = ({
     fetchSearchForTrackInSpotify,
     { data: searchResults, isFetching: isFetchingSearch },
   ] = useLazySearchForTrackInSpotifyQuery();
-  const [addYouTubeTrack, { isLoading: isLoadingYoutube }] =
-    useAddYouTubeVideoMutation();
+  const [addYouTubeDownloadJob, { isLoading: isLoadingYoutube }] =
+    useAddYouTubeDownloadJobMutation();
   const [addTrackViaFileUpload, { isLoading: isLoadingUpload }] =
     useAddTrackViaFileUploadMutation();
-
-  const isLoading = isLoadingYoutube || isLoadingUpload;
 
   const [selectedTrackId, setSelectedTrackId] = useState<string | null>(null);
   const [lastFetchQuery, setLastFetchQuery] =
     useState<string>(preliminaryTrackName);
 
-  const handleSubmit = async () => {
+  const formik = useFindTrackInSpotifyFormik(
+    preliminaryTrackName,
+    handleSubmit,
+    onResetAllSteps!
+  );
+
+  const isLoading = isLoadingYoutube || isLoadingUpload;
+
+  useEffect(() => {
+    if (isLoading) {
+      setDialogDisableClose(true);
+    } else {
+      setDialogDisableClose(false);
+    }
+    return () => {
+      setDialogDisableClose(false);
+    };
+  }, [isLoading, setDialogDisableClose]);
+
+  async function handleSubmit() {
     try {
       // TODO: move this logic to parent.
       if (typeof trackUri === "string") {
-        const reqBody: IYouTubeVideoDownloadRequestDto = {
+        const reqBody: IAddYouTubeDownloadJobRequestDto = {
           url: trackUri,
           trackType,
           trackInstrument,
           spotifyId: selectedTrackId!,
         };
-        await addYouTubeTrack(reqBody).unwrap(); //TODO, we doing long polling here. Req might timeout.
+        await addYouTubeDownloadJob(reqBody).unwrap();
       } else {
         const reqBody = new FormData();
         reqBody.append("file", trackUri);
@@ -75,13 +95,7 @@ export const FindTrackInSpotify: FC<IFindTrackInSpotifyProps> = ({
       // TODO: Propagate the error msg from the youtube ms to here. and show some error alert.
       console.error("error", e);
     }
-  };
-
-  const formik = useFindTrackInSpotifyFormik(
-    preliminaryTrackName,
-    handleSubmit,
-    onResetAllSteps!
-  );
+  }
 
   // TODO: automatic debounced search
   const handleSearch = async (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -160,74 +174,80 @@ export const FindTrackInSpotify: FC<IFindTrackInSpotifyProps> = ({
   });
 
   return (
-    <Box sx={{ mt: 6 }}>
-      <Box
-        component="form"
-        sx={{
-          "& > :not(style)": { m: 1 },
-        }}
-        noValidate
-        autoComplete="off"
-        onSubmit={formik.handleSubmit}
-        onReset={formik.handleReset}
-        onBlur={formik.handleBlur}
-        onChange={(e) => {
-          setSelectedTrackId(null);
-          formik.handleChange(e);
-        }}
-      >
-        <TextField
-          type="search"
-          id={trackNameKey}
-          name={trackNameKey}
-          label="Search for track in Spotify"
-          autoFocus
-          disabled={isLoading}
-          fullWidth
-          value={formik.values[trackNameKey]}
-          error={
-            formik.touched[trackNameKey] && Boolean(formik.errors[trackNameKey])
-          }
-          helperText={
-            formik.touched[trackNameKey] && formik.errors[trackNameKey]
-          }
-          onKeyDown={handleSearch}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon />
-              </InputAdornment>
-            ),
+    <>
+      <DialogContent>
+        <Box
+          component="form"
+          id={formId}
+          sx={{
+            "& > :not(style)": { m: 1 },
           }}
-        />
-
-        <List dense sx={{ width: "100%" }}>
-          {isFetchingSearch
-            ? spotifySearchSuggestionsSkeleton
-            : spotifySearchSuggestions}
-        </List>
-
-        <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-          <Button
-            type="reset"
-            id="reset"
-            color="inherit"
+          noValidate
+          autoComplete="off"
+          onSubmit={formik.handleSubmit}
+          onReset={formik.handleReset}
+          onBlur={formik.handleBlur}
+          onChange={(e) => {
+            setSelectedTrackId(null);
+            formik.handleChange(e);
+          }}
+        >
+          <TextField
+            type="search"
+            id={trackNameKey}
+            name={trackNameKey}
+            label="Search for track in Spotify"
+            autoFocus
             disabled={isLoading}
-            sx={{ mr: 1 }}
-          >
-            Start Again
-          </Button>
-          <Box sx={{ flex: "1 1 auto" }} />
-          <Button
-            type="submit"
-            id="submit"
-            disabled={!formik.isValid || isLoading || selectedTrackId === null}
-            sx={{ mr: 1 }}
-          >
-            Complete
-          </Button>
+            fullWidth
+            value={formik.values[trackNameKey]}
+            error={
+              formik.touched[trackNameKey] &&
+              Boolean(formik.errors[trackNameKey])
+            }
+            helperText={
+              formik.touched[trackNameKey] && formik.errors[trackNameKey]
+            }
+            onKeyDown={handleSearch}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon />
+                </InputAdornment>
+              ),
+            }}
+          />
+
+          <List dense sx={{ width: "100%" }}>
+            {isFetchingSearch
+              ? spotifySearchSuggestionsSkeleton
+              : spotifySearchSuggestions}
+          </List>
         </Box>
-      </Box>
-    </Box>
+      </DialogContent>
+
+      <DialogActions>
+        <Button
+          id={`${formId}-reset`}
+          form={formId}
+          type="reset"
+          color="inherit"
+          disabled={isLoading}
+        >
+          Start Again
+        </Button>
+        <Box sx={{ flex: "1 1 auto" }} />
+        <Button
+          id={`${formId}-submit`}
+          form={formId}
+          type="submit"
+          loading={isLoading}
+          loadingPosition="end"
+          disabled={isLoading || selectedTrackId === null}
+        >
+          Complete
+        </Button>
+      </DialogActions>
+    </>
   );
 };

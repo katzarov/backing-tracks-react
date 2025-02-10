@@ -1,8 +1,14 @@
 import { FC, useState } from "react";
-import Box from "@mui/material/Box";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
-import { DialogContent, StepLabel } from "@mui/material";
+import {
+  DialogContent,
+  DialogTitle,
+  StepContent,
+  StepLabel,
+} from "@mui/material";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
 import { useStepper } from "../../hooks/useStepper";
 import { LinkToYouTubeTrack } from "./steps/LinkToYouTubeTrack";
 import {
@@ -14,10 +20,20 @@ import { FindTrackInSpotify } from "./steps/FindTrackInSpotify";
 import { Dialog } from "../shared/Dialog";
 import { AddYouTubeTrackStepperModalContext } from "./AddTrackMenu.context";
 
-const steps = ["Enter YouTube link", "Edit track details"];
+const steps = [
+  {
+    label: "Enter YouTube link",
+    description: "This link is used to download the YouTube video.",
+  },
+  {
+    label: "Find track in Spotify",
+    description:
+      "Please find the YouTube track in Spotify's catalogue. This is used to get all the necessary details for the track.",
+  },
+];
 
 export const AddYouTubeTrackStepper: FC = () => {
-  const { openModal, disableClose, handleCloseModal } =
+  const { openModal, disableClose, setDisableClose, handleCloseModal } =
     AddYouTubeTrackStepperModalContext.getUseModalContextHook()();
 
   const { activeStep, completed, handleStep, handleReset } = useStepper(steps);
@@ -66,35 +82,57 @@ export const AddYouTubeTrackStepper: FC = () => {
       disableClose={disableClose}
       onClose={handleCloseModal}
     >
-      <DialogContent>
-        <Stepper activeStep={activeStep}>
-          {steps.map((label, index) => (
-            <Step key={label} completed={completed[index]}>
-              <StepLabel color="inherit">{label}</StepLabel>
+      <DialogTitle sx={{ m: 0, p: 2 }}>Add track from YouTube</DialogTitle>
+      <IconButton
+        aria-label="close-dialog"
+        disabled={disableClose}
+        onClick={handleCloseModal}
+        sx={(theme) => ({
+          position: "absolute",
+          right: 8,
+          top: 8,
+          color: theme.palette.primary.main,
+        })}
+      >
+        <CloseIcon />
+      </IconButton>
+
+      <DialogContent sx={{ pb: 0 }}>
+        <Stepper
+          activeStep={activeStep}
+          connector={null}
+          sx={{ alignItems: "flex-start", justifyContent: "space-between" }}
+        >
+          {steps.map((step, index) => (
+            <Step key={step.label} completed={completed[index]}>
+              <StepLabel color="inherit">{step.label}</StepLabel>
+              <StepContent sx={{ borderLeft: "none" }}>
+                {step.description}
+              </StepContent>
             </Step>
           ))}
         </Stepper>
-        <Box>
-          {activeStep === 0 && (
-            <LinkToYouTubeTrack
-              onStepComplete={handleLinkToYouTubeTrackCompleted}
-            />
-          )}
-          {activeStep === 1 && (
-            <FindTrackInSpotify
-              trackUri={linkToYouTubeTrackResult!.youtubeUrl}
-              trackType={linkToYouTubeTrackResult!.trackType}
-              trackInstrument={linkToYouTubeTrackResult!.trackInstrument}
-              preliminarySpotifySearchSuggestions={
-                linkToYouTubeTrackResult!.preliminarySpotifySearchSuggestions
-              }
-              preliminaryTrackName={linkToYouTubeTrackResult!.trackName}
-              onStepComplete={handleFindTrackInSpotifyCompleted}
-              onResetAllSteps={handleResetSteps}
-            />
-          )}
-        </Box>
       </DialogContent>
+
+      {activeStep === 0 && (
+        <LinkToYouTubeTrack
+          onStepComplete={handleLinkToYouTubeTrackCompleted}
+        />
+      )}
+      {activeStep === 1 && (
+        <FindTrackInSpotify
+          trackUri={linkToYouTubeTrackResult!.youtubeUrl}
+          trackType={linkToYouTubeTrackResult!.trackType}
+          trackInstrument={linkToYouTubeTrackResult!.trackInstrument}
+          preliminarySpotifySearchSuggestions={
+            linkToYouTubeTrackResult!.preliminarySpotifySearchSuggestions
+          }
+          preliminaryTrackName={linkToYouTubeTrackResult!.trackName}
+          setDialogDisableClose={setDisableClose}
+          onStepComplete={handleFindTrackInSpotifyCompleted}
+          onResetAllSteps={handleResetSteps}
+        />
+      )}
     </Dialog>
   );
 };

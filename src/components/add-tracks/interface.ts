@@ -49,6 +49,7 @@ export interface IFindTrackInSpotifyProps
   trackInstrument: TrackInstrument;
   preliminaryTrackName: string;
   preliminarySpotifySearchSuggestions: ISearchForTrackInSpotifyResponseDto[];
+  setDialogDisableClose: (value: boolean) => void;
 }
 
 export type IFindTrackInSpotifyResult = { trackName: string } | undefined;

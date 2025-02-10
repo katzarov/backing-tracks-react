@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { Box, Button, InputAdornment } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import YouTubeIcon from "@mui/icons-material/YouTube";
@@ -18,11 +18,17 @@ import {
   trackInstrumentKey,
   youtubeUrlKey,
   useLinkToYouTubeTrackFormik,
+  formId,
 } from "./LinkToYouTubeTrack.formik";
+import { AddYouTubeTrackStepperModalContext } from "../AddTrackMenu.context";
+import { DialogActions, DialogContent } from "@mui/material";
 
 export const LinkToYouTubeTrack: FC<ILinkToYouTubeTrackProps> = ({
   onStepComplete,
 }) => {
+  const { setDisableClose } =
+    AddYouTubeTrackStepperModalContext.getUseModalContextHook()();
+
   const [
     fetchYouTubeVideoInfo,
     { isFetching: isFetchingYoutube, isSuccess: isSuccessYoutube },
@@ -33,12 +39,25 @@ export const LinkToYouTubeTrack: FC<ILinkToYouTubeTrackProps> = ({
     { isFetching: isFetchingSearch, isUninitialized: isUninitializedSearch },
   ] = useLazySearchForTrackInSpotifyQuery();
 
+  const formik = useLinkToYouTubeTrackFormik(handleSubmit);
+
   const isFetching =
     isFetchingYoutube ||
     (isSuccessYoutube && isUninitializedSearch) ||
     isFetchingSearch;
 
-  const handleSubmit = async (values: ILinkToYouTubeTrackFormikState) => {
+  useEffect(() => {
+    if (isFetching) {
+      setDisableClose(true);
+    } else {
+      setDisableClose(false);
+    }
+    return () => {
+      setDisableClose(false);
+    };
+  }, [isFetching, setDisableClose]);
+
+  async function handleSubmit(values: ILinkToYouTubeTrackFormikState) {
     try {
       const {
         [youtubeUrlKey]: videoUrl,
@@ -63,80 +82,81 @@ export const LinkToYouTubeTrack: FC<ILinkToYouTubeTrackProps> = ({
       // TODO: (likely video ID not found) propagate the error msg from the youtube ms to here. and show some error alert.
       console.error("error", e);
     }
-  };
-
-  const formik = useLinkToYouTubeTrackFormik(handleSubmit);
+  }
 
   return (
-    <Box sx={{ mt: 6 }}>
-      <Box
-        component="form"
-        sx={{
-          "& > :not(style)": { m: 1 },
-        }}
-        noValidate
-        autoComplete="off"
-        onSubmit={formik.handleSubmit}
-        onBlur={formik.handleBlur}
-        onChange={formik.handleChange}
-      >
-        <TextField
-          type="text"
-          id={youtubeUrlKey}
-          name={youtubeUrlKey}
-          label="Link to YouTube video"
-          autoFocus // strict mode breaks it
-          disabled={isFetching}
-          fullWidth
-          value={formik.values[youtubeUrlKey]}
-          error={
-            formik.touched[youtubeUrlKey] &&
-            Boolean(formik.errors[youtubeUrlKey])
-          }
-          helperText={
-            formik.touched[youtubeUrlKey] && formik.errors[youtubeUrlKey]
-          }
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <YouTubeIcon />
-              </InputAdornment>
-            ),
+    <>
+      <DialogContent>
+        <Box
+          component="form"
+          id={formId}
+          sx={{
+            "& > :not(style)": { m: 1 },
           }}
-        />
+          noValidate
+          autoComplete="off"
+          onSubmit={formik.handleSubmit}
+          onBlur={formik.handleBlur}
+          onChange={formik.handleChange}
+        >
+          <TextField
+            type="text"
+            id={youtubeUrlKey}
+            name={youtubeUrlKey}
+            label="Link to YouTube video"
+            autoFocus // strict mode breaks it
+            disabled={isFetching}
+            fullWidth
+            value={formik.values[youtubeUrlKey]}
+            error={
+              formik.touched[youtubeUrlKey] &&
+              Boolean(formik.errors[youtubeUrlKey])
+            }
+            helperText={
+              formik.touched[youtubeUrlKey] && formik.errors[youtubeUrlKey]
+            }
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <YouTubeIcon />
+                </InputAdornment>
+              ),
+            }}
+          />
 
-        <TrackDetails
-          trackTypeKey={trackTypeKey}
-          trackTypeValue={formik.values[trackTypeKey]}
-          trackInstrumentKey={trackInstrumentKey}
-          trackInstrumentValue={formik.values[trackInstrumentKey]}
-          disabled={isFetching}
-          onTrackTypeBackingClick={() =>
-            formik.setFieldValue(trackTypeKey, TrackType.BACKING)
-          }
-          onTrackTypeJamClick={() =>
-            formik.setFieldValue(trackTypeKey, TrackType.JAM)
-          }
-          onTrackInstrumentGuitarClick={() =>
-            formik.setFieldValue(trackInstrumentKey, TrackInstrument.GUITAR)
-          }
-          onTrackInstrumentBassClick={() =>
-            formik.setFieldValue(trackInstrumentKey, TrackInstrument.BASS)
-          }
-        />
-
-        <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-          <Box sx={{ flex: "1 1 auto" }} />
-          <Button
-            id="submit"
-            type="submit"
-            disabled={!formik.isValid || isFetching}
-            sx={{ mr: 1 }}
-          >
-            Next
-          </Button>
+          <TrackDetails
+            trackTypeKey={trackTypeKey}
+            trackTypeValue={formik.values[trackTypeKey]}
+            trackInstrumentKey={trackInstrumentKey}
+            trackInstrumentValue={formik.values[trackInstrumentKey]}
+            disabled={isFetching}
+            onTrackTypeBackingClick={() =>
+              formik.setFieldValue(trackTypeKey, TrackType.BACKING)
+            }
+            onTrackTypeJamClick={() =>
+              formik.setFieldValue(trackTypeKey, TrackType.JAM)
+            }
+            onTrackInstrumentGuitarClick={() =>
+              formik.setFieldValue(trackInstrumentKey, TrackInstrument.GUITAR)
+            }
+            onTrackInstrumentBassClick={() =>
+              formik.setFieldValue(trackInstrumentKey, TrackInstrument.BASS)
+            }
+          />
         </Box>
-      </Box>
-    </Box>
+      </DialogContent>
+      <DialogActions>
+        <Button
+          id={`${formId}--submit`}
+          form={formId}
+          type="submit"
+          loading={isFetching}
+          loadingPosition="end"
+          disabled={!formik.isValid || isFetching}
+        >
+          Next
+        </Button>
+      </DialogActions>
+    </>
   );
 };

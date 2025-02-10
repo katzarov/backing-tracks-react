@@ -1,7 +1,8 @@
 import { useFormik } from "formik";
 import * as yup from "yup";
 
-export const trackNameKey = "trackName";
+export const formId = "find-track-in-spotify-form";
+export const trackNameKey = `${formId}--trackName`;
 
 const findTrackInSpotifyValidationSchema = yup.object({
   [trackNameKey]: yup
