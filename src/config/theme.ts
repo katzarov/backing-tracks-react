@@ -4,6 +4,8 @@ import {
   Theme,
   darken,
 } from "@mui/material/styles";
+import { NormalCssProperties } from "@mui/material/styles/createMixins"; // import type * as CSS from "csstype"; might want to get them directly from the lib
+import { Font_Face_Nationale } from "./fonts.mui";
 
 // https://mui.com/material-ui/customization/theming/#typescript
 declare module "@mui/material/styles" {
@@ -130,23 +132,29 @@ const baseTheme = createTheme({
     snackbar: 1400,
     tooltip: 1500,
   },
+  typography: {
+    fontFamily: "'Nationale', sans-serif",
+  },
 });
 
 export const theme = responsiveFontSizes(baseTheme);
 
-export const globalStyles = (theme: Theme) => ({
-  "::-webkit-scrollbar": {
-    width: "8px", // width of the scrollbar
-    height: "8px", // height of the scrollbar (for horizontal scrollbars)
-  },
-  "::-webkit-scrollbar-thumb": {
-    backgroundColor: theme.palette.primary.main,
-    borderRadius: "10px",
-  },
-  "::-webkit-scrollbar-thumb:hover": {
-    backgroundColor: darken(theme.palette.primary.main, 0.2),
-  },
-  "::-webkit-scrollbar-track": {
-    backgroundColor: theme.palette.background.paper,
-  },
-});
+export const globalStyles = (theme: Theme) => [
+  ...Font_Face_Nationale,
+  {
+    "::-webkit-scrollbar": {
+      width: "8px", // width of the scrollbar
+      height: "8px", // height of the scrollbar (for horizontal scrollbars)
+    },
+    "::-webkit-scrollbar-thumb": {
+      backgroundColor: theme.palette.primary.main,
+      borderRadius: "10px",
+    },
+    "::-webkit-scrollbar-thumb:hover": {
+      backgroundColor: darken(theme.palette.primary.main, 0.2),
+    },
+    "::-webkit-scrollbar-track": {
+      backgroundColor: theme.palette.background.paper,
+    },
+  } satisfies Record<string, NormalCssProperties>,
+];
