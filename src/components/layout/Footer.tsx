@@ -1,17 +1,16 @@
-import { Box, lighten } from "@mui/material";
+import { Paper } from "@mui/material";
 import { PlayerContainer } from "../player/PlayerContainer";
 
 export const Footer = () => {
   return (
-    <Box
+    <Paper
       component="footer"
-      color="primary"
+      elevation={10}
       sx={(theme) => ({
-        flexShrink: 0,
-        background: lighten(theme.palette.background.paper, 0.2),
+        p: theme.spacing(4),
       })}
     >
       <PlayerContainer />
-    </Box>
+    </Paper>
   );
 };

@@ -1,9 +1,9 @@
-import { Avatar, Box, Stack, Typography } from "@mui/material";
+import { Grid2 as Grid } from "@mui/material";
 import { Player } from "./Player";
-import { Link } from "react-router-dom";
 import { routes } from "src/routes/routes";
 import { convertIntToString } from "src/utils/utils";
 import { useSelectedTrackPlaylistData } from "src/hooks/useSelectedTrackPlaylistData";
+import { TrackInfo } from "../shared/TrackInfo";
 
 export const PlayerContainer = () => {
   const {
@@ -22,58 +22,58 @@ export const PlayerContainer = () => {
       ? `${routes.app.playlist.id(
           convertIntToString(playlistId)
         )}/${routes.app.playlist.track.id(convertIntToString(trackId))}`
-      : "";
+      : null;
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "row",
-        // padding: 2,
-        px: 2,
-        py: 1,
-        alignItems: "center",
-        justifyContent: "center",
-      }}
+    <Grid
+      container
+      width="100%"
+      columns={12}
+      rowSpacing={2}
+      columnSpacing={{ xs: 2, sm: 4 }}
+      alignItems="center"
     >
-      <Stack
+      <Grid
+        size={{ xs: 12, sm: 3 }}
+        maxWidth="100%"
+        display="flex"
+        alignItems="center"
         direction="row"
-        spacing={2}
-        sx={{ alignItems: "center", width: "50%" }}
       >
-        {/* TODO load small image for mobile and larger for desktop https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement/sizes */}
-        <Avatar
-          variant="square"
-          src={albumImageSrc}
-          sx={{ width: 64, height: 64 }}
+        <TrackInfo
+          imageSrc={albumImageSrc}
+          trackName={trackName}
+          artistName={artistName}
+          {...(playlistIdTrackIdRoute !== null
+            ? {
+                linkToPlaylist: {
+                  link: playlistIdTrackIdRoute,
+                  name: playlistName,
+                },
+              }
+            : {})}
         />
-        <Stack
-          direction="column"
-          spacing={0.5}
-          sx={{ alignItems: "flex-start" }}
-        >
-          {/* TODO do noWrap but need to specify actual width, do so based on screen size */}
-          <Typography variant={"subtitle2"}>{trackName}</Typography>
-          <Typography variant={"body2"}>{artistName}</Typography>
-          <Typography variant={"body2"}>
-            <Link
-              to={playlistIdTrackIdRoute}
-              style={{
-                color: "unset",
-              }}
-            >
-              {playlistName}
-            </Link>
-          </Typography>
-        </Stack>
-      </Stack>
-      <Player
-        trackId={trackId}
-        playlistId={playlistId}
-        trackUri={trackUri}
-        duration={trackDuration}
-      />
-      <Box sx={{ width: "50%", textAlign: "right" }}></Box>
-    </Box>
+      </Grid>
+
+      <Grid
+        size={{ xs: 12, sm: 6 }}
+        display="flex"
+        alignItems="center"
+        direction="row"
+      >
+        <Player
+          trackId={trackId}
+          playlistId={playlistId}
+          trackUri={trackUri}
+          duration={trackDuration}
+        />
+      </Grid>
+      <Grid
+        size={{ xs: 12, sm: 3 }}
+        display="flex"
+        alignItems="center"
+        direction="row"
+      ></Grid>
+    </Grid>
   );
 };
