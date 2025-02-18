@@ -7,8 +7,8 @@ interface IStyledBoxWithBgImageProps {
 //  TODO: can I not forward the url prop to the DOM ? perhaps this shouldForwardProp https://github.com/mui/material-ui/issues/29207
 export const StyledBoxWithBgImage = styled(Box)<IStyledBoxWithBgImageProps>(
   ({ url, theme }) => {
-    const strongColor = alpha(theme.palette.background.paper, 1);
-    const weakColor = alpha(theme.palette.background.paper, 0.7);
+    const strongColor = alpha(theme.palette.background.default, 1);
+    const weakColor = alpha(theme.palette.background.default, 0.7);
 
     return {
       backgroundRepeat: "no-repeat",
@@ -29,8 +29,8 @@ export const StyledStackMenu = styled(Stack)(() => ({
 export const StyledBoxShrankWithBgImage = styled(
   Box
 )<IStyledBoxWithBgImageProps>(({ url, theme }) => {
-  const strongColor = alpha(theme.palette.background.paper, 1);
-  const weakColor = alpha(theme.palette.background.paper, 0.7);
+  const strongColor = alpha(theme.palette.background.default, 1);
+  const weakColor = alpha(theme.palette.background.default, 0.7);
 
   return {
     position: "fixed",

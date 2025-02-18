@@ -1,17 +1,19 @@
-import { Box } from "@mui/material";
+import { Paper } from "@mui/material";
 import { FC, PropsWithChildren } from "react";
 
 export const Drawer: FC<PropsWithChildren> = ({ children }) => {
   return (
-    <Box
+    <Paper
       component="nav"
-      sx={{
+      elevation={10}
+      sx={(theme) => ({
         width: "100%",
-        maxWidth: "15rem",
+        maxWidth: "16rem",
         overflowY: "auto",
-      }}
+        p: theme.spacing(2),
+      })}
     >
       {children}
-    </Box>
+    </Paper>
   );
 };
