@@ -96,9 +96,10 @@ export const Login = () => {
             size="large"
             variant="contained"
             onClick={handleLoginClick}
-            disabled={showLoggingInMessage}
+            loading={showLoggingInMessage}
+            loadingIndicator="Logging in..."
           >
-            {showLoggingInMessage ? "Logging in..." : "Login with Auth0"}
+            Login with Auth0
           </Button>
         </Stack>
       </Container>

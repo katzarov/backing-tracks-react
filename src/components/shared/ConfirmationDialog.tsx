@@ -4,7 +4,6 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import { ButtonWithLoadingSpinner } from "./ButtonWithLoadingSpinner";
 import { Dialog } from "./Dialog";
 
 interface IConfirmationDialogProps extends PropsWithChildren {
@@ -52,14 +51,15 @@ export const ConfirmationDialog: FC<IConfirmationDialogProps> = ({
         <Button disabled={shouldDisableActions} onClick={onCloseNegative}>
           {negativeButtonText}
         </Button>
-        <ButtonWithLoadingSpinner
-          showLoadingSpinner={affirmativeActionLoading}
+        <Button
+          loading={affirmativeActionLoading}
+          loadingPosition="end"
           disabled={shouldDisableActions || disableAffirmativeButton}
           onClick={onCloseAffirmative}
           autoFocus
         >
           {affirmativeButtonText}
-        </ButtonWithLoadingSpinner>
+        </Button>
       </DialogActions>
     </Dialog>
   );
