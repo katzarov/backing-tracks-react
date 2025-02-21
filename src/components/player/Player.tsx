@@ -150,6 +150,7 @@ export const Player: FC<IPlayerProps> = ({
         }}
       >
         <IconButton
+          color="primary"
           aria-label="previous song"
           disabled={playlistId === null}
           onClick={onPrevTrackHandler}
@@ -157,6 +158,7 @@ export const Player: FC<IPlayerProps> = ({
           <FastRewindRounded sx={{ fontSize: "1.8rem" }} />
         </IconButton>
         <IconButton
+          color="primary"
           aria-label={isPlaying ? "pause" : "play"}
           onClick={onPlayPause}
         >
@@ -167,6 +169,7 @@ export const Player: FC<IPlayerProps> = ({
           )}
         </IconButton>
         <IconButton
+          color="primary"
           aria-label="next song"
           disabled={playlistId === null}
           onClick={onNextTrackHandler}

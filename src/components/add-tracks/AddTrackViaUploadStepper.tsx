@@ -6,6 +6,7 @@ import {
   DialogTitle,
   StepContent,
   StepLabel,
+  Typography,
 } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
@@ -103,9 +104,9 @@ export const AddTrackViaUploadStepper: FC = () => {
         >
           {steps.map((step, index) => (
             <Step key={step.label} completed={completed[index]}>
-              <StepLabel color="inherit">{step.label}</StepLabel>
+              <StepLabel>{step.label}</StepLabel>
               <StepContent sx={{ borderLeft: "none" }}>
-                {step.description}
+                <Typography variant="secondary">{step.description}</Typography>
               </StepContent>
             </Step>
           ))}

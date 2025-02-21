@@ -8,7 +8,7 @@ export const Drawer: FC<PropsWithChildren> = ({ children }) => {
       elevation={10}
       sx={(theme) => ({
         width: "100%",
-        maxWidth: "16rem",
+        maxWidth: "15rem",
         overflowY: "auto",
         p: theme.spacing(2),
       })}

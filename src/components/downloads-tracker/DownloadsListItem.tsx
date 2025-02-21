@@ -1,12 +1,12 @@
 import {
-  Avatar,
+  Grid2 as Grid,
   LinearProgress,
   ListItem,
-  ListItemAvatar,
   ListItemText,
 } from "@mui/material";
 import { YtdlJobFormatted } from "@src/store/api/notifications";
 import { FC } from "react";
+import { TrackInfoListItem } from "../shared/TrackInfo.list-item";
 
 interface IDownloadsListItemProps {
   job: YtdlJobFormatted;
@@ -21,11 +21,7 @@ export const DownloadsListItem: FC<IDownloadsListItemProps> = ({ job }) => {
   const getStatusDetailsComp = () => {
     if (job.state === "active") {
       return (
-        <LinearProgress
-          sx={{ width: "10rem" }}
-          variant="determinate"
-          value={jobProgress.percent!}
-        />
+        <LinearProgress variant="determinate" value={jobProgress.percent!} />
       );
     }
     if (job.state === "completed" || job.state === "failed") {
@@ -34,29 +30,25 @@ export const DownloadsListItem: FC<IDownloadsListItemProps> = ({ job }) => {
         minute: "2-digit",
       });
 
-      return <ListItemText secondary={localTime} sx={{ width: "10rem" }} />;
+      return <ListItemText secondary={localTime} />;
     }
   };
 
-  // TODO: use grid2
   return (
-    <ListItem
-      sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}
-    >
-      <ListItemAvatar>
-        <Avatar
-          variant="square"
-          src={job.data.meta.spotify.albumArt.small?.url}
-        />
-      </ListItemAvatar>
-      <ListItemText
-        primary={job.data.meta.spotify.trackName}
-        secondary={job.data.meta.spotify.artistName}
-        sx={{ width: "10rem" }}
-      />
-      <ListItemText secondary={job.state} sx={{ width: "10rem" }} />
-
-      {getStatusDetailsComp()}
+    <ListItem>
+      <Grid container columns={12} width="100%" alignItems="center">
+        <Grid size={6} display="flex" alignItems="center" direction="row">
+          <TrackInfoListItem
+            imageSrc={job.data.meta.spotify.albumArt.small?.url}
+            trackName={job.data.meta.spotify.trackName}
+            artistName={job.data.meta.spotify.artistName}
+          />
+        </Grid>
+        <Grid size={3}>
+          <ListItemText secondary={job.state} />
+        </Grid>
+        <Grid size={3}>{getStatusDetailsComp()}</Grid>
+      </Grid>
 
       {/* TODO: link to all-tracks */}
     </ListItem>

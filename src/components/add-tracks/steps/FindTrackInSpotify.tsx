@@ -1,11 +1,4 @@
-import {
-  Avatar,
-  Box,
-  Button,
-  InputAdornment,
-  ListItemAvatar,
-  Skeleton,
-} from "@mui/material";
+import { Box, Button, InputAdornment, Skeleton } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import TextField from "@mui/material/TextField";
 import {
@@ -19,7 +12,6 @@ import { FC, useEffect, useState } from "react";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
-import ListItemText from "@mui/material/ListItemText";
 import { IFindTrackInSpotifyProps } from "../interface";
 import {
   useFindTrackInSpotifyFormik,
@@ -27,6 +19,8 @@ import {
   formId,
 } from "./FindTrackInSpotify.formik";
 import { DialogActions, DialogContent } from "@mui/material";
+import { TrackInfoListItem } from "@src/components/shared/TrackInfo.list-item";
+
 
 export const FindTrackInSpotify: FC<IFindTrackInSpotifyProps> = ({
   trackUri,
@@ -153,20 +147,13 @@ export const FindTrackInSpotify: FC<IFindTrackInSpotifyProps> = ({
         <ListItemButton
           id={id}
           selected={selectedTrackId === id}
+          disableSelectedBackground={false}
           onClick={() => handleSelectTrack(id)}
         >
-          <ListItemAvatar>
-            <Avatar
-              variant="square"
-              // alt={`Avatar n°${value + 1}`}
-              src={album.image}
-            />
-          </ListItemAvatar>
-          {/* <ListItemText primary={index + 1} sx={{ width: 50 }} /> */}
-          <ListItemText
-            primary={track.name}
-            secondary={artist.name}
-            sx={{ width: "100%" }}
+          <TrackInfoListItem
+            imageSrc={album.image}
+            trackName={track.name}
+            artistName={artist.name}
           />
         </ListItemButton>
       </ListItem>
@@ -231,7 +218,6 @@ export const FindTrackInSpotify: FC<IFindTrackInSpotifyProps> = ({
           id={`${formId}-reset`}
           form={formId}
           type="reset"
-          color="inherit"
           disabled={isLoading}
         >
           Start Again

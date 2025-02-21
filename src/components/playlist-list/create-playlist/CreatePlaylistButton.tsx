@@ -12,10 +12,9 @@ export const CreatePlaylistButton = () => {
 
   return (
     <>
-      {/* TODO should not be listItem */}
       <ListItemButton
         onClick={handleOpenCreatePlaylistDialog}
-        sx={{ flexGrow: 0 }}
+        sx={(theme) => ({ py: theme.spacing(0.5), flexGrow: 0 })}
       >
         <ListItemIcon>
           <AddCircleIcon />

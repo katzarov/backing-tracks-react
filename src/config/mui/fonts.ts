@@ -1,12 +1,12 @@
 import { Fontface } from "@mui/material/styles/createMixins"; // import type * as CSS from "csstype"; might want to get them directly from the lib
 
-import NationaleLight from "../assets/fonts/Nationale-Light.otf";
-import NationaleRegular from "../assets/fonts/Nationale-Regular.otf";
-import NationaleMedium from "../assets/fonts/Nationale-Medium.otf";
-import NationaleDemiBold from "../assets/fonts/Nationale-DemiBold.otf";
-import NationaleBold from "../assets/fonts/Nationale-Bold.otf";
-import NationaleBlack from "../assets/fonts/Nationale-Black.otf";
-import NationaleItalic from "../assets/fonts/Nationale-Italic.otf";
+import NationaleLight from "../../assets/fonts/Nationale-Light.otf";
+import NationaleRegular from "../../assets/fonts/Nationale-Regular.otf";
+import NationaleMedium from "../../assets/fonts/Nationale-Medium.otf";
+import NationaleDemiBold from "../../assets/fonts/Nationale-DemiBold.otf";
+import NationaleBold from "../../assets/fonts/Nationale-Bold.otf";
+import NationaleBlack from "../../assets/fonts/Nationale-Black.otf";
+import NationaleItalic from "../../assets/fonts/Nationale-Italic.otf";
 
 // https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-weight#common_weight_name_mapping
 

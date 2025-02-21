@@ -20,6 +20,8 @@ export const MainApp = () => {
 
   // TODO: One time warning - warn user that app is best used and fully featured only on desktop.
   // Also check for browser min version, and dont even load the js bundle?
+  // TODO: maybe i should make it just CSS and not conditional rendering as we lose state, when app goes from dekstop to mobile view and vice versa
+
   return (
     <Box sx={{ display: "flex", flexDirection: "column", height: "100vh" }}>
       {isXsScreen && (

@@ -44,43 +44,15 @@ export const TrackInfo: FC<ITrackInfoProps> = ({
         sx={{ alignItems: "flex-start" }}
         overflow="hidden"
       >
-        <Typography
-          color="textPrimary"
-          fontSize={"0.9rem"}
-          fontWeight={600}
-          noWrap
-          width="100%"
-        >
+        <Typography variant="primaryBold" noWrap width="100%">
           {trackName}
         </Typography>
-        <Typography
-          color="textSecondary"
-          fontSize={"0.9rem"}
-          fontWeight={600}
-          noWrap
-          width="100%"
-        >
+        <Typography variant="secondaryBold" noWrap width="100%">
           {artistName}
         </Typography>
 
         {linkToPlaylist && (
-          <Typography
-            textTransform="uppercase"
-            color="textSecondary"
-            fontSize={"0.7rem"}
-            fontWeight={500}
-            noWrap
-            width="100%"
-            sx={{
-              "& > a": {
-                color: "unset",
-                textDecoration: "unset",
-              },
-              "& > a:hover": {
-                textDecoration: "underline",
-              },
-            }}
-          >
+          <Typography variant="linkSubtle" width="100%" noWrap>
             <Link to={linkToPlaylist.link}>
               Playing from: {linkToPlaylist.name}
             </Link>

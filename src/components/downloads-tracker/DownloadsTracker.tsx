@@ -26,7 +26,6 @@ export const DownloadsTracker = () => {
       <IconButton
         size="medium"
         aria-label={`shows ${downloadsCount} current downloads`}
-        color="inherit"
         onClick={handleOpenPopover}
       >
         {/* TODO color error when a failed job and dislay the failed count. When no err, show current downloads */}
@@ -47,7 +46,13 @@ export const DownloadsTracker = () => {
           horizontal: "center",
         }}
       >
-        <Box sx={{ height: "20rem" }}>
+        <Box
+          sx={(theme) => ({
+            width: "30rem",
+            height: "20rem",
+            p: theme.spacing(4),
+          })}
+        >
           <List dense>
             {YtdlState?.jobs.map((job) => (
               <DownloadsListItem key={job.id} job={job} />

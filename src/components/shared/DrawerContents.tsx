@@ -13,6 +13,7 @@ import { PlaylistList } from "../playlist-list/PlaylistList";
 import AudiotrackIcon from "@mui/icons-material/Audiotrack";
 import { NavListItemButton } from "./NavListItemButton";
 import { CreatePlaylistButton } from "../playlist-list/create-playlist/CreatePlaylistButton";
+import { ListSubheader } from "@mui/material";
 
 export const DrawerContents = () => {
   const logoutWithRedirect = async () =>
@@ -24,40 +25,78 @@ export const DrawerContents = () => {
     <>
       <List>
         <ListItem>
-          <NavListItemButton to={routes.app.root}>
+          <NavListItemButton
+            to={routes.app.root}
+            sx={(theme) => ({ py: theme.spacing(1) })}
+          >
             <ListItemIcon>
               <HomeIcon />
             </ListItemIcon>
-            <ListItemText primary="Home" />
+            <ListItemText
+              primary="Home"
+              slotProps={{
+                primary: {
+                  variant: "primaryBold",
+                },
+              }}
+            />
           </NavListItemButton>
         </ListItem>
         <ListItem>
-          <NavListItemButton to={routes.app.allTracks.root}>
+          <NavListItemButton
+            to={routes.app.allTracks.root}
+            sx={(theme) => ({ py: theme.spacing(1) })}
+          >
             <ListItemIcon>
               <AudiotrackIcon />
             </ListItemIcon>
-            <ListItemText primary="All Tracks" />
+            <ListItemText
+              primary="All Tracks"
+              slotProps={{
+                primary: {
+                  variant: "primaryBold",
+                },
+              }}
+            />
           </NavListItemButton>
         </ListItem>
         <ListItem>
           {/* TODO impl search */}
-          <ListItemButton disabled>
+          <ListItemButton disabled sx={(theme) => ({ py: theme.spacing(1) })}>
             <ListItemIcon>
               <SearchIcon />
             </ListItemIcon>
-            <ListItemText primary="Search" />
+            <ListItemText
+              primary="Search"
+              slotProps={{
+                primary: {
+                  variant: "primaryBold",
+                },
+              }}
+            />
           </ListItemButton>
         </ListItem>
         <ListItem>
-          <ListItemButton onClick={logoutWithRedirect}>
+          <ListItemButton
+            onClick={logoutWithRedirect}
+            sx={(theme) => ({ py: theme.spacing(1) })}
+          >
             <ListItemIcon>
               <LogoutIcon />
             </ListItemIcon>
-            <ListItemText primary="Logout" />
+            <ListItemText
+              primary="Logout"
+              slotProps={{
+                primary: {
+                  variant: "primaryBold",
+                },
+              }}
+            />
           </ListItemButton>
         </ListItem>
       </List>
       <Divider />
+      <ListSubheader>Playlists</ListSubheader>
       <CreatePlaylistButton />
       <PlaylistList />
     </>

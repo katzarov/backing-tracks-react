@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { ThemeProvider } from "@mui/material/styles";
 import { CssBaseline, GlobalStyles } from "@mui/material";
-import { globalStyles, theme } from "./config/theme";
+import { theme, globalStyles } from "./config/mui";
 import { Provider } from "react-redux";
 import { RouterProvider } from "react-router-dom";
 import { router } from "./routes/router";
@@ -17,6 +17,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         theme={theme}
         modeStorageKey="bt_mui-mode"
         colorSchemeStorageKey="bt_mui-color-scheme"
+        // idk if its broken rn, but in theme.ts, we need colorSchemeSelector "data" or "class" if we want to manualy force a dark or light theme here.
         defaultMode={"system"}
       >
         <CssBaseline />

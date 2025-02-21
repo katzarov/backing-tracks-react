@@ -16,7 +16,8 @@ export const PlaylistList = () => {
     );
 
   return (
-    <List sx={{ width: "100%" }}>
+    <List sx={{ width: "100%" }} disablePadding>
+      {/*  TODO maybe move create playlist list btn and list subheader here */}
       {data?.map((item) => {
         return (
           <PlaylistListItem

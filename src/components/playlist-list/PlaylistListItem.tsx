@@ -17,11 +17,11 @@ export const PlaylistListItem: FC<IPlaylistListItemProps> = ({
   // description,
 }) => {
   return (
-    <ListItem disablePadding alignItems="center" sx={{ width: "100%" }}>
+    <ListItem alignItems="center" sx={{ width: "100%" }}>
       <NavListItemButton
         to={routes.app.playlist.id(convertIntToString(id))}
         replace // we want to replace and not stack multiple track/playlist changes in the history
-        sx={{ py: 0.5 }}
+        sx={(theme) => ({ py: theme.spacing(0.5) })} // TODO: wait... do I actually need to call theme.spacing myself ? or it is going to be used if i just pass a number here like: py: 0.5
       >
         <ListItemText primary={name} sx={{ width: "100%" }} />
       </NavListItemButton>

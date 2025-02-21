@@ -9,11 +9,12 @@ import { convertIntToString, formatFromSeconds } from "../../utils/utils";
 import { ITrackResponseDto } from "../../store/api/tracks";
 import { usePopover } from "../../hooks/usePopover";
 import { TrackListItemMenu } from "./item-menu/TrackListItemMenu";
-import { Avatar, Box, ListItemAvatar, ListItemIcon } from "@mui/material";
+import { Grid2 as Grid, ListItemIcon } from "@mui/material";
 import VolumeUpIcon from "@mui/icons-material/VolumeUp";
 import { useAppDispatch, useAppSelector } from "src/store";
 import { selectTrackId } from "src/store/slices/player";
 import { userEventClickTrack } from "src/store/extraActions";
+import { TrackInfoListItem } from "../shared/TrackInfo.list-item";
 
 interface ITrackListItemProps {
   index: number;
@@ -53,6 +54,7 @@ export const TrackListItem: FC<ITrackListItemProps> = ({
       sx={{ width: "100%" }}
       secondaryAction={
         <IconButton
+          color="secondary"
           edge="end"
           aria-label="edit track"
           onClick={handleOpenPopover}
@@ -63,32 +65,59 @@ export const TrackListItem: FC<ITrackListItemProps> = ({
     >
       <ListItemButton
         onClick={clickHandler}
+        selected={isBeingPlayed}
         component={Link}
         to={trackItemClickRouteNavigateTo(convertIntToString(data.id))}
         replace // we want to replace and not stack multiple track/playlist changes in the history
       >
-        <Box width={"3rem"}>
-          {isBeingPlayed ? (
-            <ListItemIcon>
-              <VolumeUpIcon fontSize="small" />
-            </ListItemIcon>
-          ) : (
-            <ListItemText primary={index + 1} sx={{ width: 50 }} />
-          )}
-        </Box>
-        <ListItemAvatar>
-          <Avatar variant="square" src={data.meta.albumArt.small?.url} />
-        </ListItemAvatar>
-        <ListItemText
-          primary={data.meta.trackName}
-          secondary={data.meta.artist.artistName}
-          sx={{ width: "100%" }}
-        />
-        <ListItemText secondary={data.trackType} sx={{ width: 100 }} />
-        <ListItemText
-          secondary={formatFromSeconds(data.duration)}
-          sx={{ width: 50 }}
-        />
+        <Grid
+          container
+          width="100%"
+          columns={12}
+          rowSpacing={1}
+          columnSpacing={{ xs: 2, sm: 8 }}
+          alignItems="center"
+        >
+          <Grid
+            size={{ xs: 12, sm: "grow" }}
+            display="flex"
+            alignItems="center"
+            direction="row"
+          >
+            {isBeingPlayed ? (
+              <ListItemIcon
+                color="secondary"
+                sx={(theme) => ({
+                  flexGrow: 0,
+                  width: theme.spacing(10),
+                  minWidth: theme.spacing(10),
+                })}
+              >
+                <VolumeUpIcon fontSize="small" />
+              </ListItemIcon>
+            ) : (
+              <ListItemText
+                secondary={index + 1}
+                sx={(theme) => ({
+                  flexGrow: 0,
+                  width: theme.spacing(10),
+                  minWidth: theme.spacing(10),
+                })}
+              />
+            )}
+            <TrackInfoListItem
+              imageSrc={data.meta.albumArt.small?.url}
+              trackName={data.meta.trackName}
+              artistName={data.meta.artist.artistName}
+            />
+          </Grid>
+          <Grid size="auto">
+            <ListItemText secondary={data.trackType} />
+          </Grid>
+          <Grid size="auto">
+            <ListItemText secondary={formatFromSeconds(data.duration)} />
+          </Grid>
+        </Grid>
       </ListItemButton>
       <TrackListItemMenu
         trackId={data.id}

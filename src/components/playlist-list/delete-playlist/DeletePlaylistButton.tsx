@@ -26,6 +26,7 @@ export const DeletePlaylistButton: FC<IDeletePlaylistButtonProps> = ({
       <Button
         size="small"
         variant="text"
+        vertical
         startIcon={<DeleteIcon />}
         disabled={disabled}
         onClick={handleOpenDeletePlaylistDialog}
