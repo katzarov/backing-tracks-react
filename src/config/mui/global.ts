@@ -23,4 +23,9 @@ export const globalStyles = (theme: Theme) => [
       backgroundColor: theme.palette.background.paper,
     },
   } satisfies Record<string, NormalCssProperties>,
+  {
+    ":root": {
+      "--fixed-ui-spacing": "4rem",
+    },
+  },
 ];

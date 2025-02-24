@@ -13,8 +13,10 @@ export const FixedUIElements = () => {
         position: "fixed",
         display: "flex",
         flexDirection: "row",
+        gap: 4,
         right: 0,
-        marginRight: 2,
+        marginTop: 4,
+        marginRight: 4,
         zIndex: theme.zIndex.mainFixedUI,
       })}
     >

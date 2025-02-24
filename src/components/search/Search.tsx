@@ -11,7 +11,7 @@ export const Search = () => {
     <Tooltip arrow placement="bottom-start" title="Not implemented yet!">
       <SearchInput>
         <SearchIconWrapper>
-          <SearchIcon />
+          <SearchIcon fontSize="small" />
         </SearchIconWrapper>
         <StyledInputBase
           placeholder="Search…"

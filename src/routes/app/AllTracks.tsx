@@ -10,7 +10,7 @@ export const AllTracks = () => {
 
   return (
     <TrackList
-      sx={{ mt: { sm: "4rem" } }}
+      sx={{ mt: { sm: "var(--fixed-ui-spacing)" } }}
       data={data}
       isLoading={isLoading}
       trackItemClickRouteNavigateTo={routes.app.allTracks.id}

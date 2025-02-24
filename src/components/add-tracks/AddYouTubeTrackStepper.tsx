@@ -107,6 +107,7 @@ export const AddYouTubeTrackStepper: FC = () => {
           {steps.map((step, index) => (
             <Step key={step.label} completed={completed[index]}>
               <StepLabel>{step.label}</StepLabel>
+              {/* TODO FIX ERR MUI: <StepContent /> is only designed for use with the vertical stepper. */}
               <StepContent sx={{ borderLeft: "none" }}>
                 <Typography variant="secondary">{step.description}</Typography>
               </StepContent>

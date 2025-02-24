@@ -56,7 +56,6 @@ export const ConfirmationDialog: FC<IConfirmationDialogProps> = ({
           loadingPosition="end"
           disabled={shouldDisableActions || disableAffirmativeButton}
           onClick={onCloseAffirmative}
-          autoFocus
         >
           {affirmativeButtonText}
         </Button>

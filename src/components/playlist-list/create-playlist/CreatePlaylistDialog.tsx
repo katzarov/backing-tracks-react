@@ -114,7 +114,6 @@ export const CreatePlaylistDialog: FC<ICreatePlaylistDialogProps> = ({
             id={playlistDescriptionKey}
             name={playlistDescriptionKey}
             label="Optional: Playlist description"
-            autoFocus
             disabled={isLoading}
             fullWidth
             value={formik.values[playlistDescriptionKey]}

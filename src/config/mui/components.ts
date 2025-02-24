@@ -99,6 +99,35 @@ export const components: ThemeOptions["components"] = {
       }),
     },
   },
+  MuiTextField: {
+    defaultProps: {
+      helperText: " ", // for consistent height - we can dynamically show and hide an error msg, which changes the height.
+      variant: "standard",
+      margin: "normal",
+    },
+    styleOverrides: {
+      root: ({ theme }) => ({
+        "& .MuiInputBase-input": {
+          // marginTop: theme.spacing(2),
+          // marginBottom: theme.spacing(1),
+        },
+      }),
+    },
+  },
+  MuiInputLabel: {
+    defaultProps: {
+      disableAnimation: true,
+      shrink: true,
+    },
+    styleOverrides: {
+      root: {
+        // transform: "none",
+      },
+      standard: ({ theme }) => ({
+        // fontSize: theme.typography.pxToRem(14),
+      }),
+    },
+  },
   MuiButtonBase: {
     defaultProps: {
       // "Without a ripple there is no styling for :focus-visible by default"
@@ -266,13 +295,14 @@ export const components: ThemeOptions["components"] = {
   },
   MuiIconButton: {
     defaultProps: {
+      enableOutline: false,
       color: "primary",
     },
     styleOverrides: {
       colorPrimary: ({ theme }) => ({
         color: theme.palette.text.primary,
         ":hover": {
-          color: darken(theme.palette.text.primary, 0.5),
+          color: darken(theme.palette.text.primary, 0.3),
         },
       }),
       colorSecondary: ({ theme }) => ({
@@ -281,12 +311,26 @@ export const components: ThemeOptions["components"] = {
           color: lighten(theme.palette.text.secondary, 0.5),
         },
       }),
-      root: {
+      root: ({ theme }) => ({
         ":hover": {
           background: "none",
         },
-      },
+      }),
     },
+    variants: [
+      {
+        props: { enableOutline: true },
+        style: ({ theme }) => ({
+          backgroundColor: theme.palette.background.paper,
+          border: "1px solid rgba(255, 255, 255, 0.1)",
+          transition: theme.transitions.create(["color", "border-color"]),
+          "&:hover": {
+            backgroundColor: theme.palette.background.paper,
+            borderColor: "rgba(255, 255, 255, 0.5)",
+          },
+        }),
+      },
+    ],
   },
   // MuiStepButton
   // MuiToggleButton

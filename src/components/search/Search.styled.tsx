@@ -1,12 +1,16 @@
-import { styled, alpha, InputBase } from "@mui/material";
+import { styled, InputBase } from "@mui/material";
 
-// todo styles copied from MUI
 export const SearchInput = styled("div")(({ theme }) => ({
   position: "relative",
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  // height: "100%",
+  borderRadius: 10,
+  color: theme.palette.text.secondary,
+  backgroundColor: theme.palette.background.paper,
+  border: "1px solid rgba(255, 255, 255, 0.1)",
+  transition: theme.transitions.create(["color", "border-color"]),
   "&:hover": {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
+    color: theme.palette.text.primary,
+    borderColor: "rgba(255, 255, 255, 0.5)",
   },
   marginLeft: 0,
   width: "100%",
@@ -29,15 +33,16 @@ export const SearchIconWrapper = styled("div")(({ theme }) => ({
 export const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: "inherit",
   width: "100%",
+  height: "100%",
   "& .MuiInputBase-input": {
     padding: theme.spacing(1, 1, 1, 0),
     // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+    paddingLeft: `calc(1em + ${theme.spacing(6)})`,
     transition: theme.transitions.create("width"),
     [theme.breakpoints.up("sm")]: {
       width: "12ch",
       "&:focus": {
-        width: "20ch",
+        width: "24ch",
       },
     },
   },

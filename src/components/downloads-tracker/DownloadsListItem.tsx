@@ -37,7 +37,7 @@ export const DownloadsListItem: FC<IDownloadsListItemProps> = ({ job }) => {
   return (
     <ListItem>
       <Grid container columns={12} width="100%" alignItems="center">
-        <Grid size={6} display="flex" alignItems="center" direction="row">
+        <Grid size={6} display="flex" alignItems="center" flexDirection="row">
           <TrackInfoListItem
             imageSrc={job.data.meta.spotify.albumArt.small?.url}
             trackName={job.data.meta.spotify.trackName}

@@ -1,4 +1,11 @@
-import { Badge, Box, IconButton, List, Popover } from "@mui/material";
+import {
+  Badge,
+  Box,
+  IconButton,
+  List,
+  Popover,
+  Typography,
+} from "@mui/material";
 import DownloadIcon from "@mui/icons-material/Download";
 import { usePopover } from "@src/hooks/usePopover";
 import { useListenToNotificationsQueryState } from "@src/store/api/notifications";
@@ -25,6 +32,7 @@ export const DownloadsTracker = () => {
     <>
       <IconButton
         size="medium"
+        enableOutline
         aria-label={`shows ${downloadsCount} current downloads`}
         onClick={handleOpenPopover}
       >
@@ -45,6 +53,7 @@ export const DownloadsTracker = () => {
           vertical: "top",
           horizontal: "center",
         }}
+        sx={{ marginTop: 4 }}
       >
         <Box
           sx={(theme) => ({
@@ -53,6 +62,9 @@ export const DownloadsTracker = () => {
             p: theme.spacing(4),
           })}
         >
+          <Typography variant="primaryBold">
+            Recent YouTube downloads:
+          </Typography>
           <List dense>
             {YtdlState?.jobs.map((job) => (
               <DownloadsListItem key={job.id} job={job} />

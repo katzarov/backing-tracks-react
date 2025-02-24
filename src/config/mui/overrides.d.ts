@@ -85,7 +85,7 @@ declare module "@mui/material/Button" {
   // }
 
   interface ButtonOwnProps {
-    vertical?: true;
+    vertical?: true; // todo fix react runtime err cause the prop is forwared.. I can fix it by making a styled comp and there disabling the forwarding of this prop...
     // same for selected ? heart button
     // same for accented ?
   }
@@ -94,7 +94,13 @@ declare module "@mui/material/Button" {
 declare module "@mui/material/ListItemButton" {
   // ListItemButtonBaseProps, ListItemButtonOwnProps ... ListItemButtonProps ??
   interface ListItemButtonOwnProps {
-    disableSelectedBackground?: boolean;
+    disableSelectedBackground?: boolean; // todo fix react runtime err
+  }
+}
+
+declare module "@mui/material/IconButton" {
+  interface IconButtonOwnProps {
+    enableOutline?: boolean; // todo fix react runtime err
   }
 }
 
