@@ -16,7 +16,7 @@ import { selectTrackId } from "src/store/slices/player";
 import { userEventClickTrack } from "src/store/extraActions";
 import { TrackInfoListItem } from "../shared/TrackInfo.list-item";
 
-interface ITrackListItemProps {
+export interface ITrackListItemProps {
   index: number;
   data: ITrackResponseDto;
   trackItemClickRouteNavigateTo: (trackId: string) => string;

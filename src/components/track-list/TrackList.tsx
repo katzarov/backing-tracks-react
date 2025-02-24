@@ -1,10 +1,9 @@
-import Box from "@mui/material/Box";
-import Skeleton from "@mui/material/Skeleton";
 import List from "@mui/material/List";
 import { ITrackResponseDto } from "../../store/api/tracks";
 import { TrackListItem } from "./TrackListItem";
 import { FC } from "react";
 import { SxProps, Theme } from "@mui/material";
+import { TrackListItemLoadingSkeleton } from "./TrackListItem.loading-skeleton";
 
 interface ITrackListProps {
   sx?: SxProps<Theme>;
@@ -19,15 +18,14 @@ export const TrackList: FC<ITrackListProps> = ({
   isLoading,
   trackItemClickRouteNavigateTo,
 }) => {
-  // TODO skeleton may be able to infer dimensions ?
-  // https://mui.com/material-ui/react-skeleton/#inferring-dimensions
   if (isLoading)
     return (
-      <Box>
-        <Skeleton height={50} />
-        <Skeleton height={50} />
-        <Skeleton height={50} />
-      </Box>
+      <List dense sx={{ width: "100%", px: 4, ...sx }}>
+        <TrackListItemLoadingSkeleton sx={{ mt: 2 }} />
+        <TrackListItemLoadingSkeleton sx={{ mt: 2 }} />
+        <TrackListItemLoadingSkeleton sx={{ mt: 2 }} />
+        <TrackListItemLoadingSkeleton sx={{ mt: 2 }} />
+      </List>
     );
 
   const trackList = data?.map((item, index) => {

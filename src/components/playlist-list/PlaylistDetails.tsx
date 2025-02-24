@@ -18,26 +18,17 @@ import {
   StyledStackShrankMenu,
 } from "./PlaylistDetails.styled";
 
-interface IPlaylistDetailsProps {
-  data: ITracksOfPlaylistResponseDto | undefined;
-  isLoading: boolean;
+export interface IPlaylistDetailsProps {
+  data: ITracksOfPlaylistResponseDto;
 }
 
-export const PlaylistDetails: FC<IPlaylistDetailsProps> = ({
-  data,
-  isLoading,
-}) => {
+export const PlaylistDetails: FC<IPlaylistDetailsProps> = ({ data }) => {
   const triggerShrankMenu = useScrollTrigger({
     target: document.querySelector("main") ?? window,
     threshold: 300, // TODO need rem to px here cause the height of the playlist details compnent is in rem, or get the height of the component with getBoundingClientRect
   });
 
-  // TODO in general: handle this state in a separate component
-  if (isLoading) {
-    return "loading skeleton";
-  }
-
-  const { id, name, description, tracks } = data!;
+  const { id, name, description, tracks } = data;
 
   const getImageListItem = (id: number, url: string, alt: string) => {
     return (

@@ -3,7 +3,7 @@ import { useGetTracksOfPlaylistQuery } from "../../store/api/playlists";
 import { TrackList } from "../../components/track-list/TrackList";
 import { useParams } from "react-router-dom";
 import { routes } from "../routes";
-import { PlaylistDetails } from "@src/components/playlist-list/PlaylistDetails";
+import { PlaylistDetailsLoadingContainer } from "@src/components/playlist-list/PlaylistDetails.loading-container";
 
 export const TracksOfPlaylist = () => {
   const { playlistId } = useParams();
@@ -15,7 +15,7 @@ export const TracksOfPlaylist = () => {
 
   return (
     <>
-      <PlaylistDetails data={data} isLoading={isLoading} />
+      <PlaylistDetailsLoadingContainer data={data} isLoading={isLoading} />
       <TrackList
         data={data?.tracks}
         isLoading={isLoading}
