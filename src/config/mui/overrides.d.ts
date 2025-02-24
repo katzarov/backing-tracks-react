@@ -12,22 +12,26 @@ declare module "@mui/material/styles" {
 
   // new color for existing palette - adds to primary, secondary, etc.
   // https://mui.com/material-ui/customization/palette/#adding-color-tokens
-  interface PaletteColor {
-    accent?: string;
-  }
+  // interface PaletteColor {
+  //   accent?: string;
+  // }
 
-  interface SimplePaletteColorOptions {
-    accent?: string;
-  }
+  // interface SimplePaletteColorOptions {
+  //   accent?: string;
+  // }
 
   // a WHOLE NEW pallete having the same props as the existing primary palette
   // https://mui.com/material-ui/customization/palette/#custom-colors
-  interface Palette {
-    accented: Palette["primary"];
-  }
+  // interface Palette {
+  //   accented: Palette["primary"];
+  // }
 
-  interface PaletteOptions {
-    accented?: PaletteOptions["primary"];
+  // interface PaletteOptions {
+  //   accented?: PaletteOptions["primary"];
+  // }
+
+  interface CommonColors {
+    accent: string;
   }
 
   interface TypographyVariants {

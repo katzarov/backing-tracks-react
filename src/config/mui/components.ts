@@ -106,7 +106,7 @@ export const components: ThemeOptions["components"] = {
       margin: "normal",
     },
     styleOverrides: {
-      root: ({ theme }) => ({
+      root: () => ({
         "& .MuiInputBase-input": {
           // marginTop: theme.spacing(2),
           // marginBottom: theme.spacing(1),
@@ -123,7 +123,7 @@ export const components: ThemeOptions["components"] = {
       root: {
         // transform: "none",
       },
-      standard: ({ theme }) => ({
+      standard: () => ({
         // fontSize: theme.typography.pxToRem(14),
       }),
     },
@@ -270,7 +270,7 @@ export const components: ThemeOptions["components"] = {
       {
         // https://mui.com/material-ui/customization/theme-components/?srsltid=AfmBOopNHr3uAs1Uw8uFV9s35bJDsDlgeV4-IRzDfBH8oO2h0ludGCU5#variants
         props: { variant: "contained", color: "accented", size: "large" },
-        style: ({ theme }) => ({
+        style: () => ({
           color: "red",
         }),
       },
@@ -311,7 +311,7 @@ export const components: ThemeOptions["components"] = {
           color: lighten(theme.palette.text.secondary, 0.5),
         },
       }),
-      root: ({ theme }) => ({
+      root: () => ({
         ":hover": {
           background: "none",
         },
@@ -395,7 +395,7 @@ export const components: ThemeOptions["components"] = {
       },
     },
     styleOverrides: {
-      root: ({ theme }) => ({
+      root: () => ({
         // fontWeight: 900,
         // color: theme.palette.text.primary,
         ":hover": {
@@ -418,12 +418,12 @@ export const components: ThemeOptions["components"] = {
         "&.Mui-selected": {
           "& .MuiListItemText-root": {
             "& .MuiListItemText-primary": {
-              color: theme.palette.primary.accent,
+              color: theme.palette.common.accent,
             },
           },
 
           "& .MuiSvgIcon-root": {
-            fill: theme.palette.primary.accent,
+            fill: theme.palette.common.accent,
           },
           // backgroundColor: this is the default calc for it
           //   "rgba(var(--mui-palette-primary-mainChannel) / var(--mui-palette-action-selectedOpacity))",

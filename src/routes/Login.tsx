@@ -76,7 +76,7 @@ export const Login = () => {
             alignItems="center"
             // justifyContent="center"
             sx={(theme) => ({
-              borderBottom: `1px solid ${theme.palette.primary.main}`,
+              borderBottom: `1px solid ${theme.palette.common.accent}`,
             })}
           >
             <AppLogo sx={{ width: 80, height: 80 }} />

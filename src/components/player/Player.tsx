@@ -50,8 +50,8 @@ export const Player: FC<IPlayerProps> = ({
     container: containerRef,
     height: 50,
     backend: isSafari ? "WebAudio" : "MediaElement",
-    waveColor: lighten(theme.palette.primary.main, 0.25),
-    progressColor: theme.palette.primary.main,
+    waveColor: lighten(theme.palette.common.accent, 0.5),
+    progressColor: theme.palette.common.accent,
     dragToSeek: true,
     plugins: useMemo(
       () => [

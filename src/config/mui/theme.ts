@@ -10,9 +10,11 @@ const baseTheme = createTheme({
   colorSchemes: {
     light: {
       palette: {
+        common: {
+          accent: "rgb(125, 0, 0)",
+        },
         primary: {
-          accent: "rgb(125, 0, 0)", // burgundy red or purple
-          main: "#19857b", // maybe swap main and accent
+          main: "#19857b",
         },
         secondary: {
           main: "#19857b",
@@ -27,7 +29,9 @@ const baseTheme = createTheme({
       palette: {
         // text ?
         // need to do the types for extra vars here https://mui.com/material-ui/customization/css-theme-variables/usage/#typescript
-        common: {},
+        common: {
+          accent: "rgb(52, 255, 239)",
+        },
         action: {
           // hoverOpacity todo
           // activatedOpacity,
@@ -37,7 +41,6 @@ const baseTheme = createTheme({
           // active: "orange",
         },
         // error, warning etc colors TODO
-        accented: {},
         divider: "rgb(36, 36, 41)",
         text: {
           // These will be used for everything but the buttons in contained variant, I believe. Make sure these have enough contrast against the background/paper.
@@ -46,7 +49,6 @@ const baseTheme = createTheme({
           // disabled
         },
         primary: {
-          accent: "rgb(52, 255, 239)",
           // accent: rgbToHex("rgb(255, 212, 49)"),
 
           main: "rgb(255, 255, 255)",

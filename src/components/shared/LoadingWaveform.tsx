@@ -38,10 +38,10 @@ export const LoadingWaveform = () => {
             width: 10,
             height: 50,
             margin: "0 3px",
-            backgroundColor: theme.palette.primary.main,
+            backgroundColor: theme.palette.common.accent,
             animation: `${getWaveformKeyframes(
-              theme.palette.primary.main,
-              lighten(theme.palette.primary.main, 0.45)
+              theme.palette.common.accent,
+              lighten(theme.palette.common.accent, 0.45)
             )} 0.75s ease-in-out infinite`,
             animationDelay: getRandomStartDelay(i),
           })}
