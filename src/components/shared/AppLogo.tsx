@@ -12,7 +12,7 @@ export const AppLogo: FC<IAppLogoProps> = ({ sx }) => {
       alt="App logo"
       src={logo_transparent}
       variant="square"
-      sx={{ width: 60, height: 60, ...sx }}
+      sx={{ width: "3.75rem", height: "3.75rem", ...sx }}
     />
   );
 };

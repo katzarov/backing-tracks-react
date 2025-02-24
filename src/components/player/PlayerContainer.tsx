@@ -38,7 +38,7 @@ export const PlayerContainer = () => {
         maxWidth="100%"
         display="flex"
         alignItems="center"
-        direction="row"
+        flexDirection="row"
       >
         <TrackInfo
           imageSrc={albumImageSrc}
@@ -59,7 +59,7 @@ export const PlayerContainer = () => {
         size={{ xs: 12, sm: 6 }}
         display="flex"
         alignItems="center"
-        direction="row"
+        flexDirection="row"
       >
         <Player
           trackId={trackId}
@@ -72,7 +72,7 @@ export const PlayerContainer = () => {
         size={{ xs: 12, sm: 3 }}
         display="flex"
         alignItems="center"
-        direction="row"
+        flexDirection="row"
       ></Grid>
     </Grid>
   );

@@ -307,15 +307,28 @@ export const components: ThemeOptions["components"] = {
       disablePadding: true,
     },
     styleOverrides: {
-      // container: {},
       root: {
         ":hover": {
-          // color: "red",
+          "& .MuiListItemSecondaryAction-root": {
+            visibility: "visible",
+          },
+        },
+        ":focus-within": {
+          "& .MuiListItemSecondaryAction-root": {
+            visibility: "visible",
+          },
         },
       },
     },
   },
-
+  MuiListItemSecondaryAction: {
+    styleOverrides: {
+      root: {
+        // tab index not cool when user deselects the dropdown, focus is moved to beginning of document
+        visibility: "hidden",
+      },
+    },
+  },
   MuiListItemIcon: {
     styleOverrides: {
       root: ({ theme }) => ({

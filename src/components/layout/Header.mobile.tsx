@@ -7,6 +7,8 @@ import { AppLogo } from "../shared/AppLogo";
 interface IHeaderMobileProps {
   handleDrawerToggle: () => void;
 }
+
+// todo fix up.
 export const HeaderMobile: FC<IHeaderMobileProps> = ({
   handleDrawerToggle,
 }) => {

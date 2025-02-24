@@ -219,10 +219,10 @@ export const FindTrackInSpotify: FC<IFindTrackInSpotifyProps> = ({
           form={formId}
           type="reset"
           disabled={isLoading}
+          sx={{ mr: "auto" }}
         >
           Start Again
         </Button>
-        <Box sx={{ flex: "1 1 auto" }} />
         <Button
           id={`${formId}-submit`}
           form={formId}

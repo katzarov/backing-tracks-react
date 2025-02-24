@@ -2,7 +2,7 @@ import { FC } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import { MenuItem } from "@mui/material";
-import { StyledMenu } from "./TrackListItemMenu.styled";
+import { PopoverMenu } from "@src/components/shared/PopoverMenu";
 import { useModal } from "../../../hooks/useModal";
 import { EditPlaylistsOfTrackDialog } from "./edit-playlists-of-track/EditPlaylistsOfTrackDialog";
 import { DeleteTrackDialog } from "./delete-track/DeleteTrackDialog";
@@ -44,7 +44,7 @@ export const TrackListItemMenu: FC<ITrackListItemMenuProps> = ({
 
   return (
     <>
-      <StyledMenu
+      <PopoverMenu
         MenuListProps={{
           "aria-labelledby": "demo-customized-button",
         }}
@@ -60,7 +60,7 @@ export const TrackListItemMenu: FC<ITrackListItemMenuProps> = ({
           <DeleteIcon />
           Delete track
         </MenuItem>
-      </StyledMenu>
+      </PopoverMenu>
       {shouldOpenEditPlaylistsOfTrackDialog && (
         <EditPlaylistsOfTrackDialog
           trackId={trackId}

@@ -4,7 +4,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import IconButton from "@mui/material/IconButton";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import { convertIntToString, formatFromSeconds } from "../../utils/utils";
 import { ITrackResponseDto } from "../../store/api/tracks";
 import { usePopover } from "../../hooks/usePopover";
@@ -59,7 +59,7 @@ export const TrackListItem: FC<ITrackListItemProps> = ({
           aria-label="edit track"
           onClick={handleOpenPopover}
         >
-          <MoreVertIcon />
+          <MoreHorizIcon />
         </IconButton>
       }
     >
@@ -82,7 +82,7 @@ export const TrackListItem: FC<ITrackListItemProps> = ({
             size={{ xs: 12, sm: "grow" }}
             display="flex"
             alignItems="center"
-            direction="row"
+            flexDirection="row"
           >
             {isBeingPlayed ? (
               <ListItemIcon

@@ -1,10 +1,6 @@
-import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import DriveFolderUploadIcon from "@mui/icons-material/DriveFolderUpload";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import { StyledMenu } from "./AddTrackMenu.styled";
 import { AddYouTubeTrackStepper } from "./AddYouTubeTrackStepper";
 import { AddTrackViaUploadStepper } from "./AddTrackViaUploadStepper";
 import { usePopover } from "../../hooks/usePopover";
@@ -12,6 +8,9 @@ import {
   AddTrackViaUploadStepperModalContext,
   AddYouTubeTrackStepperModalContext,
 } from "./AddTrackMenu.context";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import { ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
+import { PopoverMenu } from "../shared/PopoverMenu";
 
 export const AddTrackMenu = () => {
   const {
@@ -37,51 +36,51 @@ export const AddTrackMenu = () => {
               {({
                 openModal: openUploadTrackStepperModal,
                 handleOpenModal: handleOpenUploadTrackStepperModal,
-              }) => (
-                <>
-                  <Button
-                    id="open-add-track-menu-button"
-                    aria-controls={
-                      shoulOpenPopover ? "add-track-menu" : undefined
-                    }
-                    aria-haspopup="true"
-                    aria-expanded={shoulOpenPopover ? "true" : undefined}
-                    variant="contained"
-                    onClick={handleOpenPopover}
-                    endIcon={
-                      shoulOpenPopover ? (
-                        <KeyboardArrowUpIcon />
-                      ) : (
-                        <KeyboardArrowDownIcon />
-                      )
-                    }
-                  >
-                    Add Track
-                  </Button>
-                  <StyledMenu
-                    id="add-track-menu-button"
-                    MenuListProps={{
-                      "aria-labelledby": "add-track-buttons",
-                    }}
-                    anchorEl={popoverAnchorElement}
-                    open={shoulOpenPopover}
-                    onClose={handleClosePopover}
-                  >
-                    <MenuItem onClick={handleOpenAddYouTubeTrackStepperModal}>
-                      <YouTubeIcon />
-                      From YouTube
-                    </MenuItem>
-                    <MenuItem onClick={handleOpenUploadTrackStepperModal}>
-                      <DriveFolderUploadIcon />
-                      File Upload
-                    </MenuItem>
-                  </StyledMenu>
-                  {openAddYouTubeTrackStepperModal && (
-                    <AddYouTubeTrackStepper />
-                  )}
-                  {openUploadTrackStepperModal && <AddTrackViaUploadStepper />}
-                </>
-              )}
+              }) => {
+                return (
+                  <>
+                    <ListItemButton
+                      id="open-add-track-menu-button"
+                      aria-controls={
+                        shoulOpenPopover ? "add-track-menu" : undefined
+                      }
+                      aria-haspopup="true"
+                      aria-expanded={shoulOpenPopover ? "true" : undefined}
+                      onClick={handleOpenPopover}
+                      sx={{ marginTop: 6 }}
+                    >
+                      <ListItemIcon sx={{ minWidth: 0, marginRight: 4 }}>
+                        <AddCircleIcon />
+                      </ListItemIcon>
+                      <ListItemText primary="Add track ..." />
+                    </ListItemButton>
+                    <PopoverMenu
+                      id="add-track-menu-button"
+                      MenuListProps={{
+                        "aria-labelledby": "add-track-buttons",
+                      }}
+                      anchorEl={popoverAnchorElement}
+                      open={shoulOpenPopover}
+                      onClose={handleClosePopover}
+                    >
+                      <MenuItem onClick={handleOpenAddYouTubeTrackStepperModal}>
+                        <YouTubeIcon />
+                        From YouTube
+                      </MenuItem>
+                      <MenuItem onClick={handleOpenUploadTrackStepperModal}>
+                        <DriveFolderUploadIcon />
+                        File Upload
+                      </MenuItem>
+                    </PopoverMenu>
+                    {openAddYouTubeTrackStepperModal && (
+                      <AddYouTubeTrackStepper />
+                    )}
+                    {openUploadTrackStepperModal && (
+                      <AddTrackViaUploadStepper />
+                    )}
+                  </>
+                );
+              }}
             </AddTrackViaUploadStepperModalContext.Consumer>
           </AddTrackViaUploadStepperModalContext.Provider>
         )}

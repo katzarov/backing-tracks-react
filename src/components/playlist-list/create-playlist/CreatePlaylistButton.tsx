@@ -16,7 +16,7 @@ export const CreatePlaylistButton = () => {
         onClick={handleOpenCreatePlaylistDialog}
         sx={(theme) => ({ py: theme.spacing(0.5), flexGrow: 0 })}
       >
-        <ListItemIcon>
+        <ListItemIcon sx={{ minWidth: 0, marginRight: 4 }}>
           <AddCircleIcon />
         </ListItemIcon>
         <ListItemText primary="Add playlist" />
