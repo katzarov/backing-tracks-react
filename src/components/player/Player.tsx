@@ -1,4 +1,4 @@
-import { useMemo, useCallback, useRef, useEffect, useState, FC } from "react";
+import { useCallback, useRef, useEffect, useState, FC } from "react";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import PauseRounded from "@mui/icons-material/PauseRounded";
@@ -6,7 +6,7 @@ import PlayArrowRounded from "@mui/icons-material/PlayArrowRounded";
 import FastForwardRounded from "@mui/icons-material/FastForwardRounded";
 import FastRewindRounded from "@mui/icons-material/FastRewindRounded";
 import { useWavesurfer } from "@wavesurfer/react";
-import Timeline from "wavesurfer.js/dist/plugins/timeline.esm.js";
+// import Timeline from "wavesurfer.js/dist/plugins/timeline.esm.js";
 import { TrackLoader } from "@lib/track-loader";
 import { ITrackResponseDto } from "@src/store/api/tracks";
 import { PeaksLoader } from "@src/lib/peaks-loader";
@@ -32,7 +32,7 @@ interface IPlayerProps {
   duration: ITrackResponseDto["duration"] | null;
 }
 
-const timelineHeight = 16;
+const timelineHeight = 0;
 const timelineHeightString = `${timelineHeight}px`;
 
 // TODO drop this wavesurfer react lib and create my own binding.
@@ -53,18 +53,18 @@ export const Player: FC<IPlayerProps> = ({
     waveColor: lighten(theme.palette.common.accent, 0.5),
     progressColor: theme.palette.common.accent,
     dragToSeek: true,
-    plugins: useMemo(
-      () => [
-        Timeline.create({
-          height: timelineHeight,
-          //TODO will need to make this more sparse for smaller screens and just disable for mobile.
-          timeInterval: 15,
-          secondaryLabelOpacity: 1,
-          style: { fontSize: "14px" },
-        }),
-      ],
-      []
-    ),
+    // plugins: useMemo(
+    //   () => [
+    //     Timeline.create({
+    //       height: timelineHeight,
+    //       //TODO will need to make this more sparse for smaller screens and just disable for mobile.
+    //       timeInterval: 15,
+    //       secondaryLabelOpacity: 1,
+    //       style: { fontSize: "14px" },
+    //     }),
+    //   ],
+    //   []
+    // ),
   });
 
   useEffect(() => {
@@ -179,7 +179,7 @@ export const Player: FC<IPlayerProps> = ({
       </Box>
 
       <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-        <Typography sx={{ mb: timelineHeightString }}>
+        <Typography variant="linkSubtle" sx={{ mb: timelineHeightString }}>
           {formattedCurrentTime}
         </Typography>
 
@@ -196,7 +196,7 @@ export const Player: FC<IPlayerProps> = ({
             </>
           )}
         </Box>
-        <Typography sx={{ mb: timelineHeightString }}>
+        <Typography variant="linkSubtle" sx={{ mb: timelineHeightString }}>
           {formattedDuration}
         </Typography>
       </Box>

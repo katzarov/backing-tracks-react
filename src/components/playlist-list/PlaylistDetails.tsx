@@ -5,8 +5,6 @@ import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import {
   Button,
   Fade,
-  ImageList,
-  ImageListItem,
   Stack,
   Typography,
   useScrollTrigger,
@@ -17,6 +15,7 @@ import {
   StyledStackMenu,
   StyledStackShrankMenu,
 } from "./PlaylistDetails.styled";
+import { PlaylistCoverArt } from "./PlaylistCoverArt";
 
 export interface IPlaylistDetailsProps {
   data: ITracksOfPlaylistResponseDto;
@@ -30,43 +29,34 @@ export const PlaylistDetails: FC<IPlaylistDetailsProps> = ({ data }) => {
 
   const { id, name, description, tracks } = data;
 
-  const getImageListItem = (id: number, url: string, alt: string) => {
-    return (
-      <ImageListItem key={id}>
-        <img src={url} alt={alt} />
-      </ImageListItem>
-    );
-  };
-
-  // TODO create some image mixer, should ideally do it on the BE in the future.
-  const ImageList4x4 = (
-    <ImageList sx={{ width: "10rem", height: "10rem" }} cols={2} gap={0}>
-      {tracks
-        .slice(0, 4)
-        .map((track) =>
-          getImageListItem(
-            track.id,
-            track.meta.albumArt.small?.url || "",
-            track.meta.trackName
-          )
-        )}
-    </ImageList>
-  );
-
   const bgAlbumArt =
     tracks.length > 0 ? tracks[0].meta.albumArt.large?.url || "" : "";
   const playlistNumberOfTracks = tracks.length; // TODO: keep num of tracks as a playlist column, or is there some DB way of computing this on the fly
+
+  const playlistNumberOfTracksText =
+    playlistNumberOfTracks === 1
+      ? "1 track"
+      : `${playlistNumberOfTracks} tracks`;
 
   return (
     <>
       <Fade in={triggerShrankMenu}>
         <StyledBoxShrankWithBgImage url={bgAlbumArt}>
           <StyledStackShrankMenu>
-            <Stack direction="row" marginX={4}>
+            <Stack
+              direction="row"
+              marginX={4}
+              marginTop={4}
+              alignItems="center"
+            >
+              <PlaylistCoverArt
+                tracks={tracks}
+                sx={{ width: "3rem", height: "3rem" }}
+              />
               <Stack marginX={4}>
-                <Typography variant="body1"> {name}</Typography>
-                <Typography variant="caption">
-                  {playlistNumberOfTracks} tracks
+                <Typography variant="primaryBold"> {name}</Typography>
+                <Typography variant="linkSubtle">
+                  {playlistNumberOfTracksText}
                 </Typography>
               </Stack>
               <Button
@@ -82,14 +72,17 @@ export const PlaylistDetails: FC<IPlaylistDetailsProps> = ({ data }) => {
         </StyledBoxShrankWithBgImage>
       </Fade>
       <StyledBoxWithBgImage url={bgAlbumArt}>
-        <StyledStackMenu>
-          <Stack direction="row" marginLeft={4} alignItems="baseline">
-            {ImageList4x4}
-            <Stack marginLeft={2}>
+        <StyledStackMenu p={4}>
+          <Stack direction="row" marginLeft={4} alignItems="center">
+            <PlaylistCoverArt
+              tracks={tracks}
+              sx={{ width: "12rem", height: "12rem" }}
+            />
+            <Stack marginLeft={6}>
               <Typography variant="h2"> {name}</Typography>
-              <Typography variant="caption"> {description}</Typography>
-              <Typography variant="caption">
-                {playlistNumberOfTracks} tracks
+              <Typography variant="secondaryBold"> {description}</Typography>
+              <Typography variant="linkSubtle">
+                {playlistNumberOfTracksText}
               </Typography>
             </Stack>
           </Stack>

@@ -441,4 +441,11 @@ export const components: ThemeOptions["components"] = {
       },
     ],
   },
+  MuiImageList: {
+    styleOverrides: {
+      root: {
+        borderRadius: 10,
+      },
+    },
+  },
 };
