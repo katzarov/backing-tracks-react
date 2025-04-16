@@ -29,14 +29,14 @@ One possible solution to the above-mentioned problems is a web app that can offe
 
 - React 18
 - Redux Toolkit - Redux, RTK Query, createListenerMiddleware (like Redux Saga but much simpler)
-- React Router v6
-- MUI
+- React Router v6 - For some reason, I have low trust in the long term outlook of this project and its ideas.
+- MUI - I came a long way with undoing the materialui-ness out of it and making it look and feel like my own. But long term I am not sure if its the best solution... Maybe I can look at other solutions, unstyled comps like radix-ui and then just style with plain css or tailwind. I don't know yet. The pro is that a lot of companies I have been applying to are using it..
 - Wavesurfer.js
 - Vite
 
 ## Conventions
 
-As of now, it's a playground for ideas.., the whole project is. So don't take it too seriously, but the goal is: at some point I will come up with my own style for writing scalable and maintanable React apps.
+As of now, it's a playground for ideas.., the whole project is. So don't take it too seriously.
 
 ### Folder Structure
 

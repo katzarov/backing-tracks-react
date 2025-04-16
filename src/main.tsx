@@ -23,7 +23,10 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         <CssBaseline />
         <GlobalStyles styles={(theme) => globalStyles(theme)} />
         <RehydratedGate>
-          <RouterProvider router={router} />
+          <RouterProvider
+            router={router}
+            future={{ v7_startTransition: true }}
+          />
         </RehydratedGate>
       </ThemeProvider>
     </Provider>
