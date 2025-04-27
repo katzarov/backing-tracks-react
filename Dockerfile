@@ -1,4 +1,4 @@
-FROM node:20.11.1-bookworm-slim as build
+FROM node:20.19-bookworm-slim as build
 WORKDIR /usr/src/app
 COPY package*.json ./
 RUN npm ci
@@ -15,6 +15,7 @@ RUN echo "VITE_AUTH0_DOMAIN=$VITE_AUTH0_DOMAIN" > .env && \
     echo "VITE_USE_S3_TO_DOWNLOAD_TRACK=$VITE_USE_S3_TO_DOWNLOAD_TRACK" >> .env
 RUN npm run build
 
+# TODO fix major ver of nginx.. and also of redis stack in nest app.
 FROM nginx:stable-alpine
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=build /usr/src/app/dist /usr/share/nginx/html
