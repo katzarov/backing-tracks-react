@@ -49,10 +49,11 @@ export interface YtdlJobData {
 type YtdlJobProgress =
   | number
   | {
-      percent: string;
+      percent: number | null;
       eta: number | null;
     };
 
+// incorrect types => will get fixed soon when we start using the bti pkg.
 export interface YtdlJobFormatted {
   name: "yt_download";
   id: string;

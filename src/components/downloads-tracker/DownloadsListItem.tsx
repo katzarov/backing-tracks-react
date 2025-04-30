@@ -15,13 +15,13 @@ interface IDownloadsListItemProps {
 export const DownloadsListItem: FC<IDownloadsListItemProps> = ({ job }) => {
   const jobProgress =
     typeof job.progress === "object"
-      ? { percent: parseInt(job.progress.percent), eta: job.progress.eta }
+      ? { percent: job.progress.percent ?? 0, eta: job.progress.eta }
       : { percent: 0, eta: null };
 
   const getStatusDetailsComp = () => {
     if (job.state === "active") {
       return (
-        <LinearProgress variant="determinate" value={jobProgress.percent!} />
+        <LinearProgress variant="determinate" value={jobProgress.percent} />
       );
     }
     if (job.state === "completed" || job.state === "failed") {

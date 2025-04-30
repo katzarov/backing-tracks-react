@@ -55,7 +55,7 @@ export const PlaylistCoverArt: FC<IPlaylistCoverArtProps> = ({
           .map((track) =>
             getImageListItem(
               track.id,
-              track.meta.albumArt.small?.url || "",
+              track.meta.albumArt.medium?.url || "",
               track.meta.trackName
             )
           )}
@@ -70,7 +70,7 @@ export const PlaylistCoverArt: FC<IPlaylistCoverArtProps> = ({
         .map((track) =>
           getImageListItem(
             track.id,
-            track.meta.albumArt.small?.url || "",
+            track.meta.albumArt.medium?.url || "",
             track.meta.trackName
           )
         )}
