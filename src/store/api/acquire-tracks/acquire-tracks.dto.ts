@@ -3,8 +3,6 @@ import {
   TrackType,
 } from "src/components/add-tracks/interface";
 
-export type IYouTubeVideoInfoRequestDto = string;
-
 export interface IYouTubeVideoInfoResponseDto {
   title: string;
   channel: string;

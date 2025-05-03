@@ -5,9 +5,9 @@ import {
   ISearchForTrackInSpotifyResponseDto,
   IAddYouTubeDownloadJobRequestDto,
   IAddYouTubeDownloadJobResponseDto,
-  IYouTubeVideoInfoRequestDto,
   IYouTubeVideoInfoResponseDto,
 } from ".";
+import { IGetYoutubeVideoInfoRequest } from "backing-tracks-isomorphic";
 import { api, listId } from "../rtk-query-api-config";
 
 // https://github.com/reduxjs/redux-toolkit/discussions/2052
@@ -15,10 +15,10 @@ export const acquireTracksApi = api.injectEndpoints({
   endpoints: (builder) => ({
     getYouTubeVideoInfo: builder.query<
       IYouTubeVideoInfoResponseDto,
-      IYouTubeVideoInfoRequestDto
+      IGetYoutubeVideoInfoRequest
     >({
-      query: (videoUrl) => ({
-        url: `acquire-tracks/youtube/info/${encodeURIComponent(videoUrl)}`,
+      query: ({ url }) => ({
+        url: `acquire-tracks/youtube/info/${encodeURIComponent(url)}`,
       }),
     }),
     addYouTubeDownloadJob: builder.mutation<

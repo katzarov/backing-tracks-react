@@ -9,6 +9,12 @@ endef
 loadEnvVars:
 	$(call setup_env, .env.local)
 
+bti-local:
+	npm i file:../backing-tracks-isomorphic
+
+bti-reg:
+	npm i backing-tracks-isomorphic@latest
+
 build: loadEnvVars
 	docker	build	\
 		--build-arg="VITE_AUTH0_DOMAIN=${VITE_AUTH0_DOMAIN}"	\

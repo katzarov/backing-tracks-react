@@ -64,7 +64,9 @@ export const LinkToYouTubeTrack: FC<ILinkToYouTubeTrackProps> = ({
         [trackTypeKey]: trackType,
         [trackInstrumentKey]: trackInstrument,
       } = values;
-      const youtubeResult = await fetchYouTubeVideoInfo(videoUrl).unwrap();
+      const youtubeResult = await fetchYouTubeVideoInfo({
+        url: videoUrl,
+      }).unwrap();
       const { title } = youtubeResult;
       const searchResults = await fetchSearchForTrackInSpotify({
         query: title,
