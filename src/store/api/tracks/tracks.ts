@@ -13,6 +13,7 @@ import {
   IGetTrackRequestDto,
 } from ".";
 import { api, listId } from "../rtk-query-api-config";
+import { IUpdateTrackRequest } from "backing-tracks-isomorphic";
 
 export const tracksApi = api.injectEndpoints({
   endpoints: (builder) => ({
@@ -46,6 +47,20 @@ export const tracksApi = api.injectEndpoints({
           type: "Playlist" as const,
           id: item.id,
         })),
+      ],
+    }),
+    updateTrack: builder.mutation<
+      void,
+      { params: { trackId: number }; body: IUpdateTrackRequest }
+    >({
+      query: ({ params, body }) => ({
+        url: `tracks/${params.trackId}`,
+        method: "PATCH",
+        body,
+      }),
+      // TODO: I dont remember, if the fetch errors does it invalidate the cache or not ?
+      invalidatesTags: (_result, _error, { params }) => [
+        { type: "Track", id: params.trackId },
       ],
     }),
     updatePlaylistsOfTrack: builder.mutation<
@@ -89,6 +104,7 @@ export const {
   useGetTrackQuery,
   useLazyGetTrackQuery,
   useGetAllPlaylistsOfTrackQuery,
+  useUpdateTrackMutation,
   useUpdatePlaylistsOfTrackMutation,
   useDeleteTrackMutation,
 } = tracksApi;

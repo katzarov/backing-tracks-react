@@ -1,8 +1,5 @@
-import {
-  TrackInstrument,
-  TrackType,
-} from "../../../components/add-tracks/interface";
 import { IPlaylistResponseDto } from "../playlists";
+import { ITrack } from "backing-tracks-isomorphic";
 
 export interface IAlbumArtImage {
   url: string;
@@ -12,24 +9,7 @@ export interface IAlbumArtImage {
 
 export type ITrackRequestDto = void;
 
-export interface ITrackResponseDto {
-  id: number;
-  resourceId: string;
-  trackType: TrackType;
-  trackInstrument: TrackInstrument;
-  duration: number;
-  meta: {
-    trackName: string;
-    artist: {
-      artistName: string;
-    };
-    albumArt: {
-      small: IAlbumArtImage | null;
-      medium: IAlbumArtImage | null;
-      large: IAlbumArtImage | null;
-    };
-  };
-}
+export type ITrackResponseDto = ITrack;
 
 export type IGetTrackRequestDto = ITrackResponseDto["id"];
 

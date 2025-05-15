@@ -41,6 +41,7 @@ export const acquireTracksApi = api.injectEndpoints({
         body,
         formData: true,
       }),
+      // TODO: dont invalidate if req was not successful.. Might want to do the same for other endpoints
       invalidatesTags: [{ type: "Track", id: listId }],
     }),
     searchForTrackInSpotify: builder.query<
