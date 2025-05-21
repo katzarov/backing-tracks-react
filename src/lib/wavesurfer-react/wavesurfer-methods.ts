@@ -41,5 +41,9 @@ export class WavesuferMethods {
     }
   };
 
+  setVolume = (volumeLevel: number) => {
+    this.wavesurferInstance?.setVolume(volumeLevel);
+  };
+
   // onEvent = TODO,
 }

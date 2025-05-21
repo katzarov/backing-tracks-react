@@ -4,6 +4,10 @@ import { routes } from "src/routes/routes";
 import { convertIntToString } from "src/utils/utils";
 import { useSelectedTrackPlaylistData } from "src/hooks/useSelectedTrackPlaylistData";
 import { TrackInfo } from "../shared/TrackInfo";
+import { useCallback, useRef } from "react";
+import { PlaylistControls } from "./PlaylistControls";
+import { TrackRegions } from "./TrackRegions";
+import { TrackControls } from "./TrackControls";
 
 export const PlayerContainer = () => {
   const {
@@ -21,6 +25,14 @@ export const PlayerContainer = () => {
   // if we need to hit play from another spot... we will rethink how we do it.. maybe event bus will be needed.
   const wavesurferRef = useRef<IWavesurferRef | null>(null);
 
+  const handlePlayPause = useCallback(() => {
+    wavesurferRef.current?.playPause();
+  }, []);
+
+  const handleSetVolume = useCallback((volumeLevel: number) => {
+    wavesurferRef.current?.setVolume(volumeLevel);
+  }, []);
+
   const playlistIdTrackIdRoute =
     playlistId !== null && trackId !== null
       ? `${routes.app.playlist.id(
@@ -35,15 +47,8 @@ export const PlayerContainer = () => {
       columns={12}
       rowSpacing={2}
       columnSpacing={{ xs: 2, sm: 4 }}
-      alignItems="center"
     >
-      <Grid
-        size={{ xs: 12, sm: 3 }}
-        maxWidth="100%"
-        display="flex"
-        alignItems="center"
-        flexDirection="row"
-      >
+      <Grid size={{ xs: 12, sm: 3 }}>
         <TrackInfo
           imageSrc={albumImageSrc}
           trackName={trackName}
@@ -56,11 +61,17 @@ export const PlayerContainer = () => {
                 },
               }
             : {})}
+          sx={{ mt: 3 }}
+        />
+        <PlaylistControls
+          onPlayPause={handlePlayPause}
+          playlistId={playlistId}
+          sx={{ mt: 2 }}
         />
       </Grid>
 
       <Grid
-        size={{ xs: 12, sm: 6 }}
+        size={{ xs: 12, sm: 5 }}
         display="flex"
         alignItems="center"
         flexDirection="row"
@@ -74,12 +85,12 @@ export const PlayerContainer = () => {
           regions={regions}
         />
       </Grid>
-      <Grid
-        size={{ xs: 12, sm: 3 }}
-        display="flex"
-        alignItems="center"
-        flexDirection="row"
-      ></Grid>
+      <Grid size={{ xs: 12, sm: 2 }}>
+        <TrackRegions />
+      </Grid>
+      <Grid size={{ xs: 12, sm: 2 }}>
+        <TrackControls handleSetVolume={handleSetVolume} />
+      </Grid>
     </Grid>
   );
 };
