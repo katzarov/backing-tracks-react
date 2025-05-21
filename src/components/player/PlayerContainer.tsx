@@ -1,5 +1,5 @@
 import { Grid2 as Grid } from "@mui/material";
-import { Player } from "./Player";
+import { IWavesurferRef, Player } from "./Player";
 import { routes } from "src/routes/routes";
 import { convertIntToString } from "src/utils/utils";
 import { useSelectedTrackPlaylistData } from "src/hooks/useSelectedTrackPlaylistData";
@@ -15,7 +15,11 @@ export const PlayerContainer = () => {
     playlistId,
     playlistName,
     albumImageSrc,
+    regions,
   } = useSelectedTrackPlaylistData();
+
+  // if we need to hit play from another spot... we will rethink how we do it.. maybe event bus will be needed.
+  const wavesurferRef = useRef<IWavesurferRef | null>(null);
 
   const playlistIdTrackIdRoute =
     playlistId !== null && trackId !== null
@@ -62,10 +66,12 @@ export const PlayerContainer = () => {
         flexDirection="row"
       >
         <Player
+          ref={wavesurferRef}
           trackId={trackId}
           playlistId={playlistId}
           trackUri={trackUri}
           duration={trackDuration}
+          regions={regions}
         />
       </Grid>
       <Grid

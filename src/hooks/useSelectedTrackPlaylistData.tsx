@@ -1,7 +1,7 @@
 import { skipToken } from "@reduxjs/toolkit/query";
 import { useAppSelector } from "src/store";
 import { useGetTracksOfPlaylistQueryState } from "src/store/api/playlists";
-import { useGetTrackQuery } from "src/store/api/tracks";
+import { ITrackResponseDto, useGetTrackQuery } from "src/store/api/tracks";
 import { selectPlaylistId, selectTrackId } from "src/store/slices/player";
 
 interface ICurrentTrackPlaylistTuple {
@@ -13,6 +13,7 @@ interface ICurrentTrackPlaylistTuple {
   playlistId: number | null;
   playlistName: string;
   albumImageSrc: string;
+  regions: ITrackResponseDto["regions"];
 }
 
 const noCurrentTrack: ICurrentTrackPlaylistTuple = {
@@ -24,12 +25,16 @@ const noCurrentTrack: ICurrentTrackPlaylistTuple = {
   playlistId: null,
   playlistName: "",
   albumImageSrc: "",
+  regions: [],
 };
 
 /**
  * if current track is from all tracks, ie no playlist, we just do getTrack, because we dont need a playlist - there is no autoplay feat in this case
  * if track is from playlist, we need to do getTracksOfPlaylist, bacasue there is autoplay and we need to sub for it here, regardless of where we go in the UI
  */
+
+
+// TODO this is all terrible => remove this hook and simplify
 export const useSelectedTrackPlaylistData = (): ICurrentTrackPlaylistTuple => {
   const trackId = useAppSelector(selectTrackId);
   const playlistId = useAppSelector(selectPlaylistId);
@@ -85,6 +90,7 @@ export const useSelectedTrackPlaylistData = (): ICurrentTrackPlaylistTuple => {
       playlistName: trackFromGetTracksOfPlaylist.playlist.name,
       albumImageSrc:
         trackFromGetTracksOfPlaylist.track.meta.albumArt.small?.url || "",
+      regions: trackFromGetTracksOfPlaylist.track.regions,
     };
   }
 
@@ -102,6 +108,7 @@ export const useSelectedTrackPlaylistData = (): ICurrentTrackPlaylistTuple => {
       playlistId: null,
       playlistName: "",
       albumImageSrc: trackFromGetTrack.meta.albumArt.small?.url || "",
+      regions: trackFromGetTrack.regions,
     };
   }
 

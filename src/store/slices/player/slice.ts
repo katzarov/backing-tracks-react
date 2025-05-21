@@ -1,20 +1,34 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { setTrackPlaylistTuple as setTrackPlaylistTupleAction } from "./actions";
+import {
+  setIsEditingRegions as setIsEditingRegionsAction,
+  setIsLooping as setIsLoopingAction,
+  setTrackPlaylistTuple as setTrackPlaylistTupleAction,
+  setRegionId as setRegionIdAction,
+  wavesurferEvent as wavesurferEventAction,
+} from "./actions";
 import { resetStoreAction } from "src/store/extraActions";
 import { playlistsApi } from "@src/store/api/playlists";
 
 export interface PlayerState {
-  playerWebComponentInitialLoading: boolean;
-  loadingTrack: boolean | null;
+  isWavesurferInitializing: boolean;
+  isLoadingTrack: boolean | null;
+  isPlaying: boolean;
+  isEditingRegions: boolean;
+  isLooping: boolean;
   trackId: number | null;
   playlistId: number | null;
+  regionId: string | null;
 }
 
 const initialState: PlayerState = {
-  playerWebComponentInitialLoading: true,
-  loadingTrack: null,
+  isWavesurferInitializing: true,
+  isLoadingTrack: null,
+  isPlaying: false,
+  isEditingRegions: false,
+  isLooping: false,
   trackId: null,
   playlistId: null,
+  regionId: null,
 };
 
 export const { reducer: playerReducer, actions: playerActions } = createSlice({
@@ -22,6 +36,10 @@ export const { reducer: playerReducer, actions: playerActions } = createSlice({
   initialState,
   reducers: {
     setTrackPlaylistTuple: setTrackPlaylistTupleAction,
+    setIsEditingRegions: setIsEditingRegionsAction,
+    setIsLooping: setIsLoopingAction,
+    setRegionId: setRegionIdAction,
+    wavesurferEvent: wavesurferEventAction,
   },
   extraReducers: (builder) => {
     builder.addMatcher(
@@ -41,4 +59,10 @@ export const { reducer: playerReducer, actions: playerActions } = createSlice({
   },
 });
 
-export const { setTrackPlaylistTuple } = playerActions;
+export const {
+  setTrackPlaylistTuple,
+  wavesurferEvent,
+  setIsEditingRegions,
+  setIsLooping,
+  setRegionId,
+} = playerActions;
