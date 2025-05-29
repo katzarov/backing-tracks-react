@@ -1,5 +1,4 @@
 import {
-  useCallback,
   useRef,
   useEffect,
   useState,
@@ -12,16 +11,14 @@ import Box from "@mui/material/Box";
 import { useRegionsPlugin, useWavesurfer } from "@src/lib/wavesurfer-react";
 // import Timeline from "wavesurfer.js/dist/plugins/timeline.esm.js";
 import { TrackLoader } from "@lib/track-loader";
-import {
-  ITrackResponseDto,
-  useUpdateTrackMutation,
-} from "@src/store/api/tracks";
+import { ITrackResponseDto } from "@src/store/api/tracks";
 import { PeaksLoader } from "@src/lib/peaks-loader";
 import { formatFromSeconds } from "@src/utils/utils";
 import { lighten, Stack, Typography, useTheme } from "@mui/material";
 import {
   StyledLoadingOverlay,
   StyledLoadingOverlayMessage,
+  StyledWaveSurfer,
 } from "./Player.styled";
 import { IPlaylistResponseDto } from "src/store/api/playlists";
 import { useAppDispatch, useAppSelector } from "src/store";
@@ -58,7 +55,6 @@ export const Player = forwardRef<IWavesurferRef, IPlayerProps>(
     { trackId, playlistId, trackUri, duration, regions },
     wavesurferRef
   ) {
-    const [updateTrack, {}] = useUpdateTrackMutation();
     const dispatch = useAppDispatch();
     const isEditingRegions = useAppSelector(selectIsEditingRegions);
     const isLooping = useAppSelector(selectIsLooping);
@@ -189,7 +185,7 @@ export const Player = forwardRef<IWavesurferRef, IPlayerProps>(
         </Typography>
 
         <Box sx={{ position: "relative", flexGrow: 1 }}>
-          <Box ref={containerRef} sx={{ flexGrow: 1, height: "8rem" }} />
+          <StyledWaveSurfer ref={containerRef} />
 
           {/* TODO only show if track is not found in IndexeDB, and needs to fetched from server. Also show if, track is found in IndexedDB but the peaks are not and need to be computed */}
           {isPlayerLoading && (

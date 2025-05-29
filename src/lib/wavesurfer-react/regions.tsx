@@ -1,9 +1,9 @@
 import { useState, useMemo, useEffect } from "react";
 import Regions from "wavesurfer.js/dist/plugins/regions.esm.js";
 import { RegionsMethods } from "./regions-methods";
-import { useTheme } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "@src/store";
 import { selectRegionId, setRegionId } from "@src/store/slices/player";
+import { RegionMethods } from "./region-methods";
 
 export const selectedRegionRef: { value: string | null } = { value: null }; // this is used for in callbacks.. that are already registered-  we need this value there
 
@@ -29,31 +29,39 @@ const useRegionsPluginInstance = () => {
 
 const useRegionsPluginState = (
   regionsInstance: Regions,
-  isLooping: boolean
+  isLooping: boolean,
+  isEditing: boolean
 ) => {
   const selectedRegionId = useAppSelector(selectRegionId);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     const unsubCbs = [
-      // fixes occurance of this bug to some extent... https://github.com/katspaugh/wavesurfer.js/issues/3631
       regionsInstance.on("region-updated", (region) => {
-        region.setOptions({
-          start: Number(region.start.toFixed(6)),
-          end: Number(region.end.toFixed(6)),
-        });
+        RegionMethods.setOptions(region, {}, { patchStartAndEndTime: true });
       }),
       regionsInstance.on("region-created", (region) => {
-        region.setOptions({
-          start: Number(region.start.toFixed(6)),
-          end: Number(region.end.toFixed(6)),
-        });
+        RegionMethods.setOptions(
+          region,
+          {
+            ...(isEditing && { id: crypto.randomUUID() }), // I think, ideally, the server should recreate the id on the server and this uuid here should just be temporary.
+            ...(isEditing && { content: "Untitled" }),
+          },
+          { patchStartAndEndTime: true }
+        );
+
+        if (isEditing) {
+          dispatch(setRegionId(region.id));
+        }
       }),
       regionsInstance.on("region-clicked", (region, e) => {
         console.debug("region-clicked");
 
         e.stopPropagation(); // prevent triggering a click on the waveform
-        region.play(); // TODO it could throw
+
+        if (!isEditing) {
+          region.play(); // TODO it could throw
+        }
 
         selectedRegionRef.value = region.id;
         dispatch(setRegionId(region.id));
@@ -86,7 +94,7 @@ const useRegionsPluginState = (
     return () => {
       unsubCbs.forEach((unsub) => unsub());
     };
-  }, [dispatch, regionsInstance, isLooping]);
+  }, [dispatch, regionsInstance, isLooping, isEditing]);
 
   return useMemo(
     () => ({
@@ -130,19 +138,15 @@ export const useRegionsPlugin = ({
   isLooping,
   isEditing,
 }: IUseRegionsPluginProps) => {
-  const theme = useTheme();
   const instance = useMemo(() => Regions.create(), []);
   //   const instance = useRegionsPluginInstance(container, options); // no need for this. WS instance will manage this plugin. ?
 
   const instanceMethods = useMemo(
-    () =>
-      new RegionsMethods(instance, {
-        regionColor: "rgba(255, 2, 6, 0.5)",
-      }),
-    [instance, theme]
+    () => new RegionsMethods(instance),
+    [instance]
   );
 
-  const state = useRegionsPluginState(instance, isLooping);
+  const state = useRegionsPluginState(instance, isLooping, isEditing);
 
   useRegionsEffects(instanceMethods, state.selectedRegionId, isEditing);
 

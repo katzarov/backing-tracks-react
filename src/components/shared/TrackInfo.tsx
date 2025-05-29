@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { Link } from "react-router-dom";
-import { Avatar, Stack, Typography } from "@mui/material";
+import { Avatar, Stack, SxProps, Theme, Typography } from "@mui/material";
 
 interface ITrackInfoProps {
   imageSrc: string;
@@ -10,6 +10,7 @@ interface ITrackInfoProps {
     name: string;
     link: string;
   };
+  sx?: SxProps<Theme>;
 }
 
 /**
@@ -25,9 +26,10 @@ export const TrackInfo: FC<ITrackInfoProps> = ({
   trackName,
   artistName,
   linkToPlaylist,
+  sx,
 }) => {
   return (
-    <Stack direction="row" spacing={4} alignItems="center" minWidth={0}>
+    <Stack direction="row" spacing={4} alignItems="center" minWidth={0} sx={sx}>
       {/* TODO load small image for mobile and larger for desktop https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement/sizes */}
       <Avatar
         variant="rounded"

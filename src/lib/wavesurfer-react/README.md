@@ -13,7 +13,35 @@
 Issue is that "region-out" runs before waveform "click". This creates an issue when we have autoplay.. on region out we are supposed to autoplay the track... but when we click somewhere else on the waveform, that triggers the region out... So we need some way to run regionout cb after the other click callbacks.... and evaluate whether to run the callback or not.. we can do this with a settimeout.. That way our waveform click cb will run first and we can disable the timeout so the autoplay will not run.
 Also, we cannot rely on the selectedRegion from the slice since we won't have the newest value of it while we are running our cbs, so we introduce a (outside of react) var to also hold the selected region id.
 
-Right now we gonna do it with keeping an id... but will try cancelling the timer approach later.
+Right now we gonna do it with keeping an id... but will try cancelling the timer approach later. or with abort controller.
+
+# Custom styling
+
+- Wavesurfer js is a web component with an open shadow root.
+- There are some styles you can pass via JS when you are iniitally creating the component and also some very limited styling opts later you can do - again via JS.
+- Wavesurfer also exposes certain elemnts via the part API, so we can style them - it does give me what I need but, the issue is - I want to introduce some conditional styling.
+
+https://wavesurfer.xyz/docs/#md:css-styling
+
+https://wavesurfer.xyz/examples/?styling.js
+
+So I see couple options:
+
+- add custom part attributes based on conditions. This is then exposed outside of the shadow dom, so I can very easily target it.
+- add css classes to the elemnts based on condition. Since open shadow root, we can add our custom css styles at the shadow root, but we cannot target it from outside.
+- do my custom styling with just JS.
+
+## Expose conditional state by adding custom part attributes
+
+- we are doing this.
+- Potential issue is that a future version of the library might just set the part attribute to somehting discarding my changes.
+
+## Add our custom classes to shadow root
+
+- On player mount, we can just add a style element to the shadow root, and the add classnames to the elements - regions.
+- https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_shadow_DOM#applying_styles_inside_the_shadow_dom
+
+- Potential issue is that a future version of the library might just set the classnames to somehting else discarding my changes.
 
 # Testing
 

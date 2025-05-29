@@ -22,6 +22,8 @@ One possible solution to the above-mentioned problems is a web app that can offe
 - advanced audio player that also shows the waveform of the track. And interactions with the waveform itself are possible - like skipping to a different part of the song + more.
 
 - 2025 update: we need to get on with the times: AI stem splitters are amazing and in a lot of cases we can create better backing tracks using them. There are opensource projects that solve that issue. would be a cool way to learn some python as well.
+- So the new idea is: Add a third option of ingesting a track. Use a spotify/tidal downloader - user ofc will need to provide a valid sub. Then AI stem split the track and we might as well, just allow for all kinds of backing tracks - and will provide users with sliders to fade in/out the differents intruments of a track.
+- Also new AI regions feature - analiyze the song and pre create the main song regions when the track is ingested - check "Moises" app. Also, analyze the tempo and show the bars of a song when creating a track region - snap regions to bars. Much better when we loop a reigon - it will be in time.
 
 ## TODOs
 

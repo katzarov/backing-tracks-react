@@ -1,28 +1,29 @@
 import Regions, { Region } from "wavesurfer.js/dist/plugins/regions.esm.js";
 import { ITrackResponseDto } from "@src/store/api/tracks";
+import { regionPartTokens } from "./utils";
+import { RegionMethods } from "./region-methods";
 
 type IRegion = ITrackResponseDto["regions"][number];
 
-// todo will just do a global feature catch on this library and introduce react error boundary.
-
-interface Theme {
-  regionColor: string;
-}
-
 export class RegionsMethods {
-  constructor(private regionsInstance: Regions, private theme: Theme) {}
+  constructor(private regionsInstance: Regions) {}
 
   /**
    * @throws {Error} some_error message when can't add region
    */
   addRegion = (region: IRegion, editable: boolean) => {
-    return this.regionsInstance.addRegion({
+    const newRegion = this.regionsInstance.addRegion({
       ...region,
       content: region.name,
-      color: this.theme.regionColor,
       drag: editable,
       resize: editable,
     });
+
+    if (editable) {
+      this.setStyleToken(newRegion.element, regionPartTokens.editable, true);
+    }
+
+    return newRegion;
   };
 
   getAllRegions = () => {
@@ -42,11 +43,12 @@ export class RegionsMethods {
   highlightSelectedRegion = (selectedRegionId: string | null) => {
     this.regionsInstance.getRegions().forEach((region) => {
       const isRegionSelected = region.id === selectedRegionId;
-      region.setOptions({
-        color: isRegionSelected
-          ? "rgba(0, 43, 255, 0.5)"
-          : this.theme.regionColor,
-      });
+
+      this.setStyleToken(
+        region.element,
+        regionPartTokens.selected,
+        isRegionSelected
+      );
     });
   };
 
@@ -81,31 +83,37 @@ export class RegionsMethods {
     return this.regionsInstance.on("region-out", clientCb);
   };
 
-  setRegionsEditable = (ediable: boolean) => {
-    this.regionsInstance
-      .getRegions()
-      .forEach((region) =>
-        region.setOptions({ drag: ediable, resize: ediable })
-      );
+  setRegionsEditable = (editable: boolean) => {
+    this.regionsInstance.getRegions().forEach((region) => {
+      RegionMethods.setOptions(region, { drag: editable, resize: editable });
+      this.setStyleToken(region.element, regionPartTokens.editable, editable);
+    });
   };
 
   /**
    *
-   * @returns disableDragSeleciton
+   * @returns disableDragSelection
    */
   enableDragSelection = () => {
-    return this.regionsInstance.enableDragSelection({
-      color: "rgba(255, 0, 0, 0.1)",
-    });
+    return this.regionsInstance.enableDragSelection({});
   };
 
-  // setRegionName = (ediable: boolean) => {
-  //   this.regionsInstance
-  //     .getRegions()
-  //     .forEach((region) =>
-  //       region.setOptions({ drag: ediable, resize: ediable })
-  //     );
-  // };
+  /**
+   *
+   * Sets the part token.
+   * A bit of a generic interface so that it is easy to replace impl later if we need to use classnames or do something else.
+   */
+  private setStyleToken = (
+    element: HTMLElement,
+    token: string,
+    shouldAddToken: boolean
+  ) => {
+    if (shouldAddToken) {
+      element.part.add(token);
+    } else {
+      element.part.remove(token);
+    }
+  };
 
   private adaptRegionObj = (region: Region) => {
     return {
