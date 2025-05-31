@@ -6,6 +6,7 @@ import { ITrackListItemProps } from "./TrackListItem";
 
 const trackListItemMockProps: ITrackListItemProps = {
   index: 1,
+  isSelected: false,
   data: {
     id: 1,
     resourceId: "1",

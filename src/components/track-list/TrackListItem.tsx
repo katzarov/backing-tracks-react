@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { FC } from "react";
+import { FC, memo } from "react";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
@@ -11,19 +11,20 @@ import { usePopover } from "../../hooks/usePopover";
 import { TrackListItemMenu } from "./item-menu/TrackListItemMenu";
 import { Grid2 as Grid, ListItemIcon } from "@mui/material";
 import VolumeUpIcon from "@mui/icons-material/VolumeUp";
-import { useAppDispatch, useAppSelector } from "src/store";
-import { selectTrackId } from "src/store/slices/player";
+import { useAppDispatch } from "src/store";
 import { userEventClickTrack } from "src/store/extraActions";
 import { TrackInfoListItem } from "../shared/TrackInfo.list-item";
 
 export interface ITrackListItemProps {
   index: number;
+  isSelected: boolean;
   data: ITrackResponseDto;
   trackItemClickRouteNavigateTo: (trackId: string) => string;
 }
 
-export const TrackListItem: FC<ITrackListItemProps> = ({
+const TrackListItemImpl: FC<ITrackListItemProps> = ({
   index,
+  isSelected,
   data,
   trackItemClickRouteNavigateTo,
 }) => {
@@ -34,8 +35,6 @@ export const TrackListItem: FC<ITrackListItemProps> = ({
     handleClosePopover,
   } = usePopover();
 
-  // TODO: this good for performance ?
-  const trackId = useAppSelector(selectTrackId);
   const dispatch = useAppDispatch();
 
   const clickHandler = () => {
@@ -44,9 +43,7 @@ export const TrackListItem: FC<ITrackListItemProps> = ({
   };
 
   // TODO: also check if playlist is same
-  const isBeingPlayed = trackId === data.id;
 
-  // TODO: redo layout in Grid2
   return (
     <ListItem
       disablePadding
@@ -65,7 +62,7 @@ export const TrackListItem: FC<ITrackListItemProps> = ({
     >
       <ListItemButton
         onClick={clickHandler}
-        selected={isBeingPlayed}
+        selected={isSelected}
         component={Link}
         to={trackItemClickRouteNavigateTo(convertIntToString(data.id))}
         replace // we want to replace and not stack multiple track/playlist changes in the history
@@ -84,7 +81,7 @@ export const TrackListItem: FC<ITrackListItemProps> = ({
             alignItems="center"
             flexDirection="row"
           >
-            {isBeingPlayed ? (
+            {isSelected ? (
               <ListItemIcon
                 color="secondary"
                 sx={(theme) => ({
@@ -131,3 +128,6 @@ export const TrackListItem: FC<ITrackListItemProps> = ({
     </ListItem>
   );
 };
+
+TrackListItemImpl.displayName = "TrackListItem";
+export const TrackListItem = memo(TrackListItemImpl);
