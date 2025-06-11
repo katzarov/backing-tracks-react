@@ -3,6 +3,8 @@
 - on region click we highlight it and color it differently.
 - region looping feature. when looping is enabled, when a region is being played and it reaches the end, we autoplay it. If disabled, we play the region once, and deselect after its being played.
 
+- right now when it comes to the binding... there is a mix of a lot of approaches - too many actually! Some of the state is with useState, or slice or useSyncExternalStore... Also, using the useImperativeHandle in this way is really not necessary. Calling methods on the instance is done in different ways.. TODO: Need to consolidate all of that and make is simpler. and use react context for the instance and its state and methods.
+
 # Bugs
 
 - https://github.com/katspaugh/wavesurfer.js/issues/3631
@@ -11,9 +13,7 @@
 # Issues and approach to circumvent them
 
 Issue is that "region-out" runs before waveform "click". This creates an issue when we have autoplay.. on region out we are supposed to autoplay the track... but when we click somewhere else on the waveform, that triggers the region out... So we need some way to run regionout cb after the other click callbacks.... and evaluate whether to run the callback or not.. we can do this with a settimeout.. That way our waveform click cb will run first and we can disable the timeout so the autoplay will not run.
-Also, we cannot rely on the selectedRegion from the slice since we won't have the newest value of it while we are running our cbs, so we introduce a (outside of react) var to also hold the selected region id.
-
-Right now we gonna do it with keeping an id... but will try cancelling the timer approach later. or with abort controller.
+Alternatively, maybe I can do a patch package to change the order of the callbacks in wavesurfer lib.. or make a new PR with a new region-out event that runs after click..
 
 # Custom styling
 

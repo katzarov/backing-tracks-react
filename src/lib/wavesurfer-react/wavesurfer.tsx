@@ -20,7 +20,6 @@ import WaveSurfer, {
   type WaveSurferOptions,
 } from "wavesurfer.js";
 import { WavesuferMethods } from "./wavesurfer-methods";
-import { selectedRegionRef } from "./regions";
 
 export type IWavesurferEvents = keyof WaveSurferEvents;
 
@@ -111,7 +110,6 @@ function useWavesurferState(wavesurfer: WaveSurfer | null): {
       wavesurfer.on("click", () => {
         console.debug("click-waveform");
 
-        selectedRegionRef.value = null;
         dispatch(setRegionId(null));
       }),
     ];

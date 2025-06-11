@@ -5,10 +5,6 @@ import { useAppDispatch, useAppSelector } from "@src/store";
 import { selectRegionId, setRegionId } from "@src/store/slices/player";
 import { RegionMethods } from "./region-methods";
 
-export const selectedRegionRef: { value: string | null } = { value: null }; // this is used for in callbacks.. that are already registered-  we need this value there
-
-// or maybe when i clikc on the middle.. i destroy all the region regoin out callbacks.. before they have the change to run ??
-
 const useRegionsPluginInstance = () => {
   const [regionsPlugin, setRegionsPlugin] = useState<Regions | null>(null);
 
@@ -36,6 +32,7 @@ const useRegionsPluginState = (
   const dispatch = useAppDispatch();
 
   useEffect(() => {
+    const timerIds: Array<number> = [];
     const unsubCbs = [
       regionsInstance.on("region-updated", (region) => {
         RegionMethods.setOptions(region, {}, { patchStartAndEndTime: true });
@@ -63,18 +60,14 @@ const useRegionsPluginState = (
           region.play(); // TODO it could throw
         }
 
-        selectedRegionRef.value = region.id;
         dispatch(setRegionId(region.id));
       }),
       regionsInstance.on("region-out", (region) => {
         // run region-out cb after waveform click cb.
-        setTimeout(() => {
+        const timerId = setTimeout(() => {
           console.debug("region-out");
 
-          if (
-            selectedRegionRef.value !== region.id ||
-            selectedRegionRef.value === null
-          ) {
+          if (selectedRegionId !== region.id || selectedRegionId === null) {
             // we have either just selected a new region, when the region-clicked cb just ran.
             // or we have just deselected the region, when the wavesurfer click cb just ran.
             // or we have two overlapping regions and the wider one is selected, and in this case the region-out cb for the smaller one runs event though it is not selected.
@@ -84,17 +77,20 @@ const useRegionsPluginState = (
           if (isLooping) {
             region.play();
           } else {
-            selectedRegionRef.value = null;
             dispatch(setRegionId(null));
           }
         }, 0);
+
+        // when we have two or more overlapping regions, we have two "region-out" events, so two timers for this event are set - reason why we keep an array.
+        timerIds.push(timerId);
       }),
     ];
 
     return () => {
+      timerIds.forEach((id) => clearTimeout(id));
       unsubCbs.forEach((unsub) => unsub());
     };
-  }, [dispatch, regionsInstance, isLooping, isEditing]);
+  }, [dispatch, regionsInstance, isLooping, isEditing, selectedRegionId]);
 
   return useMemo(
     () => ({
