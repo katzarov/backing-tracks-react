@@ -46,11 +46,14 @@ const timelineHeightString = `${timelineHeight}px`;
 
 // TODO  remove the timeline and put hte pointer that tells you the time on mouse hover and thats it.. but maybe show the timeline when adding a new region / editting
 
-export type IWavesurferRef = ReturnType<
-  typeof useWavesurfer
->["instanceMethods"];
+export interface IPlayerInstanceMethods {
+  wavesurferInstance: ReturnType<typeof useWavesurfer>["instance"];
+  wavesurferMethods: ReturnType<typeof useWavesurfer>["instanceMethods"];
+  regionsInstance: ReturnType<typeof useRegionsPlugin>["instance"];
+  regionsMethods: ReturnType<typeof useRegionsPlugin>["instanceMethods"];
+}
 
-export const Player = forwardRef<IWavesurferRef, IPlayerProps>(
+export const Player = forwardRef<IPlayerInstanceMethods, IPlayerProps>(
   function PlayerInner(
     { trackId, playlistId, trackUri, duration, regions },
     wavesurferRef
@@ -92,13 +95,18 @@ export const Player = forwardRef<IWavesurferRef, IPlayerProps>(
 
 
     // the usage here is kinda anti-pattern-y but cool trick to show.
-    // ... we can just create the wavesrufer instance in the parent above this and do a forwared ref for the target element that we want to append the wavesurfer to. But i dont want to move around logic this much right now.
+    // ... we can just create the wavesrufer instance in the parent above this and do a forwared ref for the target element that we want to append the wavesurfer to.
     useImperativeHandle(
       wavesurferRef,
-      (): IWavesurferRef => {
-        return wsMethods;
+      (): IPlayerInstanceMethods => {
+        return {
+          wavesurferInstance: wavesurfer,
+          wavesurferMethods: wsMethods,
+          regionsInstance: regionsPluginInstance,
+          regionsMethods: regionsPluginMethods,
+        };
       },
-      [wsMethods]
+      [wavesurfer, wsMethods, regionsPluginInstance, regionsPluginMethods]
     );
 
     useEffect(() => {

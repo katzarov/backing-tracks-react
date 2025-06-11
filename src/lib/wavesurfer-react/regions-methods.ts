@@ -98,6 +98,19 @@ export class RegionsMethods {
     return this.regionsInstance.enableDragSelection({});
   };
 
+  playRegionById = (selectedRegionId: string) => {
+    const region = this.regionsInstance
+      .getRegions()
+      .find((region) => region.id === selectedRegionId);
+
+    if (region) {
+      region.play();
+    } else {
+      // throw and later show err boundary ?
+      console.error("region to play not found.");
+    }
+  };
+
   /**
    *
    * Sets the part token.
@@ -116,9 +129,13 @@ export class RegionsMethods {
   };
 
   private adaptRegionObj = (region: Region) => {
+    if (typeof region.content?.innerHTML !== "string") {
+      throw new Error("Region content should contain a string value.");
+    }
+
     return {
       id: region.id,
-      name: region.content?.innerHTML || "TODO",
+      name: region.content?.innerHTML,
       start: region.start,
       end: region.end,
     } satisfies IRegion;

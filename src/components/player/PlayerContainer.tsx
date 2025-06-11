@@ -1,13 +1,13 @@
 import { Grid2 as Grid } from "@mui/material";
-import { IWavesurferRef, Player } from "./Player";
+import { IPlayerInstanceMethods, Player } from "./Player";
 import { routes } from "src/routes/routes";
 import { convertIntToString } from "src/utils/utils";
 import { useSelectedTrackPlaylistData } from "src/hooks/useSelectedTrackPlaylistData";
 import { TrackInfo } from "../shared/TrackInfo";
-import { useCallback, useRef } from "react";
+import { useRef } from "react";
 import { PlaylistControls } from "./PlaylistControls";
-import { TrackRegions } from "./TrackRegions";
 import { TrackControls } from "./TrackControls";
+import { TrackRegionsContainer } from "./track-regions/TrackRegionsContainer";
 
 export const PlayerContainer = () => {
   const {
@@ -23,15 +23,7 @@ export const PlayerContainer = () => {
   } = useSelectedTrackPlaylistData();
 
   // if we need to hit play from another spot... we will rethink how we do it.. maybe event bus will be needed.
-  const wavesurferRef = useRef<IWavesurferRef | null>(null);
-
-  const handlePlayPause = useCallback(() => {
-    wavesurferRef.current?.playPause();
-  }, []);
-
-  const handleSetVolume = useCallback((volumeLevel: number) => {
-    wavesurferRef.current?.setVolume(volumeLevel);
-  }, []);
+  const playerInstanceMethodsRef = useRef<IPlayerInstanceMethods | null>(null);
 
   const playlistIdTrackIdRoute =
     playlistId !== null && trackId !== null
@@ -64,7 +56,7 @@ export const PlayerContainer = () => {
           sx={{ mt: 3 }}
         />
         <PlaylistControls
-          onPlayPause={handlePlayPause}
+          playerInstanceMethodsRef={playerInstanceMethodsRef}
           playlistId={playlistId}
           sx={{ mt: 2 }}
         />
@@ -77,7 +69,7 @@ export const PlayerContainer = () => {
         flexDirection="row"
       >
         <Player
-          ref={wavesurferRef}
+          ref={playerInstanceMethodsRef}
           trackId={trackId}
           playlistId={playlistId}
           trackUri={trackUri}
@@ -86,10 +78,12 @@ export const PlayerContainer = () => {
         />
       </Grid>
       <Grid size={{ xs: 12, sm: 2 }}>
-        <TrackRegions />
+        <TrackRegionsContainer
+          playerInstanceMethodsRef={playerInstanceMethodsRef}
+        />
       </Grid>
       <Grid size={{ xs: 12, sm: 2 }}>
-        <TrackControls handleSetVolume={handleSetVolume} />
+        <TrackControls playerInstanceMethodsRef={playerInstanceMethodsRef} />
       </Grid>
     </Grid>
   );

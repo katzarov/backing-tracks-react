@@ -1,25 +1,26 @@
-import { FC } from "react";
+import { FC, RefObject } from "react";
 import { IconButton, Stack, SxProps, Theme } from "@mui/material";
 import PauseRounded from "@mui/icons-material/PauseRounded";
 import PlayArrowRounded from "@mui/icons-material/PlayArrowRounded";
-import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
-import SkipNextIcon from '@mui/icons-material/SkipNext';
+import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
+import SkipNextIcon from "@mui/icons-material/SkipNext";
 import { useAppDispatch, useAppSelector } from "src/store";
 import {
   userEventClickNextTrack,
   userEventClickPreviousTrack,
 } from "src/store/extraActions";
 import { selectIsPlaying } from "@src/store/slices/player";
+import { IPlayerInstanceMethods } from "./Player";
 
 interface IPlaylistControlsProps {
   playlistId: number | null;
-  onPlayPause: () => void;
+  playerInstanceMethodsRef: RefObject<IPlayerInstanceMethods | null>;
   sx?: SxProps<Theme>;
 }
 
 export const PlaylistControls: FC<IPlaylistControlsProps> = ({
   playlistId,
-  onPlayPause,
+  playerInstanceMethodsRef,
   sx,
 }) => {
   const isPlaying = useAppSelector(selectIsPlaying);
@@ -32,8 +33,18 @@ export const PlaylistControls: FC<IPlaylistControlsProps> = ({
   const onNextTrackHandler = () => {
     dispatch(userEventClickNextTrack());
   };
+
+  const onPlayPauseHandler = () => {
+    playerInstanceMethodsRef.current?.wavesurferMethods.playPause();
+  };
+
   return (
-    <Stack direction="row" alignItems="center" justifyContent="flex-start" sx={sx}>
+    <Stack
+      direction="row"
+      alignItems="center"
+      justifyContent="flex-start"
+      sx={sx}
+    >
       <IconButton
         color="primary"
         aria-label="previous song"
@@ -45,7 +56,7 @@ export const PlaylistControls: FC<IPlaylistControlsProps> = ({
       <IconButton
         color="primary"
         aria-label={isPlaying ? "pause" : "play"}
-        onClick={onPlayPause}
+        onClick={onPlayPauseHandler}
       >
         {isPlaying ? (
           <PauseRounded sx={{ fontSize: "2rem" }} />
