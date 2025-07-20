@@ -2,6 +2,7 @@ import { useAppSelector } from "@src/store";
 import { selectIsEditingRegions } from "@src/store/slices/player";
 import { IPlayerInstanceMethods } from "../Player";
 import { FC, RefObject } from "react";
+import { TrackRegionsEditMode } from "./TrackRegionsEditMode";
 import { TrackRegionsViewMode } from "./TrackRegionsViewMode";
 import { ITrackResponseDto } from "@src/store/api/tracks";
 
@@ -18,7 +19,11 @@ export const TrackRegionsContainer: FC<ITrackRegionsContainerProps> = ({
 
   return (
     <>
-      {isEditingRegions ? null : (
+      {isEditingRegions ? (
+        <TrackRegionsEditMode
+          playerInstanceMethodsRef={playerInstanceMethodsRef}
+        />
+      ) : (
         <TrackRegionsViewMode
           regions={regions}
           playerInstanceMethodsRef={playerInstanceMethodsRef}

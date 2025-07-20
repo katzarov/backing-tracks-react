@@ -52,6 +52,16 @@ export class RegionsMethods {
     });
   };
 
+  setNameOfRegion = (selectedRegionId: string, name: string) => {
+    const region = this.regionsInstance
+      .getRegions()
+      .find((region) => region.id === selectedRegionId);
+
+    if (region) {
+      region.setContent(name);
+    }
+  };
+
   /**
    *
    * @param cb

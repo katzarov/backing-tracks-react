@@ -23,6 +23,7 @@ interface ITrackRegionsViewModeProps {
   regions: ITrackResponseDto["regions"];
 }
 
+// TODO auto scroll to selected region
 export const TrackRegionsViewMode: FC<ITrackRegionsViewModeProps> = ({
   playerInstanceMethodsRef,
   regions,
@@ -79,14 +80,8 @@ export const TrackRegionsViewMode: FC<ITrackRegionsViewModeProps> = ({
       }}
     >
       {regionsList}
-      <Button
-        variant="outlined"
-        endIcon={<EditIcon />}
-        onClick={handeEditRegionsClick}
-        size="small"
-        // sx={{ width: "fit-content" }}
-      >
-        <Typography variant="secondary">EDIT REGIONS</Typography>
+      <Button variant="outlined" onClick={handeEditRegionsClick} size="small">
+        <Typography variant="secondary">Edit Regions</Typography>
       </Button>
     </Box>
   );

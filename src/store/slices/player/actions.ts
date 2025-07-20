@@ -38,6 +38,8 @@ export const wavesurferEvent = (
   switch (payload) {
     case "load": {
       state.isPlaying = false;
+      state.regionId = null;
+      state.isEditingRegions = false; // todo dirty fix for now
       break;
     }
     case "ready": {

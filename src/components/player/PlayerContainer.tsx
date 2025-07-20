@@ -8,6 +8,7 @@ import { useRef } from "react";
 import { PlaylistControls } from "./PlaylistControls";
 import { TrackControls } from "./TrackControls";
 import { TrackRegionsContainer } from "./track-regions/TrackRegionsContainer";
+import { ErrorBoundary } from "react-error-boundary";
 
 export const PlayerContainer = () => {
   const {
@@ -68,19 +69,24 @@ export const PlayerContainer = () => {
         alignItems="center"
         flexDirection="row"
       >
-        <Player
-          ref={playerInstanceMethodsRef}
-          trackId={trackId}
-          playlistId={playlistId}
-          trackUri={trackUri}
-          duration={trackDuration}
-          regions={regions}
-        />
+        <ErrorBoundary fallback={<div>Something went wrong</div>}>
+          <Player
+            ref={playerInstanceMethodsRef}
+            trackId={trackId}
+            playlistId={playlistId}
+            trackUri={trackUri}
+            duration={trackDuration}
+            regions={regions}
+          />
+        </ErrorBoundary>
       </Grid>
       <Grid size={{ xs: 12, sm: 2 }}>
-        <TrackRegionsContainer
-          playerInstanceMethodsRef={playerInstanceMethodsRef}
-        />
+        <ErrorBoundary fallback={<div>Something went wrong</div>}>
+          <TrackRegionsContainer
+            playerInstanceMethodsRef={playerInstanceMethodsRef}
+            regions={regions}
+          />
+        </ErrorBoundary>
       </Grid>
       <Grid size={{ xs: 12, sm: 2 }}>
         <TrackControls playerInstanceMethodsRef={playerInstanceMethodsRef} />
