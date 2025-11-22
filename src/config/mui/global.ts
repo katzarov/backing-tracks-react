@@ -1,6 +1,6 @@
 import { Theme, darken } from "@mui/material/styles";
 
-import { NormalCssProperties } from "@mui/material/styles/createMixins"; // import type * as CSS from "csstype"; might want to get them directly from the lib
+import { NormalCssProperties } from "node_modules/@mui/material/styles/createMixins"; // import type * as CSS from "csstype"; might want to get them directly from the lib
 import { Font_Face_Nationale } from "./fonts";
 
 export const globalStyles = (theme: Theme) => [
@@ -12,7 +12,7 @@ export const globalStyles = (theme: Theme) => [
       height: "8px", // height of the scrollbar (for horizontal scrollbars)
     },
     "::-webkit-scrollbar-thumb": {
-      // can also just use the css var ... var(--mui-whateveritscalled)
+      // can also just use the css var ... var(--mui-whateveritscalled) // and should theme.vars. TODO
       backgroundColor: theme.palette.secondary.light,
       borderRadius: "10px",
     },

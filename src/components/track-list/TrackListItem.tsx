@@ -9,7 +9,7 @@ import { convertIntToString, formatFromSeconds } from "../../utils/utils";
 import { ITrackResponseDto } from "../../store/api/tracks";
 import { usePopover } from "../../hooks/usePopover";
 import { TrackListItemMenu } from "./item-menu/TrackListItemMenu";
-import { Grid2 as Grid, ListItemIcon } from "@mui/material";
+import { Grid, ListItemIcon } from "@mui/material";
 import VolumeUpIcon from "@mui/icons-material/VolumeUp";
 import { useAppDispatch } from "src/store";
 import { userEventClickTrack } from "src/store/extraActions";

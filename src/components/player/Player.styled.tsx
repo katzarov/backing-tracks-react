@@ -1,5 +1,6 @@
 import { styled, Box, LinearProgress, darken, alpha } from "@mui/material";
-import { NormalCssProperties } from "@mui/material/styles/createMixins";
+// TODO-Check what type we want to use...
+import { NormalCssProperties } from "node_modules/@mui/material/styles/createMixins";
 import { regionPartTokens } from "@src/lib/wavesurfer-react";
 
 export const StyledLoadingOverlay = styled(LinearProgress)(({ theme }) => ({

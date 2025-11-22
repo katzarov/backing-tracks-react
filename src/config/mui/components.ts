@@ -254,6 +254,14 @@ export const components: ThemeOptions["components"] = {
                   0.7
                 ),
         },
+        // example how to apply speciifc color scheme styles without js
+        // https://mui.com/material-ui/customization/css-theme-variables/configuration/#preventing-ssr-flickering
+        // ...theme.applyStyles("dark", {
+        //   color: "green!important",
+        // }),
+        // ...theme.applyStyles("light", {
+        //   color: "cyan!important",
+        // }),
       }),
 
       // containedAccented: {},

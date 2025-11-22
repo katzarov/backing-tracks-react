@@ -15,6 +15,8 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     <Provider store={store}>
       <ThemeProvider
         theme={theme}
+        noSsr
+        forceThemeRerender // 1. remove ligthet/darken => 2. move to theme.vars.  move to theme.colorSchemeSelector
         modeStorageKey="bt_mui-mode"
         colorSchemeStorageKey="bt_mui-color-scheme"
         // idk if its broken rn, but in theme.ts, we need colorSchemeSelector "data" or "class" if we want to manualy force a dark or light theme here.

@@ -4,6 +4,10 @@
 // https://www.typescriptlang.org/docs/handbook/declaration-merging.html#module-augmentation
 
 declare module "@mui/material/styles" {
+  interface CssThemeVariables {
+    enabled: true;
+  }
+
   interface ZIndex {
     footerWaveformOverlays: number;
     mainFixedShrankMenu: number;

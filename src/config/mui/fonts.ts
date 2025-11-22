@@ -1,4 +1,4 @@
-import { Fontface } from "@mui/material/styles/createMixins"; // import type * as CSS from "csstype"; might want to get them directly from the lib
+import { Fontface } from "node_modules/@mui/material/styles/createMixins"; // import type * as CSS from "csstype"; might want to get them directly from the lib
 
 import NationaleLight from "../../assets/fonts/Nationale-Light.otf";
 import NationaleRegular from "../../assets/fonts/Nationale-Regular.otf";
