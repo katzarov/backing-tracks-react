@@ -8,6 +8,7 @@ import { PopoverMenu } from "../shared/PopoverMenu";
 import { usePopover } from "@src/hooks/usePopover";
 import { authClient } from "@src/lib/auth";
 import { routes } from "@src/routes/routes";
+import { ColorSchemeToggle } from "../shared/ColorSchemeToggle";
 
 export const Header = () => {
   const { name } = useAppSelector(selectUserData);
@@ -48,6 +49,9 @@ export const Header = () => {
           open={shoulOpenPopover}
           onClose={handleClosePopover}
         >
+          <MenuItem>
+            <ColorSchemeToggle />
+          </MenuItem>
           <MenuItem onClick={logoutWithRedirect}>
             <LogoutIcon />
             Logout

@@ -15,7 +15,7 @@ export const PopoverMenu = styled((props: MenuProps) => {
     "& .MuiMenuItem-root": {
       fontSize: theme.typography.pxToRem(12),
       fontWeight: 600,
-      "& .MuiSvgIcon-root": {
+      "> .MuiSvgIcon-root": {
         fontSize: theme.typography.pxToRem(16),
         color: theme.palette.text.secondary,
         marginRight: theme.spacing(1.5),

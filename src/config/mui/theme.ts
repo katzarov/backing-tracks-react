@@ -3,10 +3,9 @@ import { components } from "./components";
 
 const baseTheme = createTheme({
   // https://mui.com/material-ui/customization/css-theme-variables/configuration/#toggling-dark-mode-manually
-  // cssVariables: {
-  //   colorSchemeSelector: "data",
-  // },
-  cssVariables: true,
+  cssVariables: {
+    colorSchemeSelector: "class",
+  },
   colorSchemes: {
     light: {
       palette: {
