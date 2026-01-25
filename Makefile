@@ -6,15 +6,22 @@ define	setup_env
     $(eval export sed 's/=.*//' $(1))
 endef
 
+.PHONY: loadEnvVars
 loadEnvVars:
 	$(call setup_env, .env.local)
 
+.PHONY: bti-local
 bti-local:
-	npm i file:../backing-tracks-isomorphic
+# todo fix? I might just throw the whole app in a pnpm monorepo so skipping fixing this right now
+# https://pnpm.io/cli/link#whats-the-difference-between-pnpm-link-and-using-the-file-protocol
+# 	pnpm ? file:../backing-tracks-isomorphic
 
+.PHONY: bti-reg
 bti-reg:
-	npm i backing-tracks-isomorphic@latest
+# todo fix? I might just throw the whole app in a pnpm monorepo so skipping fixing this right now
+# 	pnpm add ? backing-tracks-isomorphic@latest
 
+.PHONY: build
 build: loadEnvVars
 	docker	build	\
 		--build-arg="VITE_AUTH0_DOMAIN=${VITE_AUTH0_DOMAIN}"	\
@@ -25,10 +32,12 @@ build: loadEnvVars
 		--tag	backing_tracks-react	.
 
 # https://docs.docker.com/reference/cli/docker/container/run/#publish
+.PHONY: run
 run:
 	docker	rm	-f	backing_tracks-react-container
 	docker	run	--name backing_tracks-react-container -p 8080:8080	backing_tracks-react
 
+.PHONY: clean
 clean:
 	docker	rm	-f	backing_tracks-react-container
 	docker	rmi	-f	backing_tracks-react

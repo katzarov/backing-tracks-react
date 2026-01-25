@@ -1,0 +1,11 @@
+engineStrict: true
+# https://pnpm.io/settings#managepackagemanagerversions
+# https://pnpm.io/installation#using-corepack
+packageManagerStrictVersion: true
+managePackageManagerVersions: true
+# https://pnpm.io/supply-chain-security
+minimumReleaseAge: 20160
+minimumReleaseAgeExclude:
+  - backing-tracks-isomorphic
+trustPolicy: no-downgrade
+preferFrozenLockfile: true
