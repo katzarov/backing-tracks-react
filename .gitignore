@@ -24,6 +24,7 @@ dist-ssr
 
 # Auto generated ignore stops here
 *.env*
+!.env.local.sample
 
 coverage
 **/__screenshots__
