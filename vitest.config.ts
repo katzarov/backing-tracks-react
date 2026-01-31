@@ -1,4 +1,5 @@
 import { defineConfig, mergeConfig } from "vitest/config";
+import { playwright } from "@vitest/browser-playwright";
 import viteConfig from "./vite.config.ts";
 
 export default mergeConfig(
@@ -10,21 +11,39 @@ export default mergeConfig(
       setupFiles: ["./test/vitest.setup.js"],
       browser: {
         enabled: true,
-        provider: "playwright",
+        // headless: true, // fixes the vitest vs code extension, it seems to be pikcing up this config
+        provider: playwright({
+          launchOptions: {
+            args: ["--autoplay-policy=no-user-gesture-required"],
+            // slowMo: 100 cool to know
+          },
+        }),
+        // TODO
+        // trace: {
+        //   mode: "on",
+        //   // the path is relative to the root of the project
+        //   tracesDir: "./playwright-traces",
+        // },
         // https://vitest.dev/guide/browser/playwright TODO configure
         instances: [
           {
             browser: "chromium",
-            launch: { args: ["--autoplay-policy=no-user-gesture-required"] },
+            // can override like that just for this browser
+            // provider: playwright({
+            //   launchOptions: {
+            //     args: ["--autoplay-policy=no-user-gesture-required"],
+            //     // slowMo: 100 cool to know
+            //   },
+            // }),
           },
           { browser: "webkit" },
         ],
         // todo launch options to allow audio to start without user intercation for webkit and chrome ??
       },
       coverage: {
-        provider: "istanbul", // or 'v8' with newest vitest => v8 now mathes istanbul ?
+        provider: "istanbul",
         reporter: ["html", "text-summary"], // ['text', 'html', 'clover', 'json']
       },
     },
-  })
+  }),
 );

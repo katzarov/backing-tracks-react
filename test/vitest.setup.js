@@ -1,12 +1,2 @@
-import { afterEach, expect } from 'vitest'
-import { cleanup } from '@testing-library/react'
-import * as matchers from '@testing-library/jest-dom/matchers';
-// import '@testing-library/jest-dom/vitest'
-
-expect.extend(matchers);
-
-afterEach(() => {
-    cleanup();
-    // vi.clearAllMocks()
-})
-
+// https://github.com/vitest-community/vitest-browser-react?tab=readme-ov-file#vitest-browser-react
+import 'vitest-browser-react'

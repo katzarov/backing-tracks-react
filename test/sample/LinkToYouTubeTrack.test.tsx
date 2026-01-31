@@ -1,5 +1,5 @@
-import { screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
+import { userEvent } from "vitest/browser";
+import { expect, describe, it, afterEach, vi } from "vitest";
 import { renderWithProviders } from "../utils";
 import { AddYouTubeTrackStepperModalContext } from "@src/components/add-tracks/AddTrackMenu.context";
 import { LinkToYouTubeTrack } from "@src/components/add-tracks/steps/LinkToYouTubeTrack";
@@ -32,30 +32,32 @@ describe("LinkToYouTubeTrack", () => {
   const mockOnStepComplete = vi.fn();
 
   it("allows users to change their input until it is valid and then submit", async () => {
-    renderWithProviders(
+    const page = await renderWithProviders(
       <AddYouTubeTrackStepperModalContext.Provider>
         <LinkToYouTubeTrack onStepComplete={mockOnStepComplete} />
-      </AddYouTubeTrackStepperModalContext.Provider>
+      </AddYouTubeTrackStepperModalContext.Provider>,
     );
 
-    const input = screen.getByLabelText<HTMLInputElement>(
-      "Link to YouTube video"
-    );
-
-    const continueButton = screen.getByText<HTMLButtonElement>("Next");
+    const inputLocator = page.getByLabelText("Link to YouTube video");
+    const continueButtonLocator = page.getByText("Next");
 
     // button should be disabled when invalid text is typed
-    await userEvent.type(input, "invalidtext");
-    expect(input.value).toMatch("invalidtext");
-    expect(continueButton.disabled).toBe(true);
+    await userEvent.type(inputLocator, "invalidtext");
+    // await inputLocator.fill("invalidtext");
+    await expect.element(inputLocator).toHaveValue("invalidtext");
+    await expect.element(continueButtonLocator).toBeDisabled();
 
     // button should be free to click once user fixes their input and types a valid link
-    await userEvent.clear(input);
-    await userEvent.type(input, "https://www.youtube.com/watch?v=xh-iMBOXl6M");
-    expect(continueButton.disabled).toBe(false);
+    await userEvent.clear(inputLocator);
+    // await inputLocator.clear()
+    await userEvent.type(
+      inputLocator,
+      "https://www.youtube.com/watch?v=xh-iMBOXl6M",
+    );
+    await expect.element(continueButtonLocator).not.toBeDisabled();
 
     // users clicks and callback handler for this step is called
-    await userEvent.click(continueButton);
+    await userEvent.click(continueButtonLocator);
     expect(mockOnStepComplete).toHaveBeenCalledTimes(1);
   });
 });

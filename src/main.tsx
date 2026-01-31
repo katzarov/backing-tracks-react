@@ -13,6 +13,7 @@ import { RehydratedGate } from "./store/RehydratedGate";
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <Provider store={store}>
+      {/* TODO make a provider file and use both here and in the test renderer */}
       <ThemeProvider
         theme={theme}
         noSsr

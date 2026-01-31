@@ -1,10 +1,10 @@
 import { useRef } from "react";
-import { describe, expect, it, vi } from "vitest";
+import { describe, it, vi } from "vitest";
 import { renderWithProviders } from "../utils";
 import { IPlayerInstanceMethods, Player } from "@src/components/player/Player";
 import { renderHook } from "vitest-browser-react";
-import { page, userEvent, server } from "@vitest/browser/context";
-/// <reference types="@vitest/browser/providers/playwright" />
+import { userEvent, server } from "vitest/browser";
+
 
 // create a mock class that impls the abstract fethcing strategy and just based on env use it instead of mocking the import here...
 
@@ -18,7 +18,7 @@ vi.mock("@lib/track-loader", async () => {
           "test/sample/gypsy_train.mp3",
           {
             encoding: "binary",
-          }
+          },
         );
 
         const uint8 = Uint8Array.from(track, (ch) => ch.charCodeAt(0));
@@ -41,11 +41,15 @@ vi.mock("@src/lib/peaks-loader", async () => {
 
 describe("Player", () => {
   it("renders and loads audio file", async () => {
-    const { result: refResult } = renderHook(() =>
-      useRef<IPlayerInstanceMethods | null>(null)
+    const { result: refResult, act } = await renderHook(() =>
+      useRef<IPlayerInstanceMethods | null>(null),
     );
 
-    const page = renderWithProviders(
+    // await act(() => {
+    //   refResult.current.current?.wavesurferMethods.play();
+    // });
+
+    const page = await renderWithProviders(
       <Player
         ref={refResult.current}
         trackId={1}
@@ -53,28 +57,31 @@ describe("Player", () => {
         trackUri={"fffff"}
         duration={444}
         regions={[]}
-      />
+      />,
     );
 
-    await vi.waitFor(
-      async () => {
-        // await refResult.current.current?.wavesurferMethods.play();
-      },
-      {
-        timeout: 5000,
-        interval: 50,
-      }
-    );
+    // test audio autoplay without interaction - need to fix webkit
+    // await vi.waitFor(
+    //   async () => {
+    //     await refResult.current.current?.wavesurferMethods.play();
+    //   },
+    //   {
+    //     timeout: 5000,
+    //     interval: 50,
+    //   },
+    // );
 
     // https://playwright.dev/docs/api/class-locator#locator-click
-    const inpuft = await page.getByRole("img", { name: "waveform" }).click({
+    const waveform = page.getByRole("img", { name: "waveform" });
+
+    await waveform.click({
       button: "left",
       // modifiers: ["Shift"],
       position: { x: 100, y: 32 },
     });
+
     // https://playwright.dev/docs/api/class-locator#locator-drag-to
-    const el = await page.getByRole("img", { name: "waveform" });
-    const test = await userEvent.dragAndDrop(el, el, {
+    await userEvent.dragAndDrop(waveform, waveform, {
       sourcePosition: { x: 100, y: 32 },
       targetPosition: { x: 200, y: 32 },
     });
