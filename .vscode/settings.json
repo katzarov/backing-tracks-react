@@ -1,0 +1,7 @@
+{
+  "editor.formatOnSave": false,
+  "search.exclude": {
+    "coverage": true,
+    "dist": true
+  }
+}
