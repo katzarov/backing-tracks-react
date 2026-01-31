@@ -1,11 +1,25 @@
-engineStrict: true
+# https://pnpm.io/supply-chain-security
 # https://pnpm.io/settings#managepackagemanagerversions
 # https://pnpm.io/installation#using-corepack
-packageManagerStrictVersion: true
+
+engineStrict: true
+
+ignoredBuiltDependencies:
+  - esbuild
+
 managePackageManagerVersions: true
-# https://pnpm.io/supply-chain-security
-minimumReleaseAge: 20160
+
+minimumReleaseAge: 40320
+
 minimumReleaseAgeExclude:
   - backing-tracks-isomorphic
-trustPolicy: no-downgrade
+
+packageManagerStrictVersion: true
+
 preferFrozenLockfile: true
+
+trustPolicy: no-downgrade
+
+trustPolicyIgnoreAfter: 80640
+
+blockExoticSubdeps: true
