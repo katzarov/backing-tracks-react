@@ -8,6 +8,10 @@
 
     "types": ["vitest/globals"],
 
+    // TODO only for v3 ? https://vitest.dev/guide/browser/#typescript
+    // "types": ["@vitest/browser/matchers"]
+    // "types": ["@vitest/browser/providers/playwright"]
+
     /* Bundler mode */
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
@@ -21,6 +25,14 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
+    "noUncheckedSideEffectImports": true,
+    "strictNullChecks": true,
+    "noErrorTruncation": true,
+    // "exactOptionalPropertyTypes": true, TODO
+    // "noUncheckedIndexedAccess": true, TODO
+    "noImplicitAny": true,
+    "strictBindCallApply": true,
+    // "forceConsistentCasingInFileNames": true,
 
     /* Paths */
     "baseUrl": "./",

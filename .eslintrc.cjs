@@ -10,6 +10,7 @@ module.exports = {
   parser: '@typescript-eslint/parser',
   plugins: ['react-refresh'],
   rules: {
+    // "@typescript-eslint/unbound-method": "error", TODO https://typescript-eslint.io/rules/unbound-method/
     'react-refresh/only-export-components': [
       'warn',
       { allowConstantExport: true },
