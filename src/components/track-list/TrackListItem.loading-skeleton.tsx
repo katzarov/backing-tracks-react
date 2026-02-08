@@ -46,7 +46,7 @@ export const TrackListItemLoadingSkeleton: FC<
   ITrackListItemLoadingSkeletonProps
 > = ({ sx }) => {
   return (
-    <Skeleton variant="rounded" width={"100%"} sx={{ ...sx }}>
+    <Skeleton data-testid ="loading-skeleton" variant="rounded" width={"100%"} sx={{ ...sx }}>
       <TrackListItem {...trackListItemMockProps} />
     </Skeleton>
   );

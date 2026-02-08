@@ -5,7 +5,6 @@ import { IPlayerInstanceMethods, Player } from "@src/components/player/Player";
 import { renderHook } from "vitest-browser-react";
 import { userEvent, server } from "vitest/browser";
 
-
 // create a mock class that impls the abstract fethcing strategy and just based on env use it instead of mocking the import here...
 
 // todo this is jsut bad design if we need to mock the modues like this
@@ -14,12 +13,9 @@ vi.mock("@lib/track-loader", async () => {
   return {
     TrackLoader: {
       loadTrack: async () => {
-        const track = await server.commands.readFile(
-          "test/sample/gypsy_train.mp3",
-          {
-            encoding: "binary",
-          },
-        );
+        const track = await server.commands.readFile("test/sample/demo.wav", {
+          encoding: "binary",
+        });
 
         const uint8 = Uint8Array.from(track, (ch) => ch.charCodeAt(0));
         const blob = new Blob([uint8], { type: "audio/mpeg" });
@@ -41,10 +37,11 @@ vi.mock("@src/lib/peaks-loader", async () => {
 
 describe("Player", () => {
   it("renders and loads audio file", async () => {
-    const { result: refResult, act } = await renderHook(() =>
+    const { result: refResult } = await renderHook(() =>
       useRef<IPlayerInstanceMethods | null>(null),
     );
 
+    // https://github.com/vitest-community/vitest-browser-react?tab=readme-ov-file#vitest-browser-react
     // await act(() => {
     //   refResult.current.current?.wavesurferMethods.play();
     // });

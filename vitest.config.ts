@@ -7,8 +7,8 @@ export default mergeConfig(
   defineConfig({
     test: {
       // globals: true,
-      environment: "node",
-      setupFiles: ["./test/vitest.setup.js"],
+      // environment: "node",
+      setupFiles: ["./test/vitest.setup.ts"],
       browser: {
         enabled: true,
         // headless: true, // fixes the vitest vs code extension, it seems to be pikcing up this config
