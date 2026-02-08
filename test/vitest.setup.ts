@@ -6,10 +6,6 @@ import { afterEach, beforeAll, afterAll } from "vitest";
 import { worker } from "./utils";
 
 // import * as auth from "@lib/auth";
-// vi.mock("@lib/auth", { spy: true });
-// vi.mocked(auth.authClient.getTokenSilently).mockResolvedValue('t') ?
-
-// import * as auth from "@lib/auth";
 // const spy = vi.spyOn(auth, "authClient").mockReturnValue({ authClient: {} }); ?
 
 // @ts-expect-error we are mocking the entire module but not actually providing an impl that adheres to its interface. We only mocked what we need thus far.
@@ -23,6 +19,14 @@ import { worker } from "./utils";
 // kinda like the s3 env i have except i need to fix it casue the obsolete strategy in prod is not actually tree shaked rn
 
 // I have a feeling this might be failing on webkit in test ui mode.
+// => Yep. module mocking for webkit in ui mode is kaput. Also in webkit, it breaks when i retry it in case it passed the first time.
+
+// this works again in all cases for chromium and breaks for webkit non ci
+// import * as authClient from "@lib/auth/authClient";
+// vi.mock("@lib/auth/authClient", { spy: true });
+// vi.mocked(authClient.authClient.getTokenSilently).mockResolvedValueOnce('mocked_token')
+
+// lets wait till its fixed and just use chromium only for UI mode.
 vi.mock(import("@lib/auth"), () => ({
   authClient: {
     getTokenSilently: async () => Promise.resolve("mocked_token"),
