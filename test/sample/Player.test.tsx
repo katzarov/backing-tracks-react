@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { describe, it, vi } from "vitest";
+import { describe, it, vi, expect } from "vitest";
 import { renderWithProviders } from "../utils";
 import { IPlayerInstanceMethods, Player } from "@src/components/player/Player";
 import { renderHook } from "vitest-browser-react";
@@ -68,6 +68,10 @@ describe("Player", () => {
     //   },
     // );
 
+    await expect
+      .element(page.getByText("Loading Audio"))
+      .not.toBeInTheDocument();
+
     // https://playwright.dev/docs/api/class-locator#locator-click
     const waveform = page.getByRole("img", { name: "waveform" });
 
@@ -82,6 +86,8 @@ describe("Player", () => {
       sourcePosition: { x: 100, y: 32 },
       targetPosition: { x: 200, y: 32 },
     });
+
+    await expect(waveform).toMatchScreenshot("waveform-picture");
 
     // // or specify exact positions relative to the top-left corners of the elements:
     // await source.dragTo(target, {

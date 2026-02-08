@@ -9,7 +9,8 @@
     "build": "tsc && vite build",
     "test": "vitest run --config=vitest.config.ts --browser.headless",
     "test:coverage": "vitest run --config=vitest.config.ts --browser.headless --coverage",
-    "test:ui": "vitest --config=vitest.config.ts --ui",
+    "test:ui": "vitest --config=vitest.config.ts --ui --browser.name chromium",
+    "test:baseline:update": "vitest --config=vitest.config.ts --browser.headless --update",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
@@ -50,7 +51,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
     "msw": "^2.12.7",
-    "playwright": "^1.54.1",
+    "playwright": "^1.57.0",
     "typescript": "^5.2.2",
     "vite": "^6.4.1",
     "vite-tsconfig-paths": "^4.3.2",

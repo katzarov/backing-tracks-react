@@ -29,9 +29,9 @@ describe("LinkToYouTubeTrack", () => {
     };
   });
 
-  const mockOnStepComplete = vi.fn();
-
   it("allows users to change their input until it is valid and then submit", async () => {
+    const mockOnStepComplete = vi.fn();
+
     const page = await renderWithProviders(
       <AddYouTubeTrackStepperModalContext.Provider>
         <LinkToYouTubeTrack onStepComplete={mockOnStepComplete} />

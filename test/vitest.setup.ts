@@ -22,6 +22,7 @@ import { worker } from "./utils";
 // idk - at any rate, I will setup some simple di in this case and will create the correct obj based on a vite env var, which should be treeshaked in prod build https://vite.dev/guide/env-and-mode
 // kinda like the s3 env i have except i need to fix it casue the obsolete strategy in prod is not actually tree shaked rn
 
+// I have a feeling this might be failing on webkit in test ui mode.
 vi.mock(import("@lib/auth"), () => ({
   authClient: {
     getTokenSilently: async () => Promise.resolve("mocked_token"),

@@ -28,6 +28,7 @@ export default mergeConfig(
         instances: [
           {
             browser: "chromium",
+            viewport: { width: 1280, height: 720 },
             // can override like that just for this browser
             // provider: playwright({
             //   launchOptions: {
@@ -36,9 +37,23 @@ export default mergeConfig(
             //   },
             // }),
           },
-          { browser: "webkit" },
+          {
+            browser: "webkit",
+            viewport: { width: 1280, height: 720 },
+          },
         ],
         // todo launch options to allow audio to start without user intercation for webkit and chrome ??
+        expect: {
+          toMatchScreenshot: {
+            comparatorName: "pixelmatch",
+            comparatorOptions: {
+              // 0-1, how different can colors be?
+              threshold: 0.1,
+              // 1% of pixels can differ
+              allowedMismatchedPixelRatio: 0.01,
+            },
+          },
+        },
       },
       coverage: {
         provider: "istanbul",

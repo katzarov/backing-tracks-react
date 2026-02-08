@@ -65,7 +65,7 @@ describe("AllTracks", () => {
     const loadingSkeletonLocator = page.getByTestId("loading-skeleton");
     const titleLocator = page.getByText(response.meta.trackName);
 
-    await expect.element(loadingSkeletonLocator).not.toBeInTheDocument();
+    await expect.element(loadingSkeletonLocator.first()).not.toBeInTheDocument();
     await expect.element(titleLocator).toBeInTheDocument();
   });
 });
